@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Menu, Search, ShoppingCart } from "lucide-react";
+import { Menu, Search, ShoppingCart, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -10,10 +10,17 @@ import { MainNav } from "./mainNav";
 import { Logo } from "./logo";
 import SearchInput from "./search";
 import UserMenu from "./user";
+import { useAppSelector } from "@/redux/hooks";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import LoginModal from "../login/login";
 
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  const user = useAppSelector(useCurrentUser);
+  // console.log(user, "u");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,7 +98,30 @@ export function SiteHeader() {
             </span>
           </Button>
 
-          <UserMenu />
+          {user ? (
+            <UserMenu user={user} />
+          ) : (
+            <Button
+              variant="link"
+              size="icon"
+              aria-label="User"
+              onClick={() => setIsLoginModalOpen(true)}
+            >
+              <User
+                className={`h-5 w-5 ${
+                  isScrolled ? "text-charcoal" : "text-cream"
+                }`}
+              />
+            </Button>
+          )}
+
+          {/* Login Modal */}
+          {isLoginModalOpen && (
+            <LoginModal
+              isOpen={isLoginModalOpen}
+              onClose={() => setIsLoginModalOpen(false)}
+            />
+          )}
         </div>
       </div>
 

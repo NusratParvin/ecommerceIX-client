@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 // import localFont from "next/font/local";
 import "./globals.css";
 import { Josefin_Sans } from "next/font/google";
+import Providers from "@/lib/providers";
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -32,7 +33,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${josefinSans.variable}  antialiased`}>{children}</body>
+      <body className={`${josefinSans.variable}  antialiased`}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

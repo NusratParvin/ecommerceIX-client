@@ -1,59 +1,3 @@
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
-// import { motion, AnimatePresence } from "framer-motion";
-
-// const UserMenu = () => {
-//   return (
-//     <DropdownMenu>
-//       <DropdownMenuTrigger asChild>
-//         <div className="relative flex items-center justify-center">
-//           <Avatar className="h-6 w-6">
-//             <AvatarImage src="/avatars/01.png" alt="@admin" />
-//             <AvatarFallback>AD</AvatarFallback>
-//           </Avatar>
-//         </div>
-//       </DropdownMenuTrigger>
-//       <AnimatePresence>
-//         <DropdownMenuContent
-//           className="w-48 overflow-hidden"
-//           align="end"
-//           sideOffset={22} // Prevents overlap
-//         >
-//           <motion.div
-//             initial={{ opacity: 0, scale: 0.95 }}
-//             animate={{ opacity: 1, scale: 1 }}
-//             exit={{ opacity: 0, scale: 0.95 }}
-//             transition={{ duration: 0.2 }}
-//           >
-//             <DropdownMenuLabel className="font-normal">
-//               <div className="flex flex-col space-y-1">
-//                 <p className="text-sm font-medium leading-none">Admin</p>
-//                 <p className="text-xs leading-none text-muted-foreground">
-//                   admin@example.com
-//                 </p>
-//               </div>
-//             </DropdownMenuLabel>
-//             <DropdownMenuSeparator />
-//             <DropdownMenuItem>Dashboard</DropdownMenuItem>
-//             <DropdownMenuItem>Settings</DropdownMenuItem>
-//             <DropdownMenuSeparator />
-//             <DropdownMenuItem>Log out</DropdownMenuItem>
-//           </motion.div>
-//         </DropdownMenuContent>
-//       </AnimatePresence>
-//     </DropdownMenu>
-//   );
-// };
-
-// export default UserMenu;
-
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -65,16 +9,60 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { logoutCookies } from "@/services/AuthService";
+import { CustomJwtPayload } from "@/types";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-const UserMenu = () => {
+const UserMenu = ({ user }: { user: CustomJwtPayload }) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const toastId = toast.loading("Logging out...");
+
+    try {
+      const result = await logoutCookies();
+
+      if (result.success) {
+        dispatch(logout());
+        toast.success("Logged out successfully!", {
+          id: toastId,
+        });
+
+        router.push("/");
+      } else {
+        toast.error("Failed to log out", { id: toastId });
+      }
+    } catch (error) {
+      toast.error("An error occurred during logout", { id: toastId });
+    }
+  };
+
+  const handleDashboard = () => {
+    if (user?.role === "USER") {
+      router.push("/user/dashboard");
+    } else if (user?.role === "VENDOR") {
+      router.push("/vendor/dashboard");
+    } else if (user?.role === "ADMIN") {
+      router.push("/admin/dashboard");
+    } else {
+      toast.error("Invalid role. Please contact support.");
+    }
+  };
+
   return (
     <div className="  ">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           {/* <div className="  "> */}
           <Avatar className="  h-7 w-7 cursor-pointer">
-            <AvatarImage src="/avatars/01.png" alt="@admin" />
-            <AvatarFallback className="text-sm">photo</AvatarFallback>
+            <AvatarImage src={user?.profilePhoto} alt={user?.name} />
+            <AvatarFallback className="text-sm">
+              {user?.profilePhoto}
+            </AvatarFallback>
           </Avatar>
           {/* </div> */}
         </DropdownMenuTrigger>
@@ -85,17 +73,19 @@ const UserMenu = () => {
         >
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">Admin</p>
+              <p className="text-sm font-medium leading-none">{user?.name}</p>
               <p className="text-xs leading-none text-muted-foreground">
-                admin@example.com
+                {user?.email}
               </p>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Dashboard</DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleDashboard}>
+            Dashboard
+          </DropdownMenuItem>
+          {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Log out</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
