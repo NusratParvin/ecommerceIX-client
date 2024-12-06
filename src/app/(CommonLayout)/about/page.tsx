@@ -46,16 +46,16 @@ const page = () => {
             </h1>
             <p className="mt-4 text-charcoal text-lg tracking-tight  mx-auto">
               Welcome to our journey! At IX, we believe in creating moments that
-              inspire and transform everyday experiences. Whether you're here
+              inspire and transform everyday experiences. Whether you are here
               for elegant designs, sustainable choices, or simply to make your
               surroundings more beautiful, we want to help you make that vision
               a reality. Our passion is in the details — crafting products that
               are as functional as they are inspirational. Each piece tells a
               story of quality, care, and creativity, designed to evoke a sense
-              of warmth and connection. We believe that beauty isn't just what
-              you see; it's what you feel. Together, let’s create spaces that
+              of warmth and connection. We believe that beauty is not just what
+              you see; it is what you feel. Together, lets create spaces that
               reflect who you are, bring comfort, and spark joy. Your journey
-              starts here, and we’re excited to be a part of it.
+              starts here, and we are excited to be a part of it.
             </p>
           </div>
         </div>
@@ -67,9 +67,8 @@ const page = () => {
           </h2>
           <hr className="border-t w-24   mb-8" />
           <p className="text-center text-charcoal text-lg max-w-3xl mx-auto mb-8">
-            "Shopping with IX was a game-changer. Their wide selection,
-            excellent quality, and outstanding customer service made all the
-            difference."
+            Shopping with IX was a game-changer. Their wide selection, excellent
+            quality, and outstanding customer service made all the difference.
           </p>
           <div className="text-center">
             <p className="text-xl font-bold text-deep-navy">Alin Bar</p>

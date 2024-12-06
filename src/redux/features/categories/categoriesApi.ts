@@ -18,6 +18,14 @@ const categoryApi = baseApi.injectEndpoints({
       providesTags: ["Categories"],
     }),
 
+    getCategoriesForAll: builder.query({
+      query: () => ({
+        url: `/categories/get`,
+        method: "GET",
+      }),
+      providesTags: ["Categories"],
+    }),
+
     // Create a new category
     createCategory: builder.mutation({
       query: (name) => ({
@@ -51,6 +59,7 @@ const categoryApi = baseApi.injectEndpoints({
 
 export const {
   useGetCategoriesQuery,
+  useGetCategoriesForAllQuery,
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,

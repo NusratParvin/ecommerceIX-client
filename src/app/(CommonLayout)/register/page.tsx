@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -7,11 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useRegisterUserMutation } from "@/redux/features/auth/authApi";
 import Image from "next/image";
 import LoginModal from "@/components/shared/login/login";
-import { Label } from "@/components/ui/label";
+import { decodeToken } from "@/lib/verifyToken";
+import { useAppDispatch } from "@/redux/hooks";
+import { setUser } from "@/redux/features/auth/authSlice";
 
 type RegisterFormInputs = {
   name: string;
@@ -23,6 +25,8 @@ type RegisterFormInputs = {
 
 export default function RegisterPage() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+
   const [registerUser] = useRegisterUserMutation();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -38,6 +42,42 @@ export default function RegisterPage() {
 
   const profilePhoto = watch("profilePhoto");
 
+  // const onSubmit = async (data: RegisterFormInputs) => {
+  //   const toastId = toast.loading("Registering...");
+
+  //   const userData = {
+  //     name: data.name,
+  //     email: data.email,
+  //     password: data.password,
+  //     role: data.role,
+  //   };
+
+  //   const formData = new FormData();
+
+  //   formData.append("data", JSON.stringify(userData));
+  //   if (data.profilePhoto) formData.append("file", data.profilePhoto);
+
+  //   try {
+  //     const res = await registerUser(formData).unwrap();
+  //     console.log(res);
+  //     if (res.success) {
+  //       toast.success("Registration successful!", {
+  //         id: toastId,
+  //         className: "text-green-700",
+  //       });
+  //       reset();
+
+  //       setIsLoginModalOpen(true);
+  //     }
+  //   } catch (error: any) {
+  //     console.log(error);
+  //     toast.error(error?.data?.message || "Registration failed.", {
+  //       id: toastId,
+  //       className: "text-red-700",
+  //     });
+  //   }
+  // };
+
   const onSubmit = async (data: RegisterFormInputs) => {
     const toastId = toast.loading("Registering...");
 
@@ -49,13 +89,13 @@ export default function RegisterPage() {
     };
 
     const formData = new FormData();
-
     formData.append("data", JSON.stringify(userData));
     if (data.profilePhoto) formData.append("file", data.profilePhoto);
 
     try {
       const res = await registerUser(formData).unwrap();
-      console.log(res);
+      // console.log(res);
+
       if (res.success) {
         toast.success("Registration successful!", {
           id: toastId,
@@ -63,7 +103,24 @@ export default function RegisterPage() {
         });
         reset();
 
-        setIsLoginModalOpen(true);
+        // Check if the role is VENDOR and token is present
+        if (userData.role === "VENDOR" && res.data.accessToken) {
+          const decodedToken = decodeToken(res.data.accessToken);
+          const { email, role, name, profilePhoto } = decodedToken;
+          // console.log(decodeToken);
+          dispatch(
+            setUser({
+              user: { email, role, name, profilePhoto },
+              token: res.data.accessToken,
+            })
+          );
+
+          // Redirect to vendor dashboard
+          router.push("/vendor/shop");
+        } else {
+          // Redirect to homepage for USER
+          router.push("/");
+        }
       }
     } catch (error: any) {
       console.log(error);

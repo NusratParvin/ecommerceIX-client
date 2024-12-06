@@ -21,7 +21,9 @@ export default function Layout({ children }: { children: ReactNode }) {
       {isAdminOrVendor ? (
         <SidebarProvider>
           <div className="flex h-auto min-h-screen w-full ">
-            <AdminVendorSidebar userRole={user.role} children={children} />
+            <AdminVendorSidebar userRole={user.role}>
+              {children}
+            </AdminVendorSidebar>
             {/* <main className="flex-1 overflow-y-auto  p-8">{children}</main> */}
           </div>
         </SidebarProvider>

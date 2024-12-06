@@ -28,8 +28,8 @@ const TeamCard = ({ imageSrc, name, designation }: TeamCardProps) => {
       {/* Text Section */}
       <div className="p-6 text-center">
         <p className="text-charcoal  text-base tracking-tighter mb-4">
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-          condimentum."
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+          condimentum.
         </p>
         {/* Social Icons */}
         <div className="flex justify-center space-x-4   h-12">
