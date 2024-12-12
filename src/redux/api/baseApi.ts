@@ -6,12 +6,12 @@ const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
     // baseUrl: envConfig.baseApi,
-    // baseUrl: "https://fish-cove-backend.vercel.app/api/v1",
+    // baseUrl: "https://ix-server.vercel.app/api",
     baseUrl: "http://localhost:5000/api",
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
-
+      // console.log(token, "baseapi");
       if (token) {
         headers.set("authorization", `${token}`);
       }
@@ -19,7 +19,15 @@ const baseApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["User", "Shops", "Payments", "Auth", "Categories", "Products"],
+  tagTypes: [
+    "Users",
+    "Shops",
+    "Payments",
+    "Auth",
+    "Categories",
+    "Products",
+    "FlashSaleProducts",
+  ],
   endpoints: () => ({}),
 });
 

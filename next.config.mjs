@@ -12,6 +12,16 @@ const nextConfig = {
         hostname: "res.cloudinary.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "*.staticflickr.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "fancytailwind.com",
+        pathname: "/static/**",
+      },
     ],
   },
 };

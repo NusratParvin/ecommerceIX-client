@@ -15,7 +15,7 @@ const authApi = baseApi.injectEndpoints({
         url: "/users/me",
         method: "GET",
       }),
-      providesTags: ["User"],
+      providesTags: ["Users"],
     }),
 
     registerUser: builder.mutation({

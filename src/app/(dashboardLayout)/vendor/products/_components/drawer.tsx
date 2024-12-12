@@ -23,32 +23,34 @@ export const ProductDrawer = ({
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className="w-[500px] sm:w-[540px]">
+      <SheetContent className="w-full sm:w-[540px]">
         <SheetHeader>
           <SheetTitle>Product Details</SheetTitle>
         </SheetHeader>
-        <div className="mt-6 space-y-6">
+        <div className="mt-4 space-y-10 max-h-[80vh] overflow-y-auto px-2">
           {product.imageUrl && (
-            <div className="relative h-48 w-full">
+            <div className="relative w-full h-48 mb-4">
               <Image
                 src={product.imageUrl}
                 alt={product.name}
                 className="object-cover rounded-md"
-                width={500}
-                height={500}
+                width={400}
+                height={400}
                 layout="responsive"
                 priority={true}
               />
             </div>
           )}
-          <div className="grid gap-4">
+          <div className="grid gap-3 text-sm">
             <div>
               <h3 className="font-semibold">Name</h3>
               <p className="text-muted-foreground">{product.name}</p>
             </div>
             <div>
               <h3 className="font-semibold">Description</h3>
-              <p className="text-muted-foreground">{product.description}</p>
+              <p className="text-muted-foreground">
+                {product.description || "N/A"}
+              </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -60,12 +62,26 @@ export const ProductDrawer = ({
                 <p className="text-muted-foreground">{product.stock}</p>
               </div>
             </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <h3 className="font-semibold">Category</h3>
+                <p className="text-muted-foreground">
+                  {product.category?.name || "Uncategorized"}
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold">Shop</h3>
+                <p className="text-muted-foreground">
+                  {product.shop?.name || "Unknown"}
+                </p>
+              </div>
+            </div>
             {product.isFlashSale && (
-              <div className="bg-red-50 p-4 rounded-md">
+              <div className="bg-red-50 p-3 rounded-md">
                 <h3 className="font-semibold text-red-600">Flash Sale</h3>
                 <div className="grid grid-cols-2 gap-4 mt-2">
                   <div>
-                    <p className="text-sm text-red-600">Price</p>
+                    <p className="text-sm text-red-600">Sale Price</p>
                     <p className="font-medium text-red-600">
                       ${product.flashSalePrice?.toFixed(2)}
                     </p>

@@ -322,6 +322,8 @@ interface ProductTableProps {
   onView: (product: Product) => void;
   onEdit: (product: Product) => void;
   onDelete: (product: Product) => void;
+  currentPage: number;
+  itemsPerPage: number;
 }
 
 export const ProductTable = ({
@@ -329,6 +331,8 @@ export const ProductTable = ({
   onView,
   onEdit,
   onDelete,
+  currentPage,
+  itemsPerPage,
 }: ProductTableProps) => {
   const router = useRouter();
 
@@ -359,7 +363,9 @@ export const ProductTable = ({
             onClick={() => onView(product)}
           >
             {/* Serial Number */}
-            <TableCell>{index + 1}</TableCell>
+            <TableCell>
+              {(currentPage - 1) * itemsPerPage + index + 1}
+            </TableCell>
 
             {/* Product Image */}
             <TableCell>

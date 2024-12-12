@@ -17,7 +17,7 @@ import {
 import { toast } from "sonner";
 import Image from "next/image";
 import { DollarSign, ImageIcon, Info, Loader2, Save, Zap } from "lucide-react";
-import { useCreateProductMutation } from "@/redux/features/auth/products/productsApi";
+import { useCreateProductMutation } from "@/redux/features/products/productsApi";
 import { useGetCategoriesForAllQuery } from "@/redux/features/categories/categoriesApi";
 import { useGetShopByOwnerQuery } from "@/redux/features/shops/shopsApi";
 import { ProductSuccessModal } from "./_components/creationSuccess";
@@ -63,9 +63,14 @@ const AddProduct = () => {
 
   const handleImageUpload = (file: File) => {
     if (file) {
+      console.log(file.size);
+      if (file.size > 4 * 1024 * 1024) {
+        toast.error("File size must be less than 4MB.");
+        return;
+      }
       setUploadedImage(file);
       setImagePreview(URL.createObjectURL(file));
-      setImageError(null); // Clear the error when a valid image is selected
+      setImageError(null);
     }
   };
 
@@ -86,7 +91,6 @@ const AddProduct = () => {
 
   const handleEdit = () => {
     setShowSuccessModal(false);
-    // You can implement the edit logic here
   };
 
   const onSubmit = async (data: FieldValues) => {
@@ -117,7 +121,7 @@ const AddProduct = () => {
       formData.append("file", uploadedImage);
     }
 
-    console.log("FormData for submission:", Object.fromEntries(formData));
+    // console.log("FormData for submission:", Object.fromEntries(formData));
 
     try {
       const response = await createProduct(formData).unwrap();
@@ -132,6 +136,7 @@ const AddProduct = () => {
       setShowSuccessModal(true);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      console.log(error);
       toast.error(error.message || "Failed to add product.", {
         id: toastId,
         className: "text-red-700",
@@ -392,6 +397,9 @@ const AddProduct = () => {
                       Drag and drop your image here
                     </p>
                     <p className="text-sm text-gray-400">or click to browse</p>
+                    <p className="text-sm text-red-700 font-medium">
+                      Please upload image below 4MB
+                    </p>
                   </>
                 )}
               </label>

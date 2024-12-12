@@ -8,7 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { Save, X } from "lucide-react";
 import Image from "next/image";
-import { useUpdateShopMutation } from "@/redux/features/shops/shopsApi";
+import { useUpdateShopByVendorMutation } from "@/redux/features/shops/shopsApi";
 import { TShop } from "@/types";
 
 const ShopDetails = ({
@@ -22,9 +22,10 @@ const ShopDetails = ({
   const [editedShop, setEditedShop] = useState<TShop | null>(null);
   const [newLogo, setNewLogo] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setIsLoading] = useState(false);
-  const [updateShop] = useUpdateShopMutation();
-  console.log(shop);
+  const [updateShop] = useUpdateShopByVendorMutation();
+  // console.log(shop);
   useEffect(() => {
     if (shop) {
       setEditedShop(shop);
@@ -39,32 +40,47 @@ const ShopDetails = ({
       </div>
     );
   }
-
   const handleUpdate = async () => {
-    setIsLoading(true);
-
     const updatedFields: Partial<TShop> = {};
+
     if (editedShop.name !== shop.name) updatedFields.name = editedShop.name;
     if (editedShop.description !== shop.description)
       updatedFields.description = editedShop.description;
 
     // Prepare FormData
     const formData = new FormData();
-    formData.append("data", JSON.stringify(updatedFields));
+
+    // Append updated fields if they exist
+    if (Object.keys(updatedFields).length > 0) {
+      formData.append("data", JSON.stringify(updatedFields));
+    }
+
+    // Append logo file if it exists
     if (newLogo) {
       formData.append("file", newLogo);
     }
-    console.log(formData);
+
+    // Debugging FormData
+    formData.forEach((value, key) => {
+      console.log(`FormData Key: ${key}`, value);
+    });
+
     try {
-      await updateShop({ shopId: shop.id, data: formData }).unwrap();
-      toast.success("Shop details updated successfully!");
-      onShopCreated();
-      setIsEditing(false);
+      const res = await updateShop({
+        shopId: shop.id,
+        formData,
+      }).unwrap();
+
+      console.log(res);
+      if (res.success) {
+        toast.success("Shop details updated successfully!");
+        setIsEditing(false);
+        onShopCreated();
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error?.data?.message || "Failed to update shop details.");
-    } finally {
-      setIsLoading(false);
+      console.error(error);
     }
   };
 
@@ -75,13 +91,13 @@ const ShopDetails = ({
     setIsEditing(false);
   };
 
-  const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setNewLogo(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
-  };
+  // const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0];
+  //   if (file) {
+  //     setNewLogo(file);
+  //     setImagePreview(URL.createObjectURL(file));
+  //   }
+  // };
 
   return (
     // <div className="bg-card p-16 rounded-xl shadow-none max-w-3xl mx-auto border border-border/50">
@@ -191,23 +207,27 @@ const ShopDetails = ({
               />
             </div>
             {/* Display Change Logo button below the image */}
+            {/* Display Change Logo button below the image */}
             {isEditing && (
               <div className="flex flex-col items-center mt-2">
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={handleLogoChange}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setNewLogo(file); // Update the newLogo state
+                      setImagePreview(URL.createObjectURL(file)); // Update the preview
+                    }
+                  }}
                   className="hidden"
                   id="logoUpload"
                 />
-                <label htmlFor="logoUpload">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="bg-background text-sm border-warm-brown/60 hover:bg-background/90"
-                  >
-                    Change Logo
-                  </Button>
+                <label
+                  htmlFor="logoUpload"
+                  className="cursor-pointer bg-background text-sm border border-warm-brown/60 hover:bg-background/90 px-4 py-2 rounded-md text-center"
+                >
+                  Change Logo
                 </label>
               </div>
             )}

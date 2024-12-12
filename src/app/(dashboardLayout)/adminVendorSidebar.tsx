@@ -1,7 +1,7 @@
 "use client";
 import { ReactNode, useState } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout, useCurrentUser } from "@/redux/features/auth/authSlice";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -25,6 +25,7 @@ export function AdminVendorSidebar({
   userRole,
   children,
 }: AdminVendorSidebarProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeMenu, setActiveMenu] = useState("");
   const user = useAppSelector(useCurrentUser);
@@ -289,7 +290,7 @@ export function AdminVendorSidebar({
         {/* Top Navbar */}
         <header className="flex items-center justify-between bg-white shadow-md px-4 py-3">
           <div className="flex items-center gap-3">
-            <button
+            {/* <button
               onClick={() => setIsCollapsed(!isCollapsed)}
               aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
               className="text-gray-600"
@@ -304,7 +305,8 @@ export function AdminVendorSidebar({
               type="text"
               placeholder="Search"
               className="w-full max-w-md p-2 border rounded-md text-sm text-gray-600 focus:outline-none"
-            />
+            /> */}
+            <Link href="/">Back to Homepage</Link>
           </div>
           <div className="flex items-center gap-4 me-8">
             <DropdownMenu>

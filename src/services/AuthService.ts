@@ -41,6 +41,22 @@ export const logoutCookies = () => {
 
   return { success: true };
 };
+export const setCookies = (accessToken: string, refreshToken: string) => {
+  cookies().set("accessToken", accessToken);
+  cookies().set("refreshToken", refreshToken);
+
+  return { success: true };
+};
+export const getCookies = () => {
+  const accessToken = cookies().get("accessToken")?.value || null;
+  const refreshToken = cookies().get("refreshToken")?.value || null;
+
+  return {
+    success: !!accessToken && !!refreshToken,
+    accessToken,
+    refreshToken,
+  };
+};
 
 // export const getCurrentUser = () => {
 //   const accessToken = cookies().get("accessToken")?.value;

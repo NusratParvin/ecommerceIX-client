@@ -31,12 +31,19 @@ export function SiteHeader() {
   }, []);
 
   return (
+    // <header
+    //   className={`fixed border top-0 left-0 right-0 z-50 transition-all duration-300  md:px-8 ${
+    //     isScrolled ? "bg-white shadow-md" : "bg-transparent"
+    //   }`}
+    // >
+    //   <div className="container border flex md:h-36 h-24 items-center justify-around px-4">
+
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300  md:px-8 ${
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 md:px-8 ${
         isScrolled ? "bg-white shadow-md" : "bg-transparent"
       }`}
     >
-      <div className="container flex md:h-36 h-24 items-center justify-between px-4">
+      <div className=" w-full mx-auto flex items-center   justify-center md:h-36 h-24 pe-12">
         {/* Mobile Navigation Drawer */}
         <div className="flex flex-1 md:hidden justify-start  ">
           <Sheet>
@@ -67,7 +74,7 @@ export function SiteHeader() {
 
         {/* Action Buttons */}
         <div
-          className={`flex flex-1 justify-end items-center md:flex-1 md:space-x-4`}
+          className={`flex flex-1 justify-end items-center md:flex-1 md:space-x-4  `}
         >
           <Button
             variant="link"

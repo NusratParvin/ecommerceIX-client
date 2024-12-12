@@ -16,7 +16,7 @@ const MyShop = () => {
   useEffect(() => {
     fetchShop(undefined);
   }, [fetchShop]);
-
+  // console.log(data, "fetch");
   useEffect(() => {
     if (!isLoading && data) {
       setIsCreatingShop(!data?.data);

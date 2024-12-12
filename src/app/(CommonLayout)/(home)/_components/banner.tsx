@@ -6,18 +6,8 @@ import bannerImage from "@/assets/b.jpg";
 
 const Banner = () => {
   return (
-    <div className="relative w-full h-[600px] md:h-[700px] overflow-hidden">
-      {/* Background Image */}
-      {/* <div
-        className="absolute inset-0 w-full h-full"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1511556820780-d912e42b4980')`,
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      /> */}
-      <div className="absolute inset-0 w-full h-full">
+    <div className="relative w-full h-[600px] md:h-[700px] overflow-hidden ">
+      <div className="absolute inset-0 w-full h-full ">
         <Image
           src={bannerImage}
           alt="Banner Image"

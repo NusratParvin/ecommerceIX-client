@@ -19,34 +19,62 @@ export const shopApi = baseApi.injectEndpoints({
     }),
 
     getAllShops: builder.query({
-      query: ({
-        page = 1,
-        limit = 10,
-        sortBy = "createdAt",
-        sortOrder = "desc",
-      }) => ({
+      query: ({ page, limit, sortBy, sortOrder, searchTerm }) => ({
         url: "/shops",
         method: "GET",
-        params: { page, limit, sortBy, sortOrder },
+        params: {
+          page,
+          limit,
+          sortBy,
+          sortOrder,
+          searchTerm,
+        },
       }),
       providesTags: ["Shops"],
     }),
 
-    updateShop: builder.mutation({
-      query: ({ shopId, data }) => ({
-        url: `/shops/${shopId}`,
+    getAllShopsForAll: builder.query({
+      query: () => ({
+        url: "/shops/getShops",
+        method: "GET",
+      }),
+      providesTags: ["Shops"],
+    }),
+
+    updateShopStatus: builder.mutation({
+      query: ({ shopId, status }) => ({
+        url: `/shops/${shopId}/status`,
         method: "PATCH",
-        body: data,
+        body: { status },
       }),
       invalidatesTags: ["Shops"],
+    }),
+
+    updateShopByVendor: builder.mutation({
+      query: ({ shopId, formData }) => ({
+        url: `/shops/${shopId}`,
+        method: "PATCH",
+        body: formData,
+      }),
+      invalidatesTags: ["Shops"],
+    }),
+
+    getFollowedShops: builder.query({
+      query: () => ({
+        url: "/shops/followedShops",
+        method: "GET",
+      }),
     }),
   }),
 });
 
 export const {
   useCreateShopMutation,
-  useUpdateShopMutation,
+  useUpdateShopStatusMutation,
+  useUpdateShopByVendorMutation,
   useGetShopByOwnerQuery,
   useGetAllShopsQuery,
+  useGetAllShopsForAllQuery,
   useLazyGetShopByOwnerQuery,
+  useGetFollowedShopsQuery,
 } = shopApi;

@@ -14,6 +14,7 @@ import LoginModal from "@/components/shared/login/login";
 import { decodeToken } from "@/lib/verifyToken";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/auth/authSlice";
+import { CustomJwtPayload } from "@/types";
 
 type RegisterFormInputs = {
   name: string;
@@ -105,7 +106,9 @@ export default function RegisterPage() {
 
         // Check if the role is VENDOR and token is present
         if (userData.role === "VENDOR" && res.data.accessToken) {
-          const decodedToken = decodeToken(res.data.accessToken);
+          const decodedToken = decodeToken(
+            res.data.accessToken
+          ) as CustomJwtPayload;
           const { email, role, name, profilePhoto } = decodedToken;
           // console.log(decodeToken);
           dispatch(

@@ -14,9 +14,9 @@ import { Product } from "@/types";
 
 import Link from "next/link";
 import {
-  useGetProductsQuery,
   useDeleteProductMutation,
-} from "@/redux/features/auth/products/productsApi";
+  useGetProductsForVendorQuery,
+} from "@/redux/features/products/productsApi";
 import {
   Select,
   SelectContent,
@@ -45,18 +45,22 @@ const ProductManagement = () => {
   const router = useRouter();
 
   // Fetch products using RTK Query
-  const { data, isLoading, error } = useGetProductsQuery({
+  const { data, isLoading, error } = useGetProductsForVendorQuery({
     page: currentPage,
     limit: ITEMS_PER_PAGE,
     sortBy,
     sortOrder,
     searchTerm: searchQuery,
   });
-  const products = data?.data || [];
+
+  const unfilteredProducts = data?.data || [];
+  const products = unfilteredProducts.filter(
+    (product: Product) => !product.isDeleted
+  );
   const totalRecords = data?.meta?.total || 0;
   const totalPages = Math.ceil(totalRecords / ITEMS_PER_PAGE);
 
-  // console.log(products);
+  console.log(products);
   const [deleteProduct] = useDeleteProductMutation();
 
   // Handle delete product
@@ -80,12 +84,13 @@ const ProductManagement = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
+  console.log(error);
 
   if (isLoading) return <Spinner />;
   if (error) return <p>Failed to load products.</p>;
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className="flex flex-col min-h-screen container mx-auto p-0">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div className="space-y-1">
@@ -153,68 +158,71 @@ const ProductManagement = () => {
       </div>
 
       {/* Product Table */}
-      <div className="bg-white rounded-lg border shadow-sm">
-        <ProductTable
-          products={products.map((product: Product) => ({
-            ...product,
-            flashSaleIcon: product.isFlashSale ? (
-              <Zap className="w-4 h-4 text-green-500" />
-            ) : (
-              <Zap className="w-4 h-4 text-gray-400" />
-            ),
-            discountIcon:
-              product.discount && product.discount > 0 ? (
-                <Percent className="w-4 h-4 text-green-500" />
+      <div className="flex-grow">
+        <div className="bg-white rounded-lg border shadow-sm">
+          <ProductTable
+            products={products.map((product: Product) => ({
+              ...product,
+              flashSaleIcon: product.isFlashSale ? (
+                <Zap className="w-4 h-4 text-green-500" />
               ) : (
-                <Percent className="w-4 h-4 text-gray-400" />
+                <Zap className="w-4 h-4 text-gray-400" />
               ),
-          }))}
-          onEdit={(product) =>
-            router.push(`/vendor/products/editProduct/${product.id}`)
-          }
-          onDelete={(product) => handleDeleteProduct(product.id)}
-          onView={handleViewProduct}
-        />
+              discountIcon:
+                product.discount && product.discount > 0 ? (
+                  <Percent className="w-4 h-4 text-green-500" />
+                ) : (
+                  <Percent className="w-4 h-4 text-gray-400" />
+                ),
+            }))}
+            onEdit={(product) =>
+              router.push(`/vendor/products/editProduct/${product.id}`)
+            }
+            onDelete={(product) => handleDeleteProduct(product.id)}
+            onView={handleViewProduct}
+            currentPage={currentPage}
+            itemsPerPage={ITEMS_PER_PAGE}
+          />
+        </div>
       </div>
 
       {/* Pagination */}
-      {/* {totalPages > 1 && ( */}
-      <Pagination className="mt-4">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              className={
-                currentPage === 1 ? "pointer-events-none opacity-50" : ""
-              }
-            />
-          </PaginationItem>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <PaginationItem key={page}>
-              <PaginationLink
-                onClick={() => setCurrentPage(page)}
-                isActive={currentPage === page}
-              >
-                {page}
-              </PaginationLink>
+      <div className="flex justify-between items-center mt-4">
+        <Pagination className="mt-4">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                className={
+                  currentPage === 1 ? "pointer-events-none opacity-50" : ""
+                }
+              />
             </PaginationItem>
-          ))}
-          <PaginationItem>
-            <PaginationNext
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              className={
-                currentPage === totalPages
-                  ? "pointer-events-none opacity-50"
-                  : ""
-              }
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-      {/* )} */}
-
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <PaginationItem key={page}>
+                <PaginationLink
+                  onClick={() => setCurrentPage(page)}
+                  isActive={currentPage === page}
+                >
+                  {page}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationNext
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
+                className={
+                  currentPage === totalPages
+                    ? "pointer-events-none opacity-50"
+                    : ""
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
       <ProductDrawer
         product={selectedProduct}
         isOpen={isDrawerOpen}

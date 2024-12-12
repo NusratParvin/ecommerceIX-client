@@ -22,7 +22,7 @@ import { DollarSign, ImageIcon, Info, Zap } from "lucide-react";
 import {
   useGetProductByIdQuery,
   useUpdateProductMutation,
-} from "@/redux/features/auth/products/productsApi";
+} from "@/redux/features/products/productsApi";
 import { Product, TCategory } from "@/types";
 import { useGetCategoriesForAllQuery } from "@/redux/features/categories/categoriesApi";
 import { Spinner } from "@/components/ui/spinner";
@@ -94,8 +94,14 @@ const EditProductPage = () => {
 
   // Handle Image Upload
   const handleImageUpload = (file: File) => {
-    setUploadedImage(file);
-    setImagePreview(URL.createObjectURL(file));
+    if (file) {
+      if (file.size > 4 * 1024 * 1024) {
+        toast.error("File size must be less than 4MB.");
+        return;
+      }
+      setUploadedImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
   };
 
   // Submit Handler
@@ -176,21 +182,21 @@ const EditProductPage = () => {
     const formData = new FormData();
 
     if (Object.keys(updatedFields).length > 0) {
-      // console.log("Adding updated fields to FormData:", updatedFields);
       formData.append("data", JSON.stringify(updatedFields));
     }
+    console.log(uploadedImage);
 
     if (uploadedImage) {
-      // console.log("Adding uploaded image to FormData:", uploadedImage);
       formData.append("file", uploadedImage);
     }
-
+    console.log(formData, id);
     try {
       await updateProduct({ id, formData }).unwrap();
       toast.success("Product updated successfully!");
       router.push("/vendor/products");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      console.log(error);
       toast.error(error.message || "Failed to update product.");
     }
   };
@@ -299,12 +305,45 @@ const EditProductPage = () => {
           </div>
 
           {/* Image Upload */}
-          {/* Image Upload */}
           <div className="space-y-4 p-6 shadow-sm">
             <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
               <ImageIcon className="w-5 h-5 text-charcoal" />
               <span>Product Image</span>
             </h2>
+            <p className="text-xs text-red-700">
+              Please click on image to change & choose image below 4MB
+            </p>
+
+            {/* <label
+              htmlFor="image-upload"
+              className="bg-white text-gray-500 font-semibold text-base rounded-lg max-w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-warm-brown mx-auto transition-all duration-200 hover:border-deep-brown relative"
+            >
+              {imagePreview ? (
+                <div className="relative w-full h-full">
+                  <Image
+                    src={imagePreview}
+                    alt="Preview"
+                    className="object-cover rounded-lg"
+                    fill
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center">
+                  <p className="text-lg text-warm-brown">
+                    Click to upload or drag & drop
+                  </p>
+                </div>
+              )}
+            </label>
+            <input
+              id="image-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                if (e.target.files?.[0]) handleImageUpload(e.target.files[0]);
+              }}
+            /> */}
             <label
               htmlFor="image-upload"
               className="bg-white text-gray-500 font-semibold text-base rounded-lg max-w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-warm-brown mx-auto transition-all duration-200 hover:border-deep-brown relative"

@@ -20,6 +20,8 @@ import { setUser } from "@/redux/features/auth/authSlice";
 import { decodeToken } from "@/lib/verifyToken";
 import { useState } from "react";
 import Link from "next/link";
+import { CustomJwtPayload } from "@/types";
+import { setCookies } from "@/services/AuthService";
 
 type LoginFormInputs = {
   email: string;
@@ -52,9 +54,20 @@ export default function LoginModal({
       const res = await login(data).unwrap();
 
       if (res.success) {
-        const decodedToken = decodeToken(res.data.accessToken);
+        const decodedToken = decodeToken(
+          res.data.accessToken
+        ) as CustomJwtPayload;
+        console.log(res, "login");
+        // const decodedToken = await decodeToken(res.data.accessToken);
         const { email, role, name, profilePhoto } = decodedToken;
-        console.log(decodeToken);
+        console.log(
+          await setCookies(res.data.accessToken, res.data.refreshToken),
+          "setcookies"
+        );
+
+        localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("refreshToken", res.data.refreshToken);
+
         dispatch(
           setUser({
             user: { email, role, name, profilePhoto },

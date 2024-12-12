@@ -22,7 +22,7 @@ import Image from "next/image";
 import {
   useCreateProductMutation,
   useGetProductByIdQuery,
-} from "@/redux/features/auth/products/productsApi";
+} from "@/redux/features/products/productsApi";
 import { TCategory } from "@/types";
 
 const DuplicateProductPage = () => {
@@ -90,53 +90,47 @@ const DuplicateProductPage = () => {
 
   console.log(productData);
   const handleImageUpload = (file: File) => {
-    setUploadedImage(file);
-    setImagePreview(URL.createObjectURL(file));
+    if (file) {
+      if (file.size > 4 * 1024 * 1024) {
+        toast.error("File size must be less than 4MB.");
+        return;
+      }
+      setUploadedImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
   };
 
   // Add Product Submission Handler
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Duplicating Product...");
-    // const formData = new FormData();
-    // console.log(data);
-    // formData.append(
-    //   "data",
-    //   JSON.stringify({
-    //     ...data,
-    //     isFlashSale: data.isFlashSale,
-    //     flashSalePrice: data.isFlashSale ? data.flashSalePrice : undefined,
-    //     flashSaleStartDate: data.isFlashSale
-    //       ? new Date(data.flashSaleStartDate).toISOString()
-    //       : undefined,
-    //     flashSaleEndDate: data.isFlashSale
-    //       ? new Date(data.flashSaleEndDate).toISOString()
-    //       : undefined,
-    //   })
-    // );
-
-    // if (uploadedImage) {
-    //   formData.append("file", uploadedImage);
-    // }
+    console.log("Raw data:", data);
 
     const formData = new FormData();
-    formData.append(
-      "data",
-      JSON.stringify({
-        shopId: productData.shopId,
 
-        ...data,
-        isFlashSale: data.isFlashSale,
-        flashSalePrice: data.isFlashSale ? data.flashSalePrice : undefined,
-        flashSaleStartDate: data.isFlashSale
-          ? data.flashSaleStartDate
-          : undefined,
-        flashSaleEndDate: data.isFlashSale ? data.flashSaleEndDate : undefined,
-      })
-    );
-    if (uploadedImage) {
+    // Prepare the JSON payload
+    const payload = {
+      shopId: productData.shopId,
+      ...data,
+      isFlashSale: data.isFlashSale,
+      flashSalePrice: data.isFlashSale ? data.flashSalePrice : undefined,
+      flashSaleStartDate: data.isFlashSale
+        ? data.flashSaleStartDate
+        : undefined,
+      flashSaleEndDate: data.isFlashSale ? data.flashSaleEndDate : undefined,
+      imageUrl: uploadedImage ? undefined : productData.imageUrl, // Include original URL if no new image
+    };
+
+    // Append JSON payload to FormData
+    formData.append("data", JSON.stringify(payload));
+    console.log(uploadedImage);
+    // Check and append uploaded image if provided
+    if (uploadedImage !== null) {
+      console.log("Uploaded Image:", uploadedImage);
       formData.append("file", uploadedImage);
+    } else {
+      console.warn("No uploaded image provided. Sending original image URL.");
     }
-    console.log(formData);
+
     try {
       const response = await createProduct(formData).unwrap();
       console.log(response);
@@ -144,7 +138,7 @@ const DuplicateProductPage = () => {
       reset();
       setImagePreview(null);
       setUploadedImage(null);
-      router.push("/vendor/products"); // Redirect to products page
+      router.push("/vendor/products");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message || "Failed to duplicate product.", {
@@ -262,7 +256,10 @@ const DuplicateProductPage = () => {
             <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
               <ImageIcon className="w-5 h-5 text-charcoal" />
               <span>Product Image</span>
-            </h2>
+            </h2>{" "}
+            <p className="text-xs text-red-700">
+              Please click on image to change & choose image below 4MB
+            </p>
             <label
               htmlFor="image-upload"
               className="bg-white text-gray-500 font-semibold text-base rounded-lg max-w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-warm-brown mx-auto transition-all duration-200 hover:border-deep-brown relative"

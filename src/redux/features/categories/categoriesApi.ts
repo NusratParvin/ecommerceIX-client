@@ -28,10 +28,10 @@ const categoryApi = baseApi.injectEndpoints({
 
     // Create a new category
     createCategory: builder.mutation({
-      query: (name) => ({
+      query: (formData) => ({
         url: "/categories",
         method: "POST",
-        body: name,
+        body: formData,
       }),
       invalidatesTags: ["Categories"],
     }),
