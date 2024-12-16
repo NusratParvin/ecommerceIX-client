@@ -31,14 +31,18 @@ const CategoriesSection = () => {
       </div>
 
       {/* Right Panel with Grid of Categories */}
-      <div className="w-3/4 px-0 py-0">
+      <div className="w-full md:w-3/4 px-0 py-0">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0">
           {isLoading
             ? Array.from({ length: 4 }).map((_, index) => (
                 <SkeletonCard key={index} />
               ))
             : categories?.map((category: TCategory) => (
-                <Link key={category.id} href={`/category/`} className="group">
+                <Link
+                  key={category.id}
+                  href={`/allProducts/${category.id}`}
+                  className="group"
+                >
                   <div className="h-80 relative rounded-none overflow-hidden shadow-lg group">
                     {/* Category Image */}
                     <Image

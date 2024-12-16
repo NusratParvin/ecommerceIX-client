@@ -11,10 +11,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { adminMenuItems, vendorMenuItems } from "./menuConstants";
+import {
+  adminMenuItems,
+  MenuType,
+  userMenuItems,
+  vendorMenuItems,
+} from "./menuConstants";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { logoutCookies } from "@/services/AuthService";
+import { clearCart } from "@/redux/features/cart/cartSlice";
+import { persistor } from "@/redux/store";
 
 interface AdminVendorSidebarProps {
   userRole: string;
@@ -32,7 +39,19 @@ export function AdminVendorSidebar({
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const menuItems = userRole === "ADMIN" ? adminMenuItems : vendorMenuItems;
+  // const menuItems = userRole === "ADMIN" ? adminMenuItems : vendorMenuItems;
+
+  let menuItems: MenuType[];
+
+  if (userRole === "ADMIN") {
+    menuItems = adminMenuItems;
+  } else if (userRole === "VENDOR") {
+    menuItems = vendorMenuItems;
+  } else if (userRole === "USER") {
+    menuItems = userMenuItems;
+  } else {
+    menuItems = [];
+  }
 
   if (!user) return null;
 
@@ -43,7 +62,12 @@ export function AdminVendorSidebar({
       const result = await logoutCookies();
 
       if (result.success) {
+        dispatch(clearCart());
         dispatch(logout());
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.clear();
+        persistor.purge();
         toast.success("Logged out successfully!", {
           id: toastId,
         });
@@ -319,7 +343,7 @@ export function AdminVendorSidebar({
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                   <Link
                     href={
                       userRole === "ADMIN"
@@ -330,7 +354,7 @@ export function AdminVendorSidebar({
                   >
                     Profile
                   </Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuItem>
                   <p onClick={handleLogout}>Logout</p>
                 </DropdownMenuItem>

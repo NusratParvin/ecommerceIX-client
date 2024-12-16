@@ -21,17 +21,22 @@ const ProductGrid = () => {
     search: "",
   });
   const [products, setProducts] = useState([]);
-  const { ref, inView } = useInView();
+  // const { ref, inView } = useInView();
+  const { ref, inView } = useInView({ threshold: 0.1 });
 
   // Debounced search value
   const debouncedSearch = useDebounce(filters.search, 500);
 
   const { data: userFollowedShops } = useGetFollowedShopsQuery(undefined);
+
   const followedShopIds =
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    userFollowedShops?.data?.followedShops?.map((shop: any) => shop.id) || [];
-  console.log(userFollowedShops);
-  // Query products with dynamic filters
+    userFollowedShops?.data?.followedShops?.map(
+      (shop: { shopId: string }) => shop.shopId
+    ) || [];
+  // const isFollowed = followedShopIds.includes(product?.shop?.id);
+
+  // console.log(isFollowed);
+  // console.log(userFollowedShops);
   const { data: productsData, isFetching } = useGetProductsQuery({
     page,
     limit: ITEMS_PER_PAGE,
@@ -44,13 +49,13 @@ const ProductGrid = () => {
     search: debouncedSearch,
   });
 
+  console.log(userFollowedShops);
+
   useEffect(() => {
     if (productsData?.data) {
       setProducts((prev) => {
-        // Reset products when page is 1
         if (page === 1) return productsData.data;
 
-        // Avoid duplicate products when appending
         const existingIds = new Set(prev.map((product: Product) => product.id));
         const newProducts = productsData.data.filter(
           (product: Product) => !existingIds.has(product.id)
@@ -63,9 +68,18 @@ const ProductGrid = () => {
   useEffect(() => {
     // Trigger the next page fetch when in view
     if (inView && !isFetching && productsData?.meta?.hasNextPage) {
+      console.log("in view");
       setPage((prev) => prev + 1);
     }
   }, [inView, isFetching, productsData?.meta?.hasNextPage]);
+
+  useEffect(() => {
+    console.log("Page changed:", page);
+  }, [page]);
+
+  useEffect(() => {
+    // console.log("Fetched products:", productsData);
+  }, [productsData]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleFilterChange = (newFilters: any) => {
@@ -75,7 +89,7 @@ const ProductGrid = () => {
       shop: newFilters.shop === "null" ? null : newFilters.shop,
     };
     setPage(1);
-    setProducts([]); // Clear current products
+    setProducts([]);
     setFilters(processedFilters);
   };
 
@@ -107,6 +121,7 @@ const ProductGrid = () => {
       </div>
 
       {/* Skeleton Loader for Infinite Scroll */}
+
       <div ref={ref} className="mt-8 flex justify-center">
         {isFetching && page > 1 && <ProductGridSkeleton count={4} />}
       </div>

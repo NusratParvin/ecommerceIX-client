@@ -167,7 +167,7 @@ const UserManagement = () => {
       </div>
 
       {/* User Table */}
-      <div className="bg-white rounded-lg border shadow-sm">
+      <div className="bg-white rounded-lg border shadow-sm  ">
         <UserTable
           users={users}
           onView={handleViewUser}

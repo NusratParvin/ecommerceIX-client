@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -29,6 +30,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const { data: shopsData, isFetching: isFetchingShops } =
     useGetAllShopsForAllQuery(undefined);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleFilterChange = (key: string, value: any) => {
     const updatedFilters = { ...filters, [key]: value || "" };
     onFilterChange(updatedFilters);

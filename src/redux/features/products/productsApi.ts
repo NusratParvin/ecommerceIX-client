@@ -12,6 +12,7 @@ const productApi = baseApi.injectEndpoints({
         maxPrice,
         category,
         shop,
+        rating,
         search,
       }) => ({
         url: `/products`,
@@ -25,10 +26,20 @@ const productApi = baseApi.injectEndpoints({
           maxPrice,
           category,
           shop,
+          rating,
           search,
         },
       }),
-      providesTags: ["Products"],
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ id }: { id: string }) => ({
+                type: "Products",
+                id,
+              })),
+              { type: "Products", id: "LIST" },
+            ]
+          : [{ type: "Products", id: "LIST" }],
     }),
 
     getFlashSaleProducts: builder.query({
@@ -73,10 +84,11 @@ const productApi = baseApi.injectEndpoints({
           searchTerm,
         },
       }),
-      providesTags: ["Products"],
+      // providesTags: ["Products"],
     }),
 
     // Get vendor products
+
     getProductsForVendor: builder.query({
       query: ({ page, limit, sortBy, sortOrder, searchTerm }) => ({
         url: `/products/vendor`,
@@ -89,13 +101,31 @@ const productApi = baseApi.injectEndpoints({
           searchTerm,
         },
       }),
-      providesTags: ["Products"],
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ id }: { id: string }) => ({
+                type: "Products" as const,
+                id,
+              })),
+              { type: "Products", id: "VENDOR_LIST" },
+            ]
+          : [{ type: "Products", id: "VENDOR_LIST" }],
+      keepUnusedDataFor: 0,
     }),
 
     // Get a single product by ID
+
     getProductById: builder.query({
       query: (id) => ({
         url: `/products/${id}`,
+        method: "GET",
+      }),
+    }),
+
+    getProductsByCategory: builder.query({
+      query: (categoryId) => ({
+        url: `/products/category/${categoryId}`,
         method: "GET",
       }),
       providesTags: (result, error, id) => [{ type: "Products", id }],
@@ -149,6 +179,8 @@ export const {
   useGetProductsForAdminQuery,
   useGetProductsForVendorQuery,
   useGetProductByIdQuery,
+  useGetProductsByCategoryQuery,
+
   useCreateProductMutation,
   useUpdateProductMutation,
   useUpdateProductStatusMutation,

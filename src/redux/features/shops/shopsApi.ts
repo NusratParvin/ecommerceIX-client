@@ -65,6 +65,35 @@ export const shopApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    // Get shop details by ID
+    getShopDetails: builder.query({
+      query: (id) => ({
+        url: `/shops/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["Shops"],
+    }),
+
+    // Follow a shop
+    followShop: builder.mutation({
+      query: ({ shopId, email }) => ({
+        url: `/shops/follow/${shopId}`,
+        method: "POST",
+        body: { email },
+      }),
+      invalidatesTags: ["FollowedShops"],
+    }),
+
+    // Unfollow a shop
+    unfollowShop: builder.mutation({
+      query: ({ shopId, email }) => ({
+        url: `/shops/unfollow/${shopId}`,
+        method: "POST",
+        body: { email },
+      }),
+      invalidatesTags: ["FollowedShops"],
+    }),
   }),
 });
 
@@ -77,4 +106,7 @@ export const {
   useGetAllShopsForAllQuery,
   useLazyGetShopByOwnerQuery,
   useGetFollowedShopsQuery,
+  useGetShopDetailsQuery,
+  useFollowShopMutation,
+  useUnfollowShopMutation,
 } = shopApi;

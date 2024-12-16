@@ -16,6 +16,8 @@ import { logoutCookies } from "@/services/AuthService";
 import { CustomJwtPayload } from "@/types";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { clearCart } from "@/redux/features/cart/cartSlice";
+import { persistor } from "@/redux/store";
 
 const UserMenu = ({ user }: { user: CustomJwtPayload }) => {
   const dispatch = useAppDispatch();
@@ -28,16 +30,22 @@ const UserMenu = ({ user }: { user: CustomJwtPayload }) => {
       const result = await logoutCookies();
 
       if (result.success) {
+        dispatch(clearCart());
         dispatch(logout());
         toast.success("Logged out successfully!", {
           id: toastId,
         });
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.clear();
+        persistor.purge();
 
         router.push("/");
       } else {
         toast.error("Failed to log out", { id: toastId });
       }
     } catch (error) {
+      console.log(error);
       toast.error("An error occurred during logout", { id: toastId });
     }
   };

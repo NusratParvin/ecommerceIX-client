@@ -31,6 +31,8 @@ import { ProductTable } from "./_components/table";
 import { useRouter } from "next/navigation";
 import { ProductDrawer } from "./_components/drawer";
 import { Spinner } from "@/components/ui/spinner";
+import { useAppSelector } from "@/redux/hooks";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -44,14 +46,91 @@ const ProductManagement = () => {
 
   const router = useRouter();
 
-  // Fetch products using RTK Query
-  const { data, isLoading, error } = useGetProductsForVendorQuery({
-    page: currentPage,
-    limit: ITEMS_PER_PAGE,
-    sortBy,
-    sortOrder,
-    searchTerm: searchQuery,
-  });
+  const user = useAppSelector(useCurrentUser);
+  const [deleteProduct] = useDeleteProductMutation();
+
+  // const { data, isLoading, error, refetch } = useGetProductsForVendorQuery(
+  //   {
+  //     page: currentPage,
+  //     limit: ITEMS_PER_PAGE,
+  //     sortBy,
+  //     sortOrder,
+  //     searchTerm: searchQuery,
+  //   },
+  //   {
+  //     refetchOnMountOrArgChange: true,
+  //     skip: !user?.email,
+  //   }
+  // );
+
+  // useEffect(() => {
+  //   refetch();
+  // }, [user?.email, refetch, currentPage, searchQuery, sortBy, sortOrder]);
+
+  // useEffect(() => {
+  //   if (searchQuery) {
+  //     setCurrentPage(1);
+  //   }
+  // }, [searchQuery]);
+
+  // Add a cache key that includes the user email to prevent data mixing
+  // Add proper caching with providesTags
+  const { data, isLoading, error, refetch } = useGetProductsForVendorQuery(
+    {
+      page: currentPage,
+      limit: ITEMS_PER_PAGE,
+      sortBy,
+      sortOrder,
+      searchTerm: searchQuery,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !user?.email,
+    }
+  );
+
+  // Reset page and clear data when user changes
+  useEffect(() => {
+    setCurrentPage(1);
+    setSearchQuery("");
+  }, [user?.email]);
+
+  useEffect(() => {
+    if (user?.email) {
+      refetch();
+    }
+  }, [user?.email, refetch, currentPage, searchQuery, sortBy, sortOrder]);
+
+  useEffect(() => {
+    if (searchQuery) {
+      setCurrentPage(1);
+    }
+  }, [searchQuery]);
+
+  // Show loading state when switching users
+  if (!user?.email || isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+
+  // Handle no products case
+  if (data?.data?.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <p className="text-lg text-gray-600 mb-4">No products found</p>
+        <Link
+          href="/vendor/products/addProduct"
+          className="flex items-center bg-deep-brown hover:bg-warm-brown text-white py-2 px-4 rounded-md"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Add Your First Product
+        </Link>
+      </div>
+    );
+  }
 
   const unfilteredProducts = data?.data || [];
   const products = unfilteredProducts.filter(
@@ -61,7 +140,6 @@ const ProductManagement = () => {
   const totalPages = Math.ceil(totalRecords / ITEMS_PER_PAGE);
 
   console.log(products);
-  const [deleteProduct] = useDeleteProductMutation();
 
   // Handle delete product
   const handleDeleteProduct = async (id: string) => {
@@ -70,6 +148,7 @@ const ProductManagement = () => {
       console.log(res);
       if (res.success) {
         toast.success("Product deleted successfully!");
+        refetch();
       }
     } catch {
       toast.error("Failed to delete product.");
@@ -81,9 +160,6 @@ const ProductManagement = () => {
     setIsDrawerOpen(true);
   };
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery]);
   console.log(error);
 
   if (isLoading) return <Spinner />;
@@ -161,7 +237,7 @@ const ProductManagement = () => {
       <div className="flex-grow">
         <div className="bg-white rounded-lg border shadow-sm">
           <ProductTable
-            products={products.map((product: Product) => ({
+            products={products?.map((product: Product) => ({
               ...product,
               flashSaleIcon: product.isFlashSale ? (
                 <Zap className="w-4 h-4 text-green-500" />

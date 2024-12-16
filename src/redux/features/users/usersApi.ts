@@ -27,6 +27,15 @@ export const usersApi = baseApi.injectEndpoints({
       providesTags: ["Users"],
     }),
 
+    // Get a single user by ID
+    getUserByEmail: builder.query({
+      query: (userEmail) => ({
+        url: `/users/get/${userEmail}`,
+        method: "GET",
+      }),
+      providesTags: ["Users"],
+    }),
+
     // Update user status
     updateUserStatus: builder.mutation({
       query: ({ userId, status }) => ({
@@ -61,6 +70,7 @@ export const usersApi = baseApi.injectEndpoints({
 export const {
   useGetUsersQuery,
   useGetUserByIdQuery,
+  useGetUserByEmailQuery,
   useUpdateUserStatusMutation,
   useUpdateUserRoleMutation,
 

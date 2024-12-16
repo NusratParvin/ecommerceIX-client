@@ -15,20 +15,30 @@ import {
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    title: "New Arrivals",
-    href: "/shop/new",
-    description: "Check out our latest collection of products.",
+    title: "All Collections",
+    href: "/allProducts",
+    description: "Browse through our extensive range of products.",
   },
   {
-    title: "Best Sellers",
-    href: "/shop/best-sellers",
-    description: "Discover our most popular items.",
+    title: "Flash Sale",
+    href: "/flashSale",
+    description: "Grab exclusive deals before they're gone!",
   },
-  {
-    title: "Sale",
-    href: "/shop/sale",
-    description: "Great deals on selected items.",
-  },
+  // {
+  //   title: "New Arrivals",
+  //   href: "/shop/new",
+  //   description: "Check out our latest collection of products.",
+  // },
+  // {
+  //   title: "Best Sellers",
+  //   href: "/shop/best-sellers",
+  //   description: "Discover our most popular items.",
+  // },
+  // {
+  //   title: "Sale",
+  //   href: "/shop/sale",
+  //   description: "Great deals on selected items.",
+  // },
 ];
 
 export function MainNav({ isScrolled }: { isScrolled: boolean }) {

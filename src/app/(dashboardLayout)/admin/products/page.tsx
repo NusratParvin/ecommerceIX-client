@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search } from "lucide-react";
+import { Search, Tags } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -42,9 +42,6 @@ const ProductManagement = () => {
     setCurrentPage(1);
   }, [searchTerm]);
 
-  // const router = useRouter();
-
-  // Fetch products using RTK Query
   const { data, isLoading, error } = useGetProductsForAdminQuery({
     page: currentPage,
     limit: 10,
@@ -101,17 +98,13 @@ const ProductManagement = () => {
   return (
     <div className="flex flex-col min-h-screen container mx-auto p-0">
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold text-deep-brown">Products</h1>
-          <p className="text-muted-foreground">
-            Total Products: {products.length}
-          </p>
-        </div>
+      <div className="flex flex-row   items-center gap-2 mb-4">
+        <Tags className="w-6 h-6" />
+        <h1 className="text-2xl font-bold text-deep-brown">Products</h1>
       </div>
 
       {/* Search, Sort & Filter */}
-      <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
+      <div className="flex flex-wrap justify-between items-center gap-4 mb-3">
         {/* Search Input */}
         <div className="relative w-full max-w-md">
           <Input
@@ -167,6 +160,9 @@ const ProductManagement = () => {
 
       {/* Product Table */}
       <div className="bg-white rounded-lg border shadow-sm">
+        <p className="text-muted-foreground p-4">
+          Total Products: {products.length}
+        </p>
         <ProductTable
           products={products.map((product: Product) => ({
             ...product,

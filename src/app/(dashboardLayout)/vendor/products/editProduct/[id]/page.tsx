@@ -65,6 +65,9 @@ const EditProductPage = () => {
     },
   });
 
+  const productPrice = watch("price");
+  const today = new Date().toISOString().slice(0, 16);
+
   useEffect(() => {
     if (productData) {
       setValue("name", productData.name || "");
@@ -104,61 +107,31 @@ const EditProductPage = () => {
     }
   };
 
-  // Submit Handler
-  // const onSubmit = async (data: FieldValues) => {
-  //   const updatedFields: Partial<Product> = {};
-  //   console.log(data);
-  //   // Check and add only updated fields
-  //   if (data.name !== productData.name) updatedFields.name = data.name;
-  //   if (data.description !== productData.description)
-  //     updatedFields.description = data.description;
-  //   if (data.price !== productData.price) updatedFields.price = data.price;
-  //   if (data.stock !== productData.stock) updatedFields.stock = data.stock;
-  //   if (data.discount !== productData.discount)
-  //     updatedFields.discount = data.discount;
-  //   if (data.categoryId !== productData.categoryId)
-  //     updatedFields.categoryId = data.categoryId;
-  //   if (data.isFlashSale !== productData.isFlashSale)
-  //     updatedFields.isFlashSale = data.isFlashSale;
-  //   if (data.flashSalePrice !== productData.flashSalePrice)
-  //     updatedFields.flashSalePrice = data.flashSalePrice;
-  //   if (data.flashSaleStartDate !== productData.flashSaleStartDate)
-  //     updatedFields.flashSaleStartDate = data.flashSaleStartDate;
-  //   if (data.flashSaleEndDate !== productData.flashSaleEndDate)
-  //     updatedFields.flashSaleEndDate = data.flashSaleEndDate;
-
-  //   const formData = new FormData();
-
-  //   // Check if there are any fields to update
-  //   if (Object.keys(updatedFields).length > 0) {
-  //     console.log("Adding updated fields to FormData:", updatedFields);
-  //     formData.append("data", JSON.stringify(updatedFields)); // Add text data
-  //   }
-
-  //   // Check if image needs to be updated
-  //   if (uploadedImage) {
-  //     console.log("Adding uploaded image to FormData:", uploadedImage);
-  //     formData.append("file", uploadedImage); // Add image file
-  //   }
-  //   // Debugging: Log all FormData entries
-  //   for (const [key, value] of formData.entries()) {
-  //     console.log(`${key}: ${value}`);
-  //   }
-  //   console.log(formData);
-  //   try {
-  //     await updateProduct({ id, formData }).unwrap();
-  //     toast.success("Product updated successfully!");
-  //     // router.push("/vendor/products");
-  //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   } catch (error: any) {
-  //     toast.error(error.message || "Failed to update product.");
-  //   }
-  // };
-
   const onSubmit = async (data: FieldValues) => {
     const updatedFields: Partial<Product> = {};
 
-    // Check and add only updated fields
+    // // Check and add only updated fields
+    // if (data.name !== productData.name) updatedFields.name = data.name;
+    // if (data.description !== productData.description)
+    //   updatedFields.description = data.description;
+    // if (data.price !== productData.price)
+    //   updatedFields.price = parseFloat(data.price);
+    // if (data.stock !== productData.stock)
+    //   updatedFields.stock = parseInt(data.stock);
+    // if (data.discount !== productData.discount)
+    //   updatedFields.discount = parseFloat(data.discount);
+    // if (data.categoryId !== productData.categoryId)
+    //   updatedFields.categoryId = data.categoryId;
+    // if (data.isFlashSale !== productData.isFlashSale)
+    //   updatedFields.isFlashSale = data.isFlashSale;
+    // if (data.flashSalePrice !== productData.flashSalePrice)
+    //   updatedFields.flashSalePrice = parseFloat(data.flashSalePrice);
+    // if (data.flashSaleStartDate !== productData.flashSaleStartDate)
+    //   updatedFields.flashSaleStartDate = new Date(data.flashSaleStartDate);
+    // if (data.flashSaleEndDate !== productData.flashSaleEndDate)
+    //   updatedFields.flashSaleEndDate = new Date(data.flashSaleEndDate);
+
+    // Regular fields comparison
     if (data.name !== productData.name) updatedFields.name = data.name;
     if (data.description !== productData.description)
       updatedFields.description = data.description;
@@ -166,18 +139,27 @@ const EditProductPage = () => {
       updatedFields.price = parseFloat(data.price);
     if (data.stock !== productData.stock)
       updatedFields.stock = parseInt(data.stock);
-    if (data.discount !== productData.discount)
-      updatedFields.discount = parseFloat(data.discount);
     if (data.categoryId !== productData.categoryId)
       updatedFields.categoryId = data.categoryId;
-    if (data.isFlashSale !== productData.isFlashSale)
-      updatedFields.isFlashSale = data.isFlashSale;
-    if (data.flashSalePrice !== productData.flashSalePrice)
+
+    // Handle discount and flash sale logic
+    if (data.isFlashSale) {
+      if (data.discount !== 0) {
+        updatedFields.discount = 0;
+      }
+      updatedFields.isFlashSale = true;
       updatedFields.flashSalePrice = parseFloat(data.flashSalePrice);
-    if (data.flashSaleStartDate !== productData.flashSaleStartDate)
       updatedFields.flashSaleStartDate = new Date(data.flashSaleStartDate);
-    if (data.flashSaleEndDate !== productData.flashSaleEndDate)
       updatedFields.flashSaleEndDate = new Date(data.flashSaleEndDate);
+    } else {
+      if (data.discount !== productData.discount) {
+        updatedFields.discount = parseFloat(data.discount);
+      }
+      updatedFields.isFlashSale = false;
+      updatedFields.flashSalePrice = 0;
+      updatedFields.flashSaleStartDate = null;
+      updatedFields.flashSaleEndDate = null;
+    }
 
     const formData = new FormData();
 
@@ -301,6 +283,28 @@ const EditProductPage = () => {
                   <p className="text-red-600 text-sm">{errors.stock.message}</p>
                 )}
               </div>
+
+              {/* Discount Section, disabled if flash sale is switched on */}
+              <div>
+                <Label htmlFor="discount">Discount (%)</Label>
+                <Input
+                  id="discount"
+                  type="number"
+                  min={0}
+                  max={100}
+                  disabled={watch("isFlashSale")}
+                  {...register("discount", {
+                    valueAsNumber: true,
+                    validate: (value) =>
+                      value >= 0 || "Discount cannot be a negative value",
+                  })}
+                />
+                {errors.discount && (
+                  <p className="text-red-600 text-sm">
+                    {errors.discount.message}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
 
@@ -314,36 +318,6 @@ const EditProductPage = () => {
               Please click on image to change & choose image below 4MB
             </p>
 
-            {/* <label
-              htmlFor="image-upload"
-              className="bg-white text-gray-500 font-semibold text-base rounded-lg max-w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-warm-brown mx-auto transition-all duration-200 hover:border-deep-brown relative"
-            >
-              {imagePreview ? (
-                <div className="relative w-full h-full">
-                  <Image
-                    src={imagePreview}
-                    alt="Preview"
-                    className="object-cover rounded-lg"
-                    fill
-                  />
-                </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center">
-                  <p className="text-lg text-warm-brown">
-                    Click to upload or drag & drop
-                  </p>
-                </div>
-              )}
-            </label>
-            <input
-              id="image-upload"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => {
-                if (e.target.files?.[0]) handleImageUpload(e.target.files[0]);
-              }}
-            /> */}
             <label
               htmlFor="image-upload"
               className="bg-white text-gray-500 font-semibold text-base rounded-lg max-w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-warm-brown mx-auto transition-all duration-200 hover:border-deep-brown relative"
@@ -377,7 +351,7 @@ const EditProductPage = () => {
           </div>
         </div>
 
-        {/* Flash Sale */}
+        {/* Flash Sale
         <div className="space-y-4 p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
@@ -420,6 +394,83 @@ const EditProductPage = () => {
                   type="datetime-local"
                   {...register("flashSaleEndDate")}
                 />
+              </div>
+            </div>
+          )}
+        </div> */}
+
+        {/* Flash Sale Section */}
+        <div className="space-y-4 p-6 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
+              <Zap className="w-5 h-5 text-charcoal" />
+              <span>Flash Sale</span>
+            </h2>
+            <Controller
+              name="isFlashSale"
+              control={control}
+              render={({ field }) => (
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              )}
+            />
+          </div>
+          {watch("isFlashSale") && (
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="flashSalePrice">Flash Sale Price ($)</Label>
+                <Input
+                  id="flashSalePrice"
+                  type="number"
+                  {...register("flashSalePrice", {
+                    required: "Flash sale price is required",
+                    validate: (value) =>
+                      value <= productPrice ||
+                      `Flash sale price must be less than or equal to $${productPrice}`,
+                  })}
+                />
+                {errors.flashSalePrice && (
+                  <p className="text-red-600 text-sm">
+                    {errors.flashSalePrice.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="flashSaleStartDate">Start Date</Label>
+                <Input
+                  id="flashSaleStartDate"
+                  type="datetime-local"
+                  min={today} // Set the min attribute to today's date
+                  {...register("flashSaleStartDate", {
+                    required: "Flash sale start date is required",
+                    validate: (value) =>
+                      new Date(value) >= new Date(today) ||
+                      "Start date cannot be in the past",
+                  })}
+                />
+                {errors.flashSaleStartDate && (
+                  <p className="text-red-600 text-sm">
+                    {errors.flashSaleStartDate.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="flashSaleEndDate">End Date</Label>
+                <Input
+                  id="flashSaleEndDate"
+                  type="datetime-local"
+                  {...register("flashSaleEndDate", {
+                    required: "Flash sale end date is required",
+                  })}
+                />
+                {errors.flashSaleEndDate && (
+                  <p className="text-red-600 text-sm">
+                    {errors.flashSaleEndDate.message}
+                  </p>
+                )}
               </div>
             </div>
           )}

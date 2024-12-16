@@ -32,7 +32,6 @@ const DuplicateProductPage = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 
-  // Fetch product by ID
   const { data, isLoading: isProductLoading } = useGetProductByIdQuery(id);
   const productData = data?.data;
 
@@ -64,8 +63,9 @@ const DuplicateProductPage = () => {
       flashSaleEndDate: "",
     },
   });
+  const productPrice = watch("price");
+  const today = new Date().toISOString().slice(0, 16);
 
-  // Prefill form with product data
   useEffect(() => {
     if (productData) {
       reset({
@@ -88,7 +88,7 @@ const DuplicateProductPage = () => {
     }
   }, [productData, reset]);
 
-  console.log(productData);
+  // console.log(productData);
   const handleImageUpload = (file: File) => {
     if (file) {
       if (file.size > 4 * 1024 * 1024) {
@@ -100,24 +100,44 @@ const DuplicateProductPage = () => {
     }
   };
 
-  // Add Product Submission Handler
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Duplicating Product...");
     console.log("Raw data:", data);
 
     const formData = new FormData();
 
-    // Prepare the JSON payload
+    // const payload = {
+    //   shopId: productData.shopId,
+    //   ...data,
+    //   isFlashSale: data.isFlashSale,
+    //   flashSalePrice: data.isFlashSale ? data.flashSalePrice : undefined,
+    //   flashSaleStartDate: data.isFlashSale
+    //     ? data.flashSaleStartDate
+    //     : undefined,
+    //   flashSaleEndDate: data.isFlashSale ? data.flashSaleEndDate : undefined,
+    //   imageUrl: uploadedImage ? undefined : productData.imageUrl,
+    // };
+
     const payload = {
       shopId: productData.shopId,
       ...data,
       isFlashSale: data.isFlashSale,
-      flashSalePrice: data.isFlashSale ? data.flashSalePrice : undefined,
+      // Set flash sale fields based on whether the flash sale is active
+      flashSalePrice: data.isFlashSale
+        ? parseFloat(data.flashSalePrice)
+        : undefined,
       flashSaleStartDate: data.isFlashSale
         ? data.flashSaleStartDate
         : undefined,
       flashSaleEndDate: data.isFlashSale ? data.flashSaleEndDate : undefined,
-      imageUrl: uploadedImage ? undefined : productData.imageUrl, // Include original URL if no new image
+      // Adjust discount based on whether flash sale is active
+      discount: data.isFlashSale
+        ? 0
+        : data.discount
+        ? parseFloat(data.discount)
+        : 0,
+      // Handle image upload logic
+      imageUrl: uploadedImage ? undefined : productData.imageUrl,
     };
 
     // Append JSON payload to FormData
@@ -247,6 +267,28 @@ const DuplicateProductPage = () => {
                   <p className="text-red-600 text-sm">{errors.stock.message}</p>
                 )}
               </div>
+
+              {/* Discount Section, disabled if flash sale is switched on */}
+              <div>
+                <Label htmlFor="discount">Discount (%)</Label>
+                <Input
+                  id="discount"
+                  type="number"
+                  min={0}
+                  max={100}
+                  disabled={watch("isFlashSale")}
+                  {...register("discount", {
+                    valueAsNumber: true,
+                    validate: (value) =>
+                      value >= 0 || "Discount cannot be a negative value",
+                  })}
+                />
+                {errors.discount && (
+                  <p className="text-red-600 text-sm">
+                    {errors.discount.message}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
 
@@ -293,7 +335,7 @@ const DuplicateProductPage = () => {
           </div>
         </div>
 
-        {/* Flash Sale */}
+        {/* Flash Sale
         <div className="space-y-4 p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
@@ -336,6 +378,83 @@ const DuplicateProductPage = () => {
                   type="datetime-local"
                   {...register("flashSaleEndDate")}
                 />
+              </div>
+            </div>
+          )}
+        </div> */}
+
+        {/* Flash Sale Section */}
+        <div className="space-y-4 p-6 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
+              <Zap className="w-5 h-5 text-charcoal" />
+              <span>Flash Sale</span>
+            </h2>
+            <Controller
+              name="isFlashSale"
+              control={control}
+              render={({ field }) => (
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              )}
+            />
+          </div>
+          {watch("isFlashSale") && (
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="flashSalePrice">Flash Sale Price ($)</Label>
+                <Input
+                  id="flashSalePrice"
+                  type="number"
+                  {...register("flashSalePrice", {
+                    required: "Flash sale price is required",
+                    validate: (value) =>
+                      value <= productPrice ||
+                      `Flash sale price must be less than or equal to $${productPrice}`,
+                  })}
+                />
+                {errors.flashSalePrice && (
+                  <p className="text-red-600 text-sm">
+                    {errors.flashSalePrice.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="flashSaleStartDate">Start Date</Label>
+                <Input
+                  id="flashSaleStartDate"
+                  type="datetime-local"
+                  min={today} // Set the min attribute to today's date
+                  {...register("flashSaleStartDate", {
+                    required: "Flash sale start date is required",
+                    validate: (value) =>
+                      new Date(value) >= new Date(today) ||
+                      "Start date cannot be in the past",
+                  })}
+                />
+                {errors.flashSaleStartDate && (
+                  <p className="text-red-600 text-sm">
+                    {errors.flashSaleStartDate.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="flashSaleEndDate">End Date</Label>
+                <Input
+                  id="flashSaleEndDate"
+                  type="datetime-local"
+                  {...register("flashSaleEndDate", {
+                    required: "Flash sale end date is required",
+                  })}
+                />
+                {errors.flashSaleEndDate && (
+                  <p className="text-red-600 text-sm">
+                    {errors.flashSaleEndDate.message}
+                  </p>
+                )}
               </div>
             </div>
           )}

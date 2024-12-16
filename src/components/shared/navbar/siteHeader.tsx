@@ -12,15 +12,23 @@ import SearchInput from "./search";
 import UserMenu from "./user";
 import { useAppSelector } from "@/redux/hooks";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
-import LoginModal from "../login/login";
+// import LoginModal from "../login/login";
+import { RootState } from "@/redux/store";
+import { CartItem } from "@/redux/features/cart/cartSlice";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
+  // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const router = useRouter();
   const user = useAppSelector(useCurrentUser);
-  // console.log(user, "u");
+  const cartItems = useAppSelector((state: RootState) => state.cart.items);
+  const cartItemCount = cartItems.reduce(
+    (acc: number, item: CartItem) => acc + item.quantity,
+    0
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +37,14 @@ export function SiteHeader() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleCart = () => {
+    if (!user) {
+      router.push("/login");
+    } else {
+      router.push("/cart");
+    }
+  };
 
   return (
     // <header
@@ -89,46 +105,46 @@ export function SiteHeader() {
             />
           </Button>
 
-          <Button
+          {/* <Button
             variant="link"
             size="icon"
             className="relative"
             aria-label="Cart"
-          >
+          > */}
+          {/* <Link href="/cart" className="relative"> */}
+          <div className="relative">
             <ShoppingCart
-              className={`h-5 w-5 ${
+              onClick={handleCart}
+              className={` h-5 w-5 ${
                 isScrolled ? "text-charcoal" : "text-cream"
               }`}
             />
             <span className="absolute -right-1.5 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-deep-brown text-xs text-primary-foreground">
-              0
-            </span>
-          </Button>
+              {cartItemCount}
+            </span>{" "}
+          </div>
+          {/* </Link> */}
+          {/* </Button> */}
 
           {user ? (
             <UserMenu user={user} />
           ) : (
-            <Button
-              variant="link"
-              size="icon"
-              aria-label="User"
-              onClick={() => setIsLoginModalOpen(true)}
-            >
+            <Link href="/login">
               <User
                 className={`h-5 w-5 ${
                   isScrolled ? "text-charcoal" : "text-cream"
                 }`}
               />
-            </Button>
+            </Link>
           )}
 
           {/* Login Modal */}
-          {isLoginModalOpen && (
+          {/* {isLoginModalOpen && (
             <LoginModal
               isOpen={isLoginModalOpen}
               onClose={() => setIsLoginModalOpen(false)}
-            />
-          )}
+            /> 
+          )}*/}
         </div>
       </div>
 

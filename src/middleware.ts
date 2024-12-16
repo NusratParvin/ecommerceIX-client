@@ -30,6 +30,9 @@ export async function middleware(request: NextRequest) {
     if (pathname === "/register") {
       return NextResponse.next();
     }
+    if (pathname === "/login") {
+      return NextResponse.next();
+    }
 
     // Redirect to login for protected routes
     return NextResponse.redirect(
@@ -40,7 +43,7 @@ export async function middleware(request: NextRequest) {
   // If token is present, decode it
   try {
     const decodedToken: any = decodeToken(accessToken);
-    console.log("Decoded Token:", decodedToken);
+    // console.log("Decoded Token:", decodedToken);
 
     const { role } = decodedToken;
 

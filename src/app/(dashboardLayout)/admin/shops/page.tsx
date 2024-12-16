@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Eye, Search } from "lucide-react";
+import { Eye, Search, ShoppingCart } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
 import {
@@ -68,11 +68,10 @@ export default function ShopManagement() {
     // <div className="container mx-auto p-0 space-y-2">
     <div className="flex flex-col min-h-screen container mx-auto p-0">
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold text-deep-brown">Shops</h1>
-          <p className="text-muted-foreground">Total shops: {shops.length}</p>
-        </div>
+      <div className="flex justify-start gap-2 text-deep-brown items-center mb-4">
+        <ShoppingCart className="w-6 h-6" />
+
+        <h1 className="text-2xl font-bold text-deep-brown">Shops</h1>
         {/* <Link
         href="/admin/users/addUser"
         className="flex items-center bg-deep-brown hover:bg-warm-brown text-white py-2 px-4 rounded-md"
@@ -124,6 +123,9 @@ export default function ShopManagement() {
 
       {/* Shop Table */}
       <div className="flex-grow">
+        <p className="text-muted-foreground mb-2">
+          Total shops: {shops.length}
+        </p>
         <table className="min-w-full bg-white border rounded shadow text-sm">
           <thead>
             <tr>

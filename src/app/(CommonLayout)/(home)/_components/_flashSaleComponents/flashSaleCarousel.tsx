@@ -11,6 +11,7 @@ import {
 import { Product } from "@/types";
 import Image from "next/image";
 import { Timer } from "lucide-react";
+import Link from "next/link";
 
 interface FlashSaleCarouselProps {
   products: Product[];
@@ -21,7 +22,7 @@ export function FlashSaleCarousel({ products }: FlashSaleCarouselProps) {
     <Carousel
       opts={{
         align: "start",
-        loop: true, // Enables infinite looping
+        loop: true,
       }}
       className="w-full max-w-5xl mx-auto bg-white p-0"
     >
@@ -45,16 +46,21 @@ export function FlashSaleCarousel({ products }: FlashSaleCarouselProps) {
                         <div className="absolute top-2 right-2">
                           <div className=" bg-red-700 text-cream px-3 py-1 mb-2 rounded-sm text-sm inline-flex items-center">
                             <Timer className="w-4 h-4 mr-1" />
-                            {product.flashSalePrice
-                              ? `${Math.round(product.flashSalePrice)}% OFF`
-                              : "No Discount"}
+                            {product.flashSalePrice &&
+                              `${Math.round(
+                                ((product.price - product.flashSalePrice) /
+                                  product.price) *
+                                  100
+                              )}% OFF`}
                           </div>
                         </div>
                       )}
                       <div>
-                        <h3 className="font-semibold text-xl text-warm-gray group-hover:text-warm-gray line-clamp-1   transition-colors hover:underline">
-                          {product.name}
-                        </h3>
+                        <Link href={`/products/${product.id}`}>
+                          <h3 className="font-semibold text-xl text-warm-gray group-hover:text-warm-gray line-clamp-1 transition-colors hover:underline cursor-pointer">
+                            {product.name}
+                          </h3>
+                        </Link>
 
                         <div className="flex items-center gap-2 mt-1">
                           <span className="text-xl font-bold text-green-600">

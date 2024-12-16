@@ -11,7 +11,7 @@ const baseApi = createApi({
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
-      // console.log(token, "baseapi");
+
       if (token) {
         headers.set("authorization", `${token}`);
       }
@@ -26,7 +26,11 @@ const baseApi = createApi({
     "Auth",
     "Categories",
     "Products",
+    "Coupons",
+    "Orders",
     "FlashSaleProducts",
+    "FollowedShops",
+    "Reviews",
   ],
   endpoints: () => ({}),
 });

@@ -4,7 +4,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { useAppSelector } from "@/redux/hooks";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
 import Link from "next/link";
-import { CustomerNavbar } from "./userSidebar";
+// import { CustomerNavbar } from "./userSidebar";
 import { AdminVendorSidebar } from "./adminVendorSidebar";
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -14,25 +14,29 @@ export default function Layout({ children }: { children: ReactNode }) {
     return <Link href="/register"></Link>;
   }
 
-  const isAdminOrVendor = user.role === "ADMIN" || user.role === "VENDOR";
+  const isAuthUser =
+    user.role === "ADMIN" || user.role === "VENDOR" || user.role === "USER";
 
   return (
     <div className="min-h-screen w-full flex">
-      {isAdminOrVendor ? (
-        <SidebarProvider>
-          <div className="flex h-auto min-h-screen w-full ">
-            <AdminVendorSidebar userRole={user.role}>
-              {children}
-            </AdminVendorSidebar>
-            {/* <main className="flex-1 overflow-y-auto  p-8">{children}</main> */}
-          </div>
-        </SidebarProvider>
-      ) : (
-        <div className="min-h-screen flex flex-col">
-          <CustomerNavbar />
-          <main className="flex-1">{children}</main>
-        </div>
-      )}
+      {
+        isAuthUser && (
+          <SidebarProvider>
+            <div className="flex h-auto min-h-screen w-full ">
+              <AdminVendorSidebar userRole={user.role}>
+                {children}
+              </AdminVendorSidebar>
+              {/* <main className="flex-1 overflow-y-auto  p-8">{children}</main> */}
+            </div>
+          </SidebarProvider>
+        )
+        // : (
+        //   <div className="min-h-screen flex flex-col">
+        //     <CustomerNavbar />
+        //     <main className="flex-1">{children}</main>
+        //   </div>
+        // )
+      }
     </div>
   );
 }

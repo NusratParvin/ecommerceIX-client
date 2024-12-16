@@ -39,6 +39,8 @@ const AddProduct = () => {
   const [createdProduct, setCreatedProduct] = useState<Product | null>(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+  const today = new Date().toISOString().slice(0, 16);
+
   const {
     register,
     handleSubmit,
@@ -60,6 +62,8 @@ const AddProduct = () => {
       flashSaleEndDate: "",
     },
   });
+
+  const productPrice = watch("price");
 
   const handleImageUpload = (file: File) => {
     if (file) {
@@ -121,7 +125,7 @@ const AddProduct = () => {
       formData.append("file", uploadedImage);
     }
 
-    // console.log("FormData for submission:", Object.fromEntries(formData));
+    console.log("FormData for submission:", Object.fromEntries(formData));
 
     try {
       const response = await createProduct(formData).unwrap();
@@ -330,6 +334,27 @@ const AddProduct = () => {
                   )}
                 </div>
 
+                {/* <div>
+                  <Label htmlFor="discount">Discount (%)</Label>
+                  <Input
+                    id="discount"
+                    type="number"
+                    min={0}
+                    max={100}
+                    {...register("discount", {
+                      valueAsNumber: true,
+                      validate: (value) =>
+                        value >= 0 || "Discount cannot be a negative value",
+                    })}
+                  />
+                  {errors.discount && (
+                    <p className="text-red-600 text-sm">
+                      {errors.discount.message}
+                    </p>
+                  )}
+                </div> */}
+
+                {/* Discount Section, disabled if flash sale is switched on */}
                 <div>
                   <Label htmlFor="discount">Discount (%)</Label>
                   <Input
@@ -337,6 +362,7 @@ const AddProduct = () => {
                     type="number"
                     min={0}
                     max={100}
+                    disabled={watch("isFlashSale")}
                     {...register("discount", {
                       valueAsNumber: true,
                       validate: (value) =>
@@ -418,7 +444,7 @@ const AddProduct = () => {
             </div>
           </div>
 
-          {/* Flash Sale Section */}
+          {/* Flash Sale Section
           <div className="space-y-4 p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
@@ -470,6 +496,83 @@ const AddProduct = () => {
                   )}
                 </div>
 
+                <div>
+                  <Label htmlFor="flashSaleEndDate">End Date</Label>
+                  <Input
+                    id="flashSaleEndDate"
+                    type="datetime-local"
+                    {...register("flashSaleEndDate", {
+                      required: "Flash sale end date is required",
+                    })}
+                  />
+                  {errors.flashSaleEndDate && (
+                    <p className="text-red-600 text-sm">
+                      {errors.flashSaleEndDate.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div> */}
+
+          {/* Flash Sale Section */}
+          <div className="space-y-4 p-6 shadow-sm">
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
+                <Zap className="w-5 h-5 text-charcoal" />
+                <span>Flash Sale</span>
+              </h2>
+              <Controller
+                name="isFlashSale"
+                control={control}
+                render={({ field }) => (
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                )}
+              />
+            </div>
+            {watch("isFlashSale") && (
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="flashSalePrice">Flash Sale Price ($)</Label>
+                  <Input
+                    id="flashSalePrice"
+                    type="number"
+                    {...register("flashSalePrice", {
+                      required: "Flash sale price is required",
+                      validate: (value) =>
+                        value <= productPrice ||
+                        `Flash sale price must be less than or equal to $${productPrice}`,
+                    })}
+                  />
+                  {errors.flashSalePrice && (
+                    <p className="text-red-600 text-sm">
+                      {errors.flashSalePrice.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <Label htmlFor="flashSaleStartDate">Start Date</Label>
+                  <Input
+                    id="flashSaleStartDate"
+                    type="datetime-local"
+                    min={today} // Set the min attribute to today's date
+                    {...register("flashSaleStartDate", {
+                      required: "Flash sale start date is required",
+                      validate: (value) =>
+                        new Date(value) >= new Date(today) ||
+                        "Start date cannot be in the past",
+                    })}
+                  />
+                  {errors.flashSaleStartDate && (
+                    <p className="text-red-600 text-sm">
+                      {errors.flashSaleStartDate.message}
+                    </p>
+                  )}
+                </div>
                 <div>
                   <Label htmlFor="flashSaleEndDate">End Date</Label>
                   <Input

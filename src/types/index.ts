@@ -40,10 +40,6 @@ export interface TShopFollower {
   userId: string;
   shopId: string;
   followedAt: Date;
-
-  // Relations
-  user?: TUser;
-  shop?: TShop;
 }
 
 export type TActiveStatus = "ACTIVE" | "BLOCKED" | "SUSPENDED" | "DELETED";
@@ -60,10 +56,10 @@ export interface TUser {
   updatedAt: Date;
 
   // Relations
-  shops?: TShop[]; // Owned shops
-  orders?: TOrder[]; // Orders placed
-  reviews?: TReview[]; // Reviews given
-  followedShops?: TShopFollower[]; // Followed shops
+  shops?: TShop[];
+  orders?: TOrder[];
+  reviews?: TReview[];
+  followedShops?: TShopFollower[];
 }
 
 export interface Product {
@@ -73,7 +69,8 @@ export interface Product {
   price: number;
   stock: number;
   discount: number;
-  shopId?: string;
+  rating: number;
+  shopId: string;
   categoryId: string;
   category?: {
     id: string;
@@ -108,16 +105,38 @@ export type TPaymentStatus = "PAID" | "UNPAID";
 export interface TOrder {
   id: string;
   userId: string;
+  shopId: string;
   totalPrice: number;
   paymentStatus: TPaymentStatus;
   paymentMethod: string;
   couponId?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  shippingInfo: Record<string, any>;
   createdAt: Date;
 
   // Relations
-  user?: TUser;
+  user: TUser;
+  shop: TShop;
   coupon?: TCoupon;
-  items?: TOrderItem[];
+  items: TOrderItem[];
+  transaction?: TTransaction[];
+}
+
+export interface TTransaction {
+  id: string;
+  orderId?: string;
+  userId: string;
+  amount: number;
+  paymentMethod: string;
+  paymentStatus: "PAID" | "UNPAID";
+  type: "ORDER_PAYMENT" | "SHOP_PAYOUT";
+  stripePaymentIntentId: string;
+  createdAt: Date;
+  description?: string;
+
+  // Relations
+  order?: TOrder;
+  user: TUser;
 }
 
 export interface TOrderItem {
@@ -182,4 +201,29 @@ export interface ProductFilters {
   maxPrice: number;
   category: string;
   search: string;
+}
+
+export interface CartItems {
+  productId: string;
+  quantity: number;
+  price: number;
+  shopId: string;
+}
+
+export interface ShippingInfoProps {
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  name: string;
+}
+
+export interface ProcessOrderAndPaymentProps {
+  userId: string;
+  shopId: string;
+  items: CartItems[];
+  totalPrice: number;
+  couponId: string | null;
+  shippingInfo: ShippingInfoProps;
+  paymentIntentId: string;
 }

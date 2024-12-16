@@ -26,30 +26,30 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    // resetPassword: builder.mutation({
-    //   query: ({ id, newPassword, token }) => ({
-    //     url: `/auth/reset-password`,
-    //     method: "POST",
-    //     body: { id, newPassword }, // No need to send the token in the body
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   }),
-    // }),
+    resetPassword: builder.mutation({
+      query: ({ id, newPassword, token }) => ({
+        url: `/auth/reset-password`,
+        method: "POST",
+        body: { id, newPassword }, // No need to send the token in the body
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
 
-    // forgetPassword: builder.mutation({
-    //   query: (email) => ({
-    //     url: `/auth/forget-password`,
-    //     method: "POST",
-    //     body: { email },
-    //   }),
-    // }),
+    forgotPassword: builder.mutation({
+      query: (email) => ({
+        url: `/auth/forgot-password`,
+        method: "POST",
+        body: { email },
+      }),
+    }),
   }),
 });
 
 export const {
   useLoginMutation,
   useRegisterUserMutation,
-  //   useResetPasswordMutation,
-  //   useForgetPasswordMutation,
+  useResetPasswordMutation,
+  useForgotPasswordMutation,
 } = authApi;
