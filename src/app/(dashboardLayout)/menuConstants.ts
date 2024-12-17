@@ -47,7 +47,11 @@ export const vendorMenuItems: MenuType[] = [
 // USer Menu Items
 export const userMenuItems: MenuType[] = [
   { title: "Dashboard", icon: LayoutDashboard, url: "/user/dashboard" },
-  { title: "Recently Viewed", icon: Package, url: "/user/shop" },
+  {
+    title: "Recently Viewed",
+    icon: Package,
+    url: "/user/recentlyViewedProducts",
+  },
   // { title: "Products", icon: Package, url: "/user/products" },
   {
     title: "My Purchase History",

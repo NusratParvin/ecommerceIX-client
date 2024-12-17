@@ -1,5 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { ShoppingCart, Flame, Eye, Heart, Timer } from "lucide-react";
+import {
+  ShoppingCart,
+  Flame,
+  Eye,
+  Heart,
+  Timer,
+  GitCompare,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Product } from "@/types";
@@ -7,21 +14,22 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import StarDisplay from "@/components/shared/starRating";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { handleAddToCart, handleReplaceCart } from "@/lib/addCartUtils";
 import VendorConflictModal from "@/components/shared/vendorConflictModal";
 import { useState } from "react";
+import {
+  addToCompare,
+  removeFromCompare,
+} from "@/redux/features/compare/compareSlice";
+import { RootState } from "@/redux/store";
+import { toast } from "sonner";
 
 interface AllProductsCardProps {
   product: Product;
   index: number;
   isFollowed: boolean;
 }
-
-// interface ProductProps {
-//   product: Product;
-//   quantity: number;
-// }
 
 export const AllProductsCard = ({
   product,
@@ -30,6 +38,22 @@ export const AllProductsCard = ({
 }: AllProductsCardProps) => {
   const dispatch = useAppDispatch();
   const [isModalOpen, setModalOpen] = useState(false);
+
+  const { products } = useAppSelector((state: RootState) => state.compare);
+  const isCompared = products.some((p) => p.id === product.id);
+
+  const handleCompare = () => {
+    if (isCompared) {
+      dispatch(removeFromCompare(product.id));
+    } else {
+      if (products.length >= 3) {
+        toast.error("You can compare up to 3 products only.");
+      } else {
+        dispatch(addToCompare(product));
+        toast.success(`${product.name} added to comparison.`);
+      }
+    }
+  };
 
   const handleAddToCartClick = async () => {
     try {
@@ -112,7 +136,7 @@ export const AllProductsCard = ({
                 <div className="flex items-center justify-between">
                   <Badge className="text-xs bg-warm-brown/10 text-warm-brown hover:border-deep-brown/80 hover:bg-transparent hover:text-deep-brown hover:underline">
                     {!isFollowed ? (
-                      <Link href={`/shops/${product?.shop?.id}`}>
+                      <Link href={`/shop/${product?.shop?.id}`}>
                         {product?.shop?.name}
                       </Link>
                     ) : (
@@ -148,30 +172,8 @@ export const AllProductsCard = ({
                 </div>
 
                 {/* Price Section */}
-                <div className="flex items-center justify-between pt-2">
+                <div className="flex items-center justify-between  ">
                   <div className="space-y-1">
-                    {/* {product?.isFlashSale ? (
-                    <>
-                      <span className="text-2xl font-bold text-red-500">
-                        ${product?.flashSalePrice?.toFixed(2)}
-                      </span>
-                      <span className="text-sm text-muted-foreground line-through">
-                        ${product?.price.toFixed(2)}
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="text-2xl font-bold text-red-500">
-                        $
-                        {(product?.price * (1 - product?.discount / 100)).toFixed(
-                          2
-                        )}
-                      </span>
-                      <span className="text-sm text-muted-foreground line-through">
-                        ${product?.price.toFixed(2)}
-                      </span>
-                    </>
-                  )} */}
                     {product?.isFlashSale ? (
                       <>
                         <span className="text-2xl font-bold text-red-500">
@@ -206,6 +208,22 @@ export const AllProductsCard = ({
                       </p>
                     )}
                   </div>
+
+                  <Button
+                    variant="ghost"
+                    onClick={handleCompare}
+                    className={`  shadow-md border-none bg-white ${
+                      isCompared
+                        ? " text-blue-600 "
+                        : "bg-gray-100 text-gray-600 "
+                    }`}
+                  >
+                    <GitCompare
+                      className={`h-5 w-5 ${
+                        isCompared ? "text-blue-600" : "text-gray-600"
+                      }`}
+                    />
+                  </Button>
                 </div>
               </div>
             </div>

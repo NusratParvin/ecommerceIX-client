@@ -22,22 +22,25 @@ import {
 } from "@/redux/features/shops/shopsApi";
 import { useEffect, useState } from "react";
 import { handleAddToCart } from "@/lib/addCartUtils";
+import { Product } from "@/types";
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const user = useAppSelector(useCurrentUser);
+  const dispatch = useAppDispatch();
+
+  const [isShopFollowed, setIsShopFollowed] = useState(false);
 
   const { data, isFetching, isError, isSuccess } = useGetProductByIdQuery(id);
   const product = data?.data;
   // console.log(product);
 
-  const user = useAppSelector(useCurrentUser);
-  const dispatch = useAppDispatch();
-
   const { data: userDetails } = useGetUserByEmailQuery(user?.email, {
     skip: !user,
   });
 
-  const [isShopFollowed, setIsShopFollowed] = useState(false);
+  const [followShop] = useFollowShopMutation();
+  const [unfollowShop] = useUnfollowShopMutation();
 
   useEffect(() => {
     if (isSuccess) {
@@ -50,14 +53,22 @@ const ProductDetails = () => {
       );
     }
   }, [userDetails, product, isSuccess]);
-  // console.log(isShopFollowed);
 
-  const [followShop] = useFollowShopMutation();
-  const [unfollowShop] = useUnfollowShopMutation();
+  useEffect(() => {
+    const recentProductsKey = "recentProducts";
 
-  // const isShopFollowed = userDetails?.followedShops?.some(
-  //   (shop: TShop) => shop.id === product?.shopId
-  // );
+    const recentProducts = JSON.parse(
+      localStorage.getItem(recentProductsKey) || "[]"
+    ) as Product[];
+
+    const filteredProducts = recentProducts.filter(
+      (p) => p?.id !== product?.id
+    );
+
+    const updatedProducts = [product, ...filteredProducts].slice(0, 10);
+
+    localStorage.setItem(recentProductsKey, JSON.stringify(updatedProducts));
+  }, [product]);
 
   const handleFollowToggle = async () => {
     if (!user) {

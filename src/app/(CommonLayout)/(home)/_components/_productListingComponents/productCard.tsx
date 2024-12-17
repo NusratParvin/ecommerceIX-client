@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Bookmark, Eye, Heart } from "lucide-react";
+import { ShoppingCart, Bookmark, Eye, Heart, GitCompare } from "lucide-react";
 import { motion } from "framer-motion";
 import { Product } from "@/types";
 import Image from "next/image";
@@ -13,10 +13,16 @@ import {
 } from "@/components/ui/tooltip";
 import Link from "next/link";
 import StarDisplay from "@/components/shared/starRating";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { handleAddToCart, handleReplaceCart } from "@/lib/addCartUtils";
 import { useState } from "react";
 import VendorConflictModal from "@/components/shared/vendorConflictModal";
+import { RootState } from "@/redux/store";
+import {
+  addToCompare,
+  removeFromCompare,
+} from "@/redux/features/compare/compareSlice";
+import { toast } from "sonner";
 
 // import { useState } from "react";
 
@@ -35,6 +41,22 @@ export const ProductCard = ({
   const dispatch = useAppDispatch();
   const [isModalOpen, setModalOpen] = useState(false);
   // console.log(product?.shop.id, "grid");
+
+  const { products } = useAppSelector((state: RootState) => state.compare);
+  const isCompared = products.some((p) => p.id === product.id);
+
+  const handleCompare = () => {
+    if (isCompared) {
+      dispatch(removeFromCompare(product.id));
+    } else {
+      if (products.length >= 3) {
+        toast.error("You can compare up to 3 products only.");
+      } else {
+        dispatch(addToCompare(product));
+        toast.success(`${product.name} added to comparison.`);
+      }
+    }
+  };
 
   const handleAddToCartClick = async () => {
     try {
@@ -148,7 +170,7 @@ export const ProductCard = ({
                   {product?.category?.name}
                 </p>
               </div>
-              <div className="flex justify-between items-end">
+              <div className="flex justify-between items-end  ">
                 <div>
                   {product?.isFlashSale ? (
                     <>
@@ -178,11 +200,29 @@ export const ProductCard = ({
                     </p>
                   )}
                 </div>
-                {product?.stock < 10 && (
-                  <Badge variant="secondary" className="text-xs">
-                    {product?.stock} left
-                  </Badge>
-                )}
+                <div className="flex flex-col justify-end">
+                  {product?.stock < 10 && (
+                    <Badge variant="secondary" className="text-xs">
+                      {product?.stock} left
+                    </Badge>
+                  )}
+
+                  <Button
+                    variant="ghost"
+                    onClick={handleCompare}
+                    className={`mt-2  shadow-md border-none bg-white ${
+                      isCompared
+                        ? " text-blue-600 "
+                        : "bg-gray-100 text-gray-600 "
+                    }`}
+                  >
+                    <GitCompare
+                      className={`h-5 w-5 ${
+                        isCompared ? "text-blue-600" : "text-gray-600"
+                      }`}
+                    />
+                  </Button>
+                </div>
               </div>
             </div>
           </CardContent>
@@ -196,7 +236,7 @@ export const ProductCard = ({
                   <Button
                     className="w-full bg-deep-brown hover:bg-warm-brown text-cream rounded-none"
                     // onClick={() =>
-                    //   handleAddToCart(dispatch, { product, quantity: 1 })
+                    //   h  bjandleAddToCart(dispatch, { product, quantity: 1 })
                     // }
                     onClick={handleAddToCartClick}
                   >

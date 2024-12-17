@@ -95,7 +95,7 @@ const ShopPage = () => {
 
   if (isLoading) {
     return (
-      <div className="space-y-8">
+      <div className="space-y-8 min-h-screen bg-background">
         <Skeleton className="h-48 w-full" />
         <div className="container px-4">
           <Skeleton className="h-32 w-full rounded-lg" />

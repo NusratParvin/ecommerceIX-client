@@ -1,15 +1,21 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Timer, ShoppingCart, Flame, Eye } from "lucide-react";
+import { Timer, ShoppingCart, Flame, Eye, GitCompare } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types";
 import { handleAddToCart, handleReplaceCart } from "@/lib/addCartUtils";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import VendorConflictModal from "@/components/shared/vendorConflictModal";
 import { useState } from "react";
+import { RootState } from "@/redux/store";
+import { toast } from "sonner";
+import {
+  addToCompare,
+  removeFromCompare,
+} from "@/redux/features/compare/compareSlice";
 
 interface FlashSaleCardProps {
   product: Product;
@@ -19,6 +25,22 @@ interface FlashSaleCardProps {
 export const FlashSaleCard = ({ product, index }: FlashSaleCardProps) => {
   const dispatch = useAppDispatch();
   const [isModalOpen, setModalOpen] = useState(false);
+
+  const { products } = useAppSelector((state: RootState) => state.compare);
+  const isCompared = products.some((p) => p.id === product.id);
+
+  const handleCompare = () => {
+    if (isCompared) {
+      dispatch(removeFromCompare(product.id));
+    } else {
+      if (products.length >= 3) {
+        toast.error("You can compare up to 3 products only.");
+      } else {
+        dispatch(addToCompare(product));
+        toast.success(`${product.name} added to comparison.`);
+      }
+    }
+  };
 
   const handleAddToCartClick = async () => {
     try {
@@ -117,8 +139,8 @@ export const FlashSaleCard = ({ product, index }: FlashSaleCardProps) => {
                 </div>
 
                 {/* Price Section */}
-                <div className="flex items-center justify-between pt-2">
-                  <div className="space-y-1">
+                <div className="flex items-center justify-between  ">
+                  <div className="space-y-1  ">
                     <div className="flex items-baseline gap-2">
                       <span className="text-2xl font-bold text-red-500">
                         ${product.flashSalePrice?.toFixed(2)}
@@ -133,6 +155,21 @@ export const FlashSaleCard = ({ product, index }: FlashSaleCardProps) => {
                       </p>
                     )}
                   </div>
+                  <Button
+                    variant="ghost"
+                    onClick={handleCompare}
+                    className={`   shadow-md border-none bg-white ${
+                      isCompared
+                        ? " text-blue-600 "
+                        : "bg-gray-100 text-gray-600 "
+                    }`}
+                  >
+                    <GitCompare
+                      className={`h-5 w-5 ${
+                        isCompared ? "text-blue-600" : "text-gray-600"
+                      }`}
+                    />
+                  </Button>
                 </div>
               </div>
             </div>

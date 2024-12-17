@@ -13,6 +13,8 @@ import {
 
 import authReducer from "./features/auth/authSlice";
 import cartReducer from "./features/cart/cartSlice";
+import compareReducer from "./features/compare/compareSlice";
+
 import baseApi from "./api/baseApi";
 import storage from "./storageEngine";
 
@@ -29,6 +31,7 @@ export const store = configureStore({
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedAuthReducer,
     cart: persistedCartReducer,
+    compare: compareReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
