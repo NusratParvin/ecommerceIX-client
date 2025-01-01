@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Bookmark, Eye, Heart, GitCompare } from "lucide-react";
+import { ShoppingCart, Bookmark, Eye, GitCompare } from "lucide-react";
 import { motion } from "framer-motion";
 import { Product } from "@/types";
 import Image from "next/image";
@@ -12,7 +12,7 @@ import {
   TooltipProvider,
 } from "@/components/ui/tooltip";
 import Link from "next/link";
-import StarDisplay from "@/components/shared/starRating";
+// import StarDisplay from "@/components/shared/starRating";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { handleAddToCart, handleReplaceCart } from "@/lib/addCartUtils";
 import { useState } from "react";
@@ -35,7 +35,7 @@ interface ProductCardProps {
 
 export const ProductCard = ({
   product,
-  isFollowed = true,
+  // isFollowed = true,
   index,
 }: ProductCardProps) => {
   const dispatch = useAppDispatch();
@@ -73,7 +73,7 @@ export const ProductCard = ({
     handleReplaceCart(dispatch, { product, quantity: 1 });
     setModalOpen(false);
   };
-  console.log(isFollowed);
+  // console.log(isFollowed);
   return (
     <>
       <motion.div
@@ -82,12 +82,12 @@ export const ProductCard = ({
         transition={{ duration: 0.3, delay: index * 0.1 }}
         className="relative group"
       >
-        <Card className="hover:shadow-2xl transition-transform duration-300 overflow-hidden flex flex-col h-full rounded-md pb-6">
+        <Card className="hover:shadow-2xl shadow-none transition-transform duration-300 overflow-hidden flex flex-col h-full rounded-none border-none pb-6 bg-muted/50">
           {/* Image Section */}
-          <div className="relative h-64 w-full overflow-hidden">
+          <div className="relative h-40 w-full overflow-hidden">
             {product?.imageUrl ? (
               <Image
-                src={product?.imageUrl || "/default-image.jpg"}
+                src={product?.imageUrl as string}
                 alt={product?.name}
                 width={400}
                 height={300}
@@ -123,11 +123,11 @@ export const ProductCard = ({
               {product?.discount > 0 && (
                 <div className="relative">
                   <Bookmark
-                    className="w-16 h-16 text-red-600 rounded-none"
+                    className="w-16 h-10 text-red-600 rounded-none"
                     fill="currentColor"
                   />
                   <span className="absolute inset-0 flex items-center justify-center text-xs text-cream">
-                    -{product?.discount}%
+                    {product?.discount}%
                   </span>
                 </div>
               )}
@@ -136,39 +136,42 @@ export const ProductCard = ({
 
           {/* Product Information */}
           <CardContent className="p-4 flex-grow">
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <Badge className="text-xs bg-warm-brown/10 text-warm-brown hover:border-deep-brown/80 hover:bg-transparent hover:text-deep-brown hover:underline">
-                  {!isFollowed ? (
-                    <Link href={`/shop/${product?.shop?.id}`}>
-                      {product?.shop?.name}
-                    </Link>
-                  ) : (
-                    <>
+            <div className="space-y-0">
+              <div className="space-y-1">
+                <h3 className="font-medium text-base line-clamp-1 text-deep-brown">
+                  {product?.name}
+                </h3>
+                {/* <p className="text-xs text-muted-foreground line-clamp-1">
+                  {product?.category?.name}
+                </p> */}
+              </div>
+              <div>
+                <div className="flex justify-between items-center">
+                  {/* shop name */}
+                  {/* <Badge className="text-xs bg-warm-brown/10 text-warm-brown hover:border-deep-brown/80 hover:bg-transparent hover:text-deep-brown hover:underline">
+                    {!isFollowed ? (
                       <Link href={`/shop/${product?.shop?.id}`}>
                         {product?.shop?.name}
                       </Link>
-                      <Heart className="w-4 h-4 text-red-500 fill-current" />
-                    </>
-                  )}
-                </Badge>
-
-                <div className="flex items-center gap-1 text-yellow-500">
+                    ) : (
+                      <>
+                        <Link href={`/shop/${product?.shop?.id}`}>
+                          {product?.shop?.name}
+                        </Link>
+                        <Heart className="w-4 h-4 text-red-500 fill-current" />
+                      </>
+                    )}
+                  </Badge> */}
+                  {/* //rating */}
+                  {/* <div className="flex items-center gap-1 text-yellow-500">
                   <div className="flex">
                     <StarDisplay rating={product?.rating} />
                   </div>
                   <Badge className="text-xs font-medium bg-yellow-500 px-2 text-cream rounded-md">
                     {product?.rating}
                   </Badge>
+                </div> */}
                 </div>
-              </div>
-              <div className="space-y-1">
-                <h3 className="font-medium text-base line-clamp-1 text-deep-brown">
-                  {product?.name}
-                </h3>
-                <p className="text-xs text-muted-foreground line-clamp-1">
-                  {product?.category?.name}
-                </p>
               </div>
               <div className="flex justify-between items-end  ">
                 <div>
@@ -201,11 +204,11 @@ export const ProductCard = ({
                   )}
                 </div>
                 <div className="flex flex-col justify-end">
-                  {product?.stock < 10 && (
+                  {/* {product?.stock < 10 && (
                     <Badge variant="secondary" className="text-xs">
                       {product?.stock} left
                     </Badge>
-                  )}
+                  )} */}
 
                   <Button
                     variant="ghost"
@@ -235,9 +238,6 @@ export const ProductCard = ({
                 <TooltipTrigger asChild>
                   <Button
                     className="w-full bg-deep-brown hover:bg-warm-brown text-cream rounded-none"
-                    // onClick={() =>
-                    //   h  bjandleAddToCart(dispatch, { product, quantity: 1 })
-                    // }
                     onClick={handleAddToCartClick}
                   >
                     <ShoppingCart className="w-4 h-4 mr-2" />

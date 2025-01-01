@@ -233,7 +233,7 @@ export function AdminVendorSidebar({
       {/* Sidebar */}
       <div
         className={`relative z-50 h-full bg-deep-brown text-cream transition-all flex flex-col ${
-          isCollapsed ? "w-16" : "w-52"
+          isCollapsed ? "w-16" : "w-60"
         }`}
       >
         {/* Company Logo */}

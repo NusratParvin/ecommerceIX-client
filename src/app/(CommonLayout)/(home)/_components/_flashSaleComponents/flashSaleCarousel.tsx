@@ -28,8 +28,8 @@ export function FlashSaleCarousel({ products }: FlashSaleCarouselProps) {
     >
       <CarouselContent className="-ml-3">
         {products.map((product) => (
-          <CarouselItem key={product.id} className="md:basis-1/2 basis-1/2">
-            <div className="h-80 p-3">
+          <CarouselItem key={product.id} className="md:basis-1/3 basis-1/2  ">
+            <div className="h-64 p-0">
               <Card className="group overflow-hidden border-none rounded-none transition-all duration-300 h-full">
                 <CardContent className="p-0 h-full relative">
                   {/* Product Image Container */}

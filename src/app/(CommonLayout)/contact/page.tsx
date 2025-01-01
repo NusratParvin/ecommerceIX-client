@@ -48,7 +48,7 @@ const ContactInputBox = ({ type, placeholder, name }: ContactInputBoxProps) => {
 const Contact = () => {
   return (
     <div>
-      <div className="h-36 bg-deep-brown"></div>
+      <div className="h-24 bg-deep-brown"></div>
       <div className="md:w-10/12 w-full mx-auto ">
         <section className="relative z-10 overflow-hidden bg-white py-20  ">
           <div className="container">

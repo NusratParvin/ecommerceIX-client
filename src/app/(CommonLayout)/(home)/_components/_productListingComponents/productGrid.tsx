@@ -31,7 +31,7 @@
 
 //   const followedShopIds =
 //     userFollowedShops?.data?.followedShops?.map(
-//       (shop: { shopId: string }) => shop.shopId
+//       (shop: { shopId: string }) => shop?.shopId
 //     ) || [];
 //   // const isFollowed = followedShopIds.includes(product?.shop?.id);
 
@@ -56,9 +56,9 @@
 //       setProducts((prev) => {
 //         if (page === 1) return productsData.data;
 
-//         const existingIds = new Set(prev.map((product: Product) => product.id));
+//         const existingIds = new Set(prev.map((product: Product) => product?.id));
 //         const newProducts = productsData.data.filter(
-//           (product: Product) => !existingIds.has(product.id)
+//           (product: Product) => !existingIds.has(product?.id)
 //         );
 //         return [...prev, ...newProducts];
 //       });
@@ -106,7 +106,7 @@
 //         ) : products.length > 0 ? (
 //           products.map((product: Product, index: number) => (
 //             <ProductCard
-//               key={product.id}
+//               key={product?.id}
 //               product={product}
 //               isFollowed={followedShopIds.includes(product?.shop?.id)}
 //               index={index}
@@ -144,59 +144,59 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useInView } from "react-intersection-observer";
+// import { useInView } from "react-intersection-observer";
 import { ProductCard } from "./productCard";
 import { useGetProductsQuery } from "@/redux/features/products/productsApi";
-import { ProductFilters } from "./productFilters";
-import { useDebounce } from "./hooks/debounceHook";
+// import { ProductFilters } from "./productFilters";
+// import { useDebounce } from "./hooks/debounceHook";
 import NoDataFound from "@/components/ui/noDataFound";
 import { useGetFollowedShopsQuery } from "@/redux/features/shops/shopsApi";
 import { Product } from "@/types";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 10;
 
 const ProductGrid = () => {
-  const [page, setPage] = useState(1);
-  const [filters, setFilters] = useState({
-    minPrice: 0,
-    maxPrice: 1000,
-    category: null,
-    shop: null,
-    search: "",
-  });
+  // const [page, setPage] = useState(1);
+  // const [filters, setFilters] = useState({
+  //   minPrice: 0,
+  //   maxPrice: 1000,
+  //   category: null,
+  //   shop: null,
+  //   search: "",
+  // });
   const [products, setProducts] = useState<Product[]>([]);
-  const { ref, inView } = useInView({ threshold: 0.1 });
+  // const { ref, inView } = useInView({ threshold: 0.1 });
 
-  // Debounced search value
-  const debouncedSearch = useDebounce(filters.search, 500);
+  // const debouncedSearch = useDebounce(filters.search, 500);
 
   // Fetch followed shops
   const { data: userFollowedShops } = useGetFollowedShopsQuery(undefined);
   const followedShopIds =
     userFollowedShops?.data?.followedShops?.map(
-      (shop: { shopId: string }) => shop.shopId
+      (shop: { shopId: string }) => shop?.shopId
     ) || [];
 
-  // Fetch products
   const { data: productsData, isFetching } = useGetProductsQuery({
-    page,
+    // page,
     limit: ITEMS_PER_PAGE,
-    sortBy: "createdAt",
-    sortOrder: "desc",
-    minPrice: filters.minPrice,
-    maxPrice: filters.maxPrice,
-    category: filters.category,
-    shop: filters.shop,
-    search: debouncedSearch,
+    // sortBy: "createdAt",
+    // sortOrder: "desc",
+    // minPrice: filters.minPrice,
+    // maxPrice: filters.maxPrice,
+    // category: filters.category,
+    // shop: filters.shop,
+    // search: debouncedSearch,
   });
 
   // Prioritize products from followed shops
   const prioritizeProducts = (allProducts: Product[]) => {
     const followedProducts = allProducts.filter((product) =>
-      followedShopIds.includes(product.shop.id)
+      followedShopIds.includes(product?.shop?.id)
     );
     const otherProducts = allProducts.filter(
-      (product) => !followedShopIds.includes(product.shop.id)
+      (product) => !followedShopIds.includes(product?.shop?.id)
     );
     return [...followedProducts, ...otherProducts];
   };
@@ -206,53 +206,58 @@ const ProductGrid = () => {
       setProducts((prev) => {
         const newProducts = prioritizeProducts(productsData.data);
 
-        // Avoid unnecessary updates if the data is the same
-        const existingIds = new Set(prev.map((product: Product) => product.id));
+        const existingIds = new Set(
+          prev.map((product: Product) => product?.id)
+        );
         const filteredNewProducts = newProducts.filter(
-          (product: Product) => !existingIds.has(product.id)
+          (product: Product) => !existingIds.has(product?.id)
         );
 
         if (filteredNewProducts.length === 0) {
-          return prev; // Return the current state if no new products are added
+          return prev;
         }
 
-        return page === 1 ? newProducts : [...prev, ...filteredNewProducts];
+        // return page === 1 ? newProducts : [...prev, ...filteredNewProducts];
+        return [...prev, ...filteredNewProducts];
       });
     }
-  }, [productsData?.data, page, followedShopIds]);
+    // }, [productsData?.data, page, followedShopIds]);
+  }, [productsData?.data, followedShopIds]);
 
-  useEffect(() => {
-    if (inView && !isFetching && productsData?.meta?.hasNextPage) {
-      setPage((prev) => prev + 1);
-    }
-  }, [inView, isFetching, productsData?.meta?.hasNextPage]);
+  // useEffect(() => {
+  //   if (inView && !isFetching && productsData?.meta?.hasNextPage) {
+  //     setPage((prev) => prev + 1);
+  //   }
+  // }, [inView, isFetching, productsData?.meta?.hasNextPage]);
 
-  const handleFilterChange = (newFilters: any) => {
-    const processedFilters = {
-      ...newFilters,
-      category: newFilters.category === "null" ? null : newFilters.category,
-      shop: newFilters.shop === "null" ? null : newFilters.shop,
-    };
-    setPage(1);
-    setProducts([]);
-    setFilters(processedFilters);
-  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // const handleFilterChange = (newFilters: any) => {
+  //   const processedFilters = {
+  //     ...newFilters,
+  //     category: newFilters.category === "null" ? null : newFilters.category,
+  //     shop: newFilters.shop === "null" ? null : newFilters.shop,
+  //   };
+  //   setPage(1);
+  //   setProducts([]);
+  //   setFilters(processedFilters);
+  // };
 
   return (
     <div className="w-full md:w-11/12 mx-auto px-4 py-8">
       {/* Filters Section */}
-      <div className="mb-8 space-y-4">
+      {/* <div className="mb-8 space-y-4">
         <ProductFilters filters={filters} onFilterChange={handleFilterChange} />
-      </div>
+      </div> */}
 
       {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 min-h-[300px]">
-        {isFetching && page === 1 ? (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 min-h-[200px]">
+        {/* {isFetching && page === 1 ? ( */}
+        {isFetching ? (
           <ProductGridSkeleton count={ITEMS_PER_PAGE} />
         ) : products.length > 0 ? (
           products.map((product: Product, index: number) => (
             <ProductCard
-              key={product.id}
+              key={product?.id}
               product={product}
               isFollowed={followedShopIds.includes(product?.shop?.id)}
               index={index}
@@ -266,8 +271,21 @@ const ProductGrid = () => {
       </div>
 
       {/* Skeleton Loader for Infinite Scroll */}
-      <div ref={ref} className="mt-8 flex justify-center">
+      {/* <div ref={ref} className="mt-8 flex justify-center">
         {isFetching && page > 1 && <ProductGridSkeleton count={4} />}
+      </div> */}
+      <div className="w-40 mx-auto mt-16">
+        <Link href="/allProducts">
+          <Button className="relative w-full rounded-none border border-deep-brown bg-white hover:bg-white text-deep-brown overflow-hidden group py-5">
+            {/* Animated Background */}
+            <span className="absolute bottom-0 left-0 w-full h-full bg-deep-brown transform origin-bottom-left skew-y-1 scale-y-0 transition-transform duration-700 ease-out group-hover:scale-y-125"></span>
+
+            {/* Button Text */}
+            <span className="relative z-10 group-hover:text-white font-semibold text-sm uppercase">
+              All Products
+            </span>
+          </Button>
+        </Link>
       </div>
     </div>
   );

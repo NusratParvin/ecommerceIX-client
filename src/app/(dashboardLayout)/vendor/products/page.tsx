@@ -29,7 +29,7 @@ import { Zap, Percent } from "lucide-react";
 import { ProductSearch } from "./_components/serach";
 import { ProductTable } from "./_components/table";
 import { useRouter } from "next/navigation";
-import { ProductDrawer } from "./_components/drawer";
+// import { ProductDrawer } from "./_components/drawer";
 import { Spinner } from "@/components/ui/spinner";
 import { useAppSelector } from "@/redux/hooks";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
@@ -41,40 +41,14 @@ const ProductManagement = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  // const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  // const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const router = useRouter();
 
   const user = useAppSelector(useCurrentUser);
   const [deleteProduct] = useDeleteProductMutation();
 
-  // const { data, isLoading, error, refetch } = useGetProductsForVendorQuery(
-  //   {
-  //     page: currentPage,
-  //     limit: ITEMS_PER_PAGE,
-  //     sortBy,
-  //     sortOrder,
-  //     searchTerm: searchQuery,
-  //   },
-  //   {
-  //     refetchOnMountOrArgChange: true,
-  //     skip: !user?.email,
-  //   }
-  // );
-
-  // useEffect(() => {
-  //   refetch();
-  // }, [user?.email, refetch, currentPage, searchQuery, sortBy, sortOrder]);
-
-  // useEffect(() => {
-  //   if (searchQuery) {
-  //     setCurrentPage(1);
-  //   }
-  // }, [searchQuery]);
-
-  // Add a cache key that includes the user email to prevent data mixing
-  // Add proper caching with providesTags
   const { data, isLoading, error, refetch } = useGetProductsForVendorQuery(
     {
       page: currentPage,
@@ -89,7 +63,6 @@ const ProductManagement = () => {
     }
   );
 
-  // Reset page and clear data when user changes
   useEffect(() => {
     setCurrentPage(1);
     setSearchQuery("");
@@ -107,7 +80,6 @@ const ProductManagement = () => {
     }
   }, [searchQuery]);
 
-  // Show loading state when switching users
   if (!user?.email || isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -116,7 +88,6 @@ const ProductManagement = () => {
     );
   }
 
-  // Handle no products case
   if (data?.data?.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
@@ -155,10 +126,10 @@ const ProductManagement = () => {
     }
   };
 
-  const handleViewProduct = (product: Product) => {
-    setSelectedProduct(product);
-    setIsDrawerOpen(true);
-  };
+  // const handleViewProduct = (product: Product) => {
+  //   setSelectedProduct(product);
+  //   setIsDrawerOpen(true);
+  // };
 
   console.log(error);
 
@@ -255,7 +226,8 @@ const ProductManagement = () => {
               router.push(`/vendor/products/editProduct/${product.id}`)
             }
             onDelete={(product) => handleDeleteProduct(product.id)}
-            onView={handleViewProduct}
+            // onView={handleViewProduct}
+            onView={(product) => router.push(`/vendor/products/${product.id}`)}
             currentPage={currentPage}
             itemsPerPage={ITEMS_PER_PAGE}
           />
@@ -299,14 +271,14 @@ const ProductManagement = () => {
           </PaginationContent>
         </Pagination>
       </div>
-      <ProductDrawer
+      {/* <ProductDrawer
         product={selectedProduct}
         isOpen={isDrawerOpen}
         onClose={() => {
           setIsDrawerOpen(false);
           setSelectedProduct(null);
         }}
-      />
+      /> */}
     </div>
   );
 };

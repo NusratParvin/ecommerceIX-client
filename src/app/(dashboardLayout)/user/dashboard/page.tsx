@@ -84,7 +84,9 @@ const UserDashboard = () => {
     //   </div>
     //   <UserOrders orders={recentOrders} />
     // </div>
-    <>jbsh</>
+    <div className="flex justify-center items-center min-h-screen">
+      Under maintenance
+    </div>
   );
 };
 

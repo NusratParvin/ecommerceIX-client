@@ -194,7 +194,7 @@ const AllProductsList: React.FC<AllProductsListProps> = ({ filters }) => {
 
   return (
     <div className="w-full mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-1 min-h-screen">
         {isFetching && page === 1 ? (
           <AllProductsGridSkeleton count={6} />
         ) : products.length > 0 ? (

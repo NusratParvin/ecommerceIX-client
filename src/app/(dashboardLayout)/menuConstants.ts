@@ -12,6 +12,7 @@ import {
   Key,
   Ticket,
   ShoppingBag,
+  UserRoundPlus,
 } from "lucide-react";
 
 export type MenuType = {
@@ -27,9 +28,15 @@ export const adminMenuItems: MenuType[] = [
   { title: "Products", icon: Tags, url: "/admin/products" },
   { title: "Users", icon: Users, url: "/admin/users" },
   { title: "Shops", icon: ShoppingCart, url: "/admin/shops" },
-  { title: "Transactions", icon: BarChart3, url: "/admin/transactions" },
   { title: "Orders", icon: ShoppingBag, url: "/admin/orders" },
   { title: "Coupons", icon: Ticket, url: "/admin/coupons" },
+  { title: "Subscribers", icon: UserRoundPlus, url: "/admin/subscribers" },
+  {
+    title: "Customer Feedback",
+    icon: MessageSquare,
+    url: "/admin/customerFeedback",
+  },
+  { title: "Transactions", icon: BarChart3, url: "/admin/transactions" },
 ];
 
 // Vendor Menu Items
@@ -38,10 +45,15 @@ export const vendorMenuItems: MenuType[] = [
   { title: "My Shop", icon: Store, url: "/vendor/shop" },
   { title: "Products", icon: Package, url: "/vendor/products" },
   { title: "Orders", icon: ClipboardList, url: "/vendor/orders" },
+  // {
+  //   title: "Customer Feedback",
+  //   icon: MessageSquare,
+  //   url: "/vendor/customerFeedback",
+  // },
   {
-    title: "Customer Feedback",
-    icon: MessageSquare,
-    url: "/vendor/customerFeedback",
+    title: "Manage Password",
+    icon: Key,
+    url: "/vendor/managePassword",
   },
 ];
 // USer Menu Items

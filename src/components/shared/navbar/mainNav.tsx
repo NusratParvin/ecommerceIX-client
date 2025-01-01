@@ -24,11 +24,11 @@ const components: { title: string; href: string; description: string }[] = [
     href: "/flashSale",
     description: "Grab exclusive deals before they're gone!",
   },
-  // {
-  //   title: "New Arrivals",
-  //   href: "/shop/new",
-  //   description: "Check out our latest collection of products.",
-  // },
+  {
+    title: "By Shop",
+    href: "/allShops",
+    description: "Find your favorite shop.",
+  },
   // {
   //   title: "Best Sellers",
   //   href: "/shop/best-sellers",
@@ -66,6 +66,7 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
             SHOP
           </NavigationMenuTrigger>
           <NavigationMenuContent className="absolute left-0 w-[400px] p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+            {/* <NavigationMenuContent className="absolute left-0 top-full w-[300px] md:w-[400px] transform translate-y-2 transition-transform duration-200 z-50"> */}
             <ul className="grid gap-3 p-4 md:grid-cols-2">
               {components.map((component) => (
                 <li key={component.title}>

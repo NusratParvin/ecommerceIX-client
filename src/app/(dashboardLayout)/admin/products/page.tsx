@@ -26,17 +26,19 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { ProductTable } from "./_components/table";
-import { ProductDrawer } from "./_components/drawer";
+// import { ProductDrawer } from "./_components/drawer";
 import { Spinner } from "@/components/ui/spinner";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 const ProductManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  // const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  // const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     setCurrentPage(1);
@@ -87,10 +89,10 @@ const ProductManagement = () => {
     }
   };
 
-  const handleViewProduct = (product: Product) => {
-    setSelectedProduct(product);
-    setIsDrawerOpen(true);
-  };
+  // const handleViewProduct = (product: Product) => {
+  //   setSelectedProduct(product);
+  //   setIsDrawerOpen(true);
+  // };
 
   if (isLoading) return <Spinner />;
   if (error) return <p>Failed to load products.</p>;
@@ -169,7 +171,8 @@ const ProductManagement = () => {
           }))}
           onDelete={(product) => handleDeleteProduct(product.id)}
           onUpdateStatus={(id, status) => handleUpdateStatusProduct(id, status)}
-          onView={handleViewProduct}
+          // onView={handleViewProduct}
+          onView={(product) => router.push(`/admin/products/${product.id}`)}
         />
       </div>
 
@@ -213,14 +216,14 @@ const ProductManagement = () => {
         {/* )} */}
       </div>
 
-      <ProductDrawer
+      {/* <ProductDrawer
         product={selectedProduct}
         isOpen={isDrawerOpen}
         onClose={() => {
           setIsDrawerOpen(false);
           setSelectedProduct(null);
         }}
-      />
+      /> */}
     </div>
   );
 };

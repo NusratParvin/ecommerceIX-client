@@ -1,16 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  ShoppingCart,
-  Flame,
-  Eye,
-  Heart,
-  Timer,
-  GitCompare,
-} from "lucide-react";
+import { ShoppingCart, Eye, GitCompare } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Product } from "@/types";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import StarDisplay from "@/components/shared/starRating";
@@ -34,8 +26,8 @@ interface AllProductsCardProps {
 export const AllProductsCard = ({
   product,
   index,
-  isFollowed,
-}: AllProductsCardProps) => {
+}: // isFollowed,
+AllProductsCardProps) => {
   const dispatch = useAppDispatch();
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -92,7 +84,7 @@ export const AllProductsCard = ({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: index * 0.1 }}
       >
-        <Card className="group relative overflow-hidden h-[420px] bg-gray-100/50">
+        <Card className="group relative overflow-hidden h-[350px] bg-gray-100/50">
           {/* Conditional Discount Badge */}
           {calculateDiscountPercentage() > 0 && (
             <div className="absolute -right-12 top-6 z-10 rotate-45">
@@ -105,7 +97,7 @@ export const AllProductsCard = ({
           <CardContent className="p-0">
             <div className="relative">
               {/* Flash Sale Badge */}
-              {product?.isFlashSale && (
+              {/* {product?.isFlashSale && (
                 <Badge
                   variant="destructive"
                   className="absolute top-2 left-2 z-10 animate-pulse bg-red-500"
@@ -113,10 +105,10 @@ export const AllProductsCard = ({
                   <Flame className="w-4 h-4 mr-1" />
                   Flash Sale
                 </Badge>
-              )}
+              )} */}
 
               {/* Image Container */}
-              <div className="relative h-52 w-full mb-4 overflow-hidden rounded-t-md">
+              <div className="relative h-44 w-full mb-4 overflow-hidden rounded-t-md">
                 <Link href={`/products/${product?.id}`}>
                   <Image
                     src={product?.imageUrl as string}
@@ -132,9 +124,9 @@ export const AllProductsCard = ({
               </div>
 
               {/* Product Info */}
-              <div className="space-y-2 px-2">
-                <div className="flex items-center justify-between">
-                  <Badge className="text-xs bg-warm-brown/10 text-warm-brown hover:border-deep-brown/80 hover:bg-transparent hover:text-deep-brown hover:underline">
+              <div className="pb-2 px-2">
+                {/* <div className="flex items-center justify-between">
+                  <Badge className="text-[10px] bg-warm-brown/10 text-warm-brown hover:border-deep-brown/80 hover:bg-transparent hover:text-deep-brown hover:underline">
                     {!isFollowed ? (
                       <Link href={`/shop/${product?.shop?.id}`}>
                         {product?.shop?.name}
@@ -148,82 +140,84 @@ export const AllProductsCard = ({
                       </>
                     )}
                   </Badge>
-                  <Badge variant="outline" className="text-xs">
+                  <Badge variant="outline" className="text-[10px]">
                     <Timer className="w-3 h-3 mr-1" />
                     Limited Time
                   </Badge>
-                </div>
+                </div> */}
 
-                <div className="space-y-1">
+                <div>
                   <h3 className="font-semibold text-lg line-clamp-1">
                     {product?.name}
                   </h3>
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm text-muted-foreground line-clamp-1">
+                  <div className="flex items-center justify-between   h-8">
+                    <p className="text-xs text-muted-foreground line-clamp-1">
                       {product?.category?.name}
                     </p>
-                    <div className="flex">
-                      <StarDisplay rating={product?.rating} />
-                      <Badge className="text-xs font-medium bg-yellow-500 px-2 text-cream rounded-md">
-                        {product?.rating}
-                      </Badge>
+                    <div className="flex items-center gap-1">
+                      <div className="flex items-center">
+                        <StarDisplay rating={product?.rating} />
+                      </div>
+                      <p className="text-sm font-medium text-yellow-500 rounded-md pt-0.5">
+                        {product?.rating.toFixed(1)}
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 {/* Price Section */}
-                <div className="flex items-center justify-between  ">
+                <div className="flex items-center justify-between   ">
                   <div className="space-y-1">
                     {product?.isFlashSale ? (
                       <>
-                        <span className="text-2xl font-bold text-red-500">
+                        <span className="text-lg font-bold text-red-500">
                           ${product?.flashSalePrice?.toFixed(2)}
                         </span>
-                        <span className="text-sm text-muted-foreground line-through">
+                        <span className="text-xs text-muted-foreground line-through ps-1">
                           ${product?.price.toFixed(2)}
                         </span>
                       </>
                     ) : product?.discount > 0 ? (
                       <>
-                        <span className="text-2xl font-bold text-red-500">
+                        <span className="text-lg font-bold text-red-500">
                           $
                           {(
                             product?.price *
                             (1 - product?.discount / 100)
                           ).toFixed(2)}
                         </span>
-                        <span className="text-sm text-muted-foreground line-through">
+                        <span className="text-xs ps-1 text-muted-foreground line-through">
                           ${product?.price.toFixed(2)}
                         </span>
                       </>
                     ) : (
-                      <span className="text-2xl font-bold text-red-500">
+                      <span className="text-lg font-bold text-red-500">
                         ${product?.price.toFixed(2)}
                       </span>
                     )}
 
                     {product?.stock < 10 && (
-                      <p className="text-xs text-red-500 font-medium">
+                      <p className="text-[10px] text-red-500 font-medium">
                         Only {product?.stock} left!
                       </p>
                     )}
                   </div>
 
-                  <Button
-                    variant="ghost"
+                  <div
                     onClick={handleCompare}
-                    className={`  shadow-md border-none bg-white ${
-                      isCompared
-                        ? " text-blue-600 "
-                        : "bg-gray-100 text-gray-600 "
+                    className={`cursor-pointer shadow-md border-none bg-transparent flex items-center justify-center rounded-none p-1 ${
+                      isCompared ? "text-blue-600" : "bg-gray-100 text-gray-600"
                     }`}
+                    title={
+                      isCompared ? "Remove from Compare" : "Add to Compare"
+                    } // Optional tooltip
                   >
                     <GitCompare
-                      className={`h-5 w-5 ${
+                      className={`h-4 w-4 ${
                         isCompared ? "text-blue-600" : "text-gray-600"
                       }`}
                     />
-                  </Button>
+                  </div>
                 </div>
               </div>
             </div>

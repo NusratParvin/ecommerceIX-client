@@ -6,8 +6,8 @@ const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
     // baseUrl: envConfig.baseApi,
-    // baseUrl: "https://ix-server.vercel.app/api",
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: "https://ix-server.vercel.app/api",
+    // baseUrl: "http://localhost:5000/api",
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
@@ -31,6 +31,7 @@ const baseApi = createApi({
     "FlashSaleProducts",
     "FollowedShops",
     "Reviews",
+    "Subscribers",
   ],
   endpoints: () => ({}),
 });

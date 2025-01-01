@@ -269,7 +269,7 @@ const ComparePage = () => {
 
   return (
     <div>
-      <div className="h-36 bg-deep-brown"></div>
+      <div className="h-24 bg-deep-brown"></div>
       <motion.div
         className="mx-auto w-full md:w-10/12 min-h-screen mt-12 mb-36 px-4"
         initial="hidden"

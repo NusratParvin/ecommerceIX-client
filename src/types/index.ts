@@ -151,7 +151,7 @@ export interface TOrderItem {
   product?: Product;
 }
 export interface TReview {
-  id: number;
+  id: string;
   rating: number;
   comment?: string;
   userId: string;
@@ -226,4 +226,10 @@ export interface ProcessOrderAndPaymentProps {
   couponId: string | null;
   shippingInfo: ShippingInfoProps;
   paymentIntentId: string;
+}
+
+export interface ErrorData {
+  success: boolean;
+  status: number;
+  message: string;
 }

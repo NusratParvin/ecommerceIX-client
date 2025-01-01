@@ -124,7 +124,7 @@ export default function CheckoutPage() {
 
   return (
     <>
-      <div className="h-36 bg-deep-brown"></div>
+      <div className="h-24 bg-deep-brown"></div>
       <div className="w-full md:w-10/12 mx-auto mt-4 p-4">
         <h1 className="text-2xl font-bold mb-4">Checkout</h1>
         <div className="grid md:grid-cols-2 justify-center gap-16 min-h-screen">

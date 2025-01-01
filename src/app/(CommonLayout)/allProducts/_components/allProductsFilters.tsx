@@ -237,19 +237,24 @@ interface AllProductsFilterSectionProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFilterChange: (filters: Record<string, any>) => void;
   selectedCategoryId?: string;
+  selectedProductName?: string;
 }
 
 const AllProductsFilterSection: React.FC<AllProductsFilterSectionProps> = ({
   filters,
   onFilterChange,
   selectedCategoryId,
+  selectedProductName,
 }) => {
-  // Ensure the category filter is updated upon initial mount
   useEffect(() => {
     if (selectedCategoryId && !filters.category) {
       handleFilterChange("category", selectedCategoryId);
     }
-  }, [selectedCategoryId]);
+    if (selectedProductName) {
+      console.log(selectedProductName);
+      handleFilterChange("search", selectedProductName);
+    }
+  }, [selectedCategoryId, selectedProductName]);
 
   const { data: categoriesData, isFetching: isFetchingCategories } =
     useGetCategoriesForAllQuery(undefined);
@@ -280,7 +285,7 @@ const AllProductsFilterSection: React.FC<AllProductsFilterSectionProps> = ({
           <h3 className="text-base sm:text-lg md:text-xl font-semibold">
             Filter Products
           </h3>
-          <p className="text-sm sm:text-base text-gray-500">
+          <p className="text-sm sm:text-sm text-gray-500">
             Browse and filter products to find exactly what you need
           </p>
         </div>
@@ -352,10 +357,34 @@ const AllProductsFilterSection: React.FC<AllProductsFilterSectionProps> = ({
                   <Spinner />
                 ) : (
                   categoriesData?.data?.map((category: TCategory) => (
+                    // <button
+                    //   key={category.id}
+                    //   type="button"
+                    //   className={`flex items-center gap-3 rounded-md p-3 font-semibold ${
+                    //     filters.category === category.id
+                    //       ? "bg-deep-brown/80 text-white"
+                    //       : "bg-gray-100 hover:bg-gray-200"
+                    //   }`}
+                    //   onClick={() =>
+                    //     handleFilterChange("category", category.id)
+                    //   }
+                    // >
+                    //   <div className="w-5 h-5 rounded-none overflow-hidden">
+                    //     <Image
+                    //       src={category.imageUrl as string} // fallback to a default image if none
+                    //       alt={category.name}
+                    //       width={20}
+                    //       height={20}
+                    //       className="object-contain"
+                    //     />
+                    //   </div>
+                    //   <p className="text-sm  ">{category.name}</p>
+                    // </button>
+
                     <button
                       key={category.id}
                       type="button"
-                      className={`flex items-center gap-3 rounded-md p-3 font-semibold ${
+                      className={`flex items-center gap-2 rounded-md p-1 px-2 font-medium ${
                         filters.category === category.id
                           ? "bg-deep-brown/80 text-white"
                           : "bg-gray-100 hover:bg-gray-200"
@@ -364,16 +393,15 @@ const AllProductsFilterSection: React.FC<AllProductsFilterSectionProps> = ({
                         handleFilterChange("category", category.id)
                       }
                     >
-                      <div className="w-5 h-5 rounded-none overflow-hidden">
+                      <div className="relative w-7 h-7 rounded-full overflow-hidden flex items-center justify-center bg-gray-200">
                         <Image
-                          src={category.imageUrl as string} // fallback to a default image if none
+                          src={category.imageUrl as string}
                           alt={category.name}
-                          width={20}
-                          height={20}
-                          className="object-contain"
+                          fill
+                          className="object-cover"
                         />
                       </div>
-                      <p className="text-sm sm:text-base">{category.name}</p>
+                      <p className="text-sm">{category.name}</p>
                     </button>
                   ))
                 )}

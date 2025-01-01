@@ -45,36 +45,42 @@ export function MobileNav() {
             <AccordionContent>
               <div className="grid gap-2 px-4">
                 <Link
-                  href="/shop/new"
+                  href="/allProducts"
                   className="flex items-center justify-between py-2 text-sm"
                 >
-                  New Arrivals
+                  All Collections
                   <ChevronRight className="h-4 w-4" />
                 </Link>
                 <Link
-                  href="/shop/best-sellers"
+                  href="/flashSale"
                   className="flex items-center justify-between py-2 text-sm"
                 >
-                  Best Sellers
+                  Flash Sale
                   <ChevronRight className="h-4 w-4" />
                 </Link>
-                <Link
+                {/* <Link
                   href="/shop/sale"
                   className="flex items-center justify-between py-2 text-sm"
                 >
                   Sale
                   <ChevronRight className="h-4 w-4" />
-                </Link>
+                </Link> */}
               </div>
             </AccordionContent>
           </AccordionItem>
           <Link
-            href="/blog"
+            href="/about"
             className="flex items-center justify-between px-4 py-2 text-sm font-medium"
           >
-            Blog
+            About
           </Link>
-          <AccordionItem value="pages" className="border-none">
+          <Link
+            href="/contact"
+            className="flex items-center justify-between px-4 py-2 text-sm font-medium"
+          >
+            Contact
+          </Link>
+          {/* <AccordionItem value="pages" className="border-none">
             <AccordionTrigger
               onClick={() => handleItemClick("pages")}
               className="px-4 py-2 text-sm"
@@ -99,7 +105,7 @@ export function MobileNav() {
                 </Link>
               </div>
             </AccordionContent>
-          </AccordionItem>
+          </AccordionItem> */}
         </Accordion>
       </nav>
     </div>

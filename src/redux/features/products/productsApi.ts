@@ -121,6 +121,7 @@ const productApi = baseApi.injectEndpoints({
         url: `/products/${id}`,
         method: "GET",
       }),
+      providesTags: (result, error, id) => [{ type: "Products", id }],
     }),
 
     getProductsByCategory: builder.query({
@@ -148,7 +149,8 @@ const productApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: formData,
       }),
-      invalidatesTags: ["Products"],
+
+      invalidatesTags: (result, error, { id }) => [{ type: "Products", id }],
     }),
 
     // Update an status of product
@@ -158,7 +160,7 @@ const productApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: { status },
       }),
-      invalidatesTags: ["Products"],
+      invalidatesTags: (result, error, { id }) => [{ type: "Products", id }],
     }),
 
     // Soft delete a product
@@ -167,7 +169,15 @@ const productApi = baseApi.injectEndpoints({
         url: `/products/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Products"],
+      invalidatesTags: (result, error, { id }) => [{ type: "Products", id }],
+    }),
+
+    getBestSellerProducts: builder.query({
+      query: () => ({
+        url: "/products/bestselling",
+        method: "GET",
+      }),
+      providesTags: ["Products"],
     }),
   }),
 });
@@ -185,6 +195,7 @@ export const {
   useUpdateProductMutation,
   useUpdateProductStatusMutation,
   useDeleteProductMutation,
+  useGetBestSellerProductsQuery,
 } = productApi;
 
 export default productApi;

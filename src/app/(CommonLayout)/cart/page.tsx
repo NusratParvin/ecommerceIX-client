@@ -17,10 +17,13 @@ import { CouponCode } from "./_components/coupon";
 import { TCoupon } from "@/types";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
+import { useAppSelector } from "@/redux/hooks";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
+  const user = useAppSelector(useCurrentUser);
 
   // console.log(cart.vendorId);
   const [couponCode, setCouponCode] = useState("");
@@ -80,10 +83,11 @@ const Cart = () => {
   const handleQuantityChange = (productId: string, newQuantity: number) => {
     handleUpdateQuantity(dispatch, productId, newQuantity);
   };
+
   // console.log(FinalTotalPrice, "cart");
   return (
     <>
-      <div className="h-36 bg-deep-brown"></div>
+      <div className="h-24 bg-deep-brown"></div>
 
       <div className="min-h-screen md:max-w-4xl max-md:max-w-xl mx-auto bg-white py-4 mb-20">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">Shopping Cart</h2>
@@ -214,11 +218,11 @@ const Cart = () => {
 
             {/* Cart Summary */}
             <div className="flex flex-col gap-2">
-              <div className="bg-gray-100 p-3 rounded-md text-sm flex flex-col items-center justify-center gap-2">
-                <h1 className="text-base font-semibold text-center text-deep-brown border-b w-11/12 mx-auto">
+              <div className="bg-gray-100 p-2 pb-4 rounded-md text-sm flex flex-col items-center justify-center gap-2  ">
+                <h1 className="text-base font-semibold text-center text-deep-brown border-b w-full mx-1">
                   Available Coupons
                 </h1>
-                <div className="space-y-2 flex flex-wrap">
+                <div className="space-y-0 flex flex-wrap gap-1">
                   {isCouponsLoading ? (
                     <Spinner />
                   ) : isCouponsError ? (
@@ -250,7 +254,7 @@ const Cart = () => {
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
                     placeholder="Coupon Code"
-                    className="w-full outline-none bg-white text-gray-600 text-sm px-4 py-2.5"
+                    className="w-full outline-none bg-white text-gray-600 text-xs px-4 py-2.5"
                   />
                   <button
                     type="button"
@@ -312,7 +316,16 @@ const Cart = () => {
                       },
                     }}
                   >
-                    <button className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-warm-brown hover:bg-deep-brown text-white rounded-md mb-4">
+                    <button
+                      disabled={!user} // Disable the button if there's no user
+                      className={`text-sm px-4 py-2.5 w-full font-semibold tracking-wide rounded-md mb-4 ${
+                        user
+                          ? "bg-warm-brown hover:bg-deep-brown text-white"
+                          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      }`}
+
+                      // className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-warm-brown hover:bg-deep-brown text-white rounded-md mb-4"
+                    >
                       Checkout
                     </button>
                   </Link>

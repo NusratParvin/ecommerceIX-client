@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 interface CountdownTimerProps {
-  endDate: Date;
+  endDate?: Date; // Optional prop
 }
 
 export function CountdownTimer({ endDate }: CountdownTimerProps) {
@@ -15,9 +15,8 @@ export function CountdownTimer({ endDate }: CountdownTimerProps) {
   });
 
   useEffect(() => {
-    // Default to the end of the current year if no endDate is provided
-    const targetDate =
-      endDate || new Date(new Date().getFullYear(), 11, 31, 23, 59, 59);
+    // Default to mid of 2025 if no endDate is provided
+    const targetDate = endDate || new Date(2025, 5, 30, 0, 0, 0); // Month is 0-indexed, so 5 represents June
 
     const timer = setInterval(() => {
       const now = new Date().getTime();

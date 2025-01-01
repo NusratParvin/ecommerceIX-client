@@ -10,7 +10,6 @@ const SkeletonCard = () => (
 );
 
 const CategoriesSection = () => {
-  // Fetch categories using RTK Query
   const { data, isLoading, error } = useGetCategoriesForAllQuery(undefined);
 
   const categories = data?.data;
@@ -22,17 +21,17 @@ const CategoriesSection = () => {
     );
 
   return (
-    <div className="flex md:flex-row flex-col w-full md:w-11/12 mx-auto h-auto mb-36 mt-8">
+    <div className="flex md:flex-row flex-col w-full md:w-11/12 mx-auto h-auto mb-36 mt-8 px-4">
       {/* Left Panel with ALL CATEGORY */}
-      <div className="md:w-1/4 w-full py-6 bg-warm-brown/10 flex items-center justify-center">
-        <h3 className="transform md:-rotate-90 text-4xl font-bold text-deep-brown uppercase whitespace-nowrap">
-          ALL CATEGORY
+      <div className="md:w-1/6 w-full py-6 bg-warm-brown/10 flex items-center justify-center">
+        <h3 className="transform md:-rotate-90 text-2xl font-medium py-16 text-deep-brown uppercase whitespace-nowrap">
+          SHOP BY CATEGORY
         </h3>
       </div>
 
       {/* Right Panel with Grid of Categories */}
-      <div className="w-full md:w-3/4 px-0 py-0">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0">
+      <div className="w-full md:w-5/6 px-0 py-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-0">
           {isLoading
             ? Array.from({ length: 4 }).map((_, index) => (
                 <SkeletonCard key={index} />
@@ -43,7 +42,7 @@ const CategoriesSection = () => {
                   href={`/allProducts/${category.id}`}
                   className="group"
                 >
-                  <div className="h-80 relative rounded-none overflow-hidden shadow-lg group">
+                  <div className="h-72 relative rounded-none overflow-hidden shadow-lg group">
                     {/* Category Image */}
                     <Image
                       src={category.imageUrl || ""}
@@ -56,13 +55,18 @@ const CategoriesSection = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent transition-opacity duration-500 group-hover:opacity-0" />
 
                     {/* Text Content */}
-                    <div className="absolute bottom-4 left-4 text-cream">
-                      <h3 className="text-3xl font-semibold">
-                        {category.name}
-                      </h3>
-                      <p className="text-base opacity-80">
-                        {category?.products?.length} products
-                      </p>
+                    <div className="absolute  bottom-4 ps-8  text-cream bg-black/50 w-full mx-8 py-2">
+                      <div className=" left-4  ">
+                        <h3 className="text-lg font-semibold">
+                          {category.name}{" "}
+                          <span className="font-thin">
+                            ({category?.products?.length})
+                          </span>
+                        </h3>
+                        {/* <p className="text-base opacity-80">
+                          {category?.products?.length} products
+                        </p> */}
+                      </div>
                     </div>
                   </div>
                 </Link>

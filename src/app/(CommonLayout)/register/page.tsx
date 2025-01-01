@@ -15,6 +15,7 @@ import { decodeToken } from "@/lib/verifyToken";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/auth/authSlice";
 import { CustomJwtPayload } from "@/types";
+import { setCookies } from "@/services/AuthService";
 
 type RegisterFormInputs = {
   name: string;
@@ -109,8 +110,10 @@ export default function RegisterPage() {
           const decodedToken = decodeToken(
             res.data.accessToken
           ) as CustomJwtPayload;
+          localStorage.setItem("accessToken", res.data.accessToken);
+          await setCookies(res.data.accessToken, "");
           const { email, role, name, profilePhoto } = decodedToken;
-          // console.log(decodeToken);
+          console.log(decodeToken);
           dispatch(
             setUser({
               user: { email, role, name, profilePhoto },
@@ -121,8 +124,8 @@ export default function RegisterPage() {
           // Redirect to vendor dashboard
           router.push("/vendor/shop");
         } else {
-          // Redirect to homepage for USER
-          router.push("/");
+          // Redirect to login for USER
+          router.push("/login");
         }
       }
     } catch (error: any) {

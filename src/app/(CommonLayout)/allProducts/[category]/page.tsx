@@ -10,7 +10,7 @@ const ProductsByCategory = () => {
   const [filters, setFilters] = useState({});
 
   const selectedCategoryId = Array.isArray(category) ? category[0] : category;
-
+  console.log(category);
   // filters.category = category;
   return (
     <div>

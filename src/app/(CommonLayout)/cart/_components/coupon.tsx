@@ -34,10 +34,10 @@ export function CouponCode({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Card className="w-fit cursor-pointer transition-all duration-300 hover:shadow-lg">
-            <CardContent className="flex items-center space-x-2 p-1">
+          <Card className="w-fit cursor-pointer transition-all duration-300 hover:shadow-lg  ">
+            <CardContent className="flex items-center space-x-2 p-1 ">
               <Scissors className="h-3 w-3 text-red-600" />
-              <span className="font-sans text-sm font-semibold text-red-600">
+              <span className="font-sans text-xs font-semibold text-red-600">
                 {code}
               </span>
               <Badge

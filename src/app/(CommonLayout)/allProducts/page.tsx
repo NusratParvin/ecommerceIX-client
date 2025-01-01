@@ -10,9 +10,9 @@ const FlashSalePage = () => {
 
   return (
     <div>
-      <div className="h-36 bg-deep-brown"></div>
+      <div className="h-24 bg-deep-brown"></div>
       <div className="md:w-11/12 w-full mx-auto ">
-        <div className="flex flex-col items-center justify-center py-20  bg-warm-brown/10">
+        <div className="flex flex-col items-center justify-center py-10  bg-warm-brown/10">
           <h1 className="text-4xl font-medium text-charcoal">All Products</h1>
           <nav className="mt-4 text-deep-navy/80 text-base ">
             <ol className="flex items-center space-x-2">

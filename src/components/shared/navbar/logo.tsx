@@ -8,6 +8,7 @@ export function Logo({ isScrolled }: { isScrolled: boolean }) {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    // console.log(canvas, "canvas");
     if (canvas) {
       const ctx = canvas.getContext("2d");
       if (ctx) {
@@ -31,7 +32,7 @@ export function Logo({ isScrolled }: { isScrolled: boolean }) {
 
         // Draw "IX" in the center
         ctx.fillStyle = isScrolled ? "#8B5E3C" : "white";
-        ctx.font = "bold 56px sans";
+        ctx.font = "bold 64px sans";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText("IX", centerX, centerY);
@@ -46,7 +47,7 @@ export function Logo({ isScrolled }: { isScrolled: boolean }) {
           ref={canvasRef}
           width={200}
           height={200}
-          className="md:w-32 md:h-32 w-20 h-20"
+          className="md:w-24 md:h-24 w-20 h-20"
         />
       </Link>
     </div>

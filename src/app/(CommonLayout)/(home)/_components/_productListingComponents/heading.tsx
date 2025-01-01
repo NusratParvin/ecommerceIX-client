@@ -1,8 +1,8 @@
 const Heading = () => {
   return (
-    <div className="flex flex-col items-center justify-center my-16 ">
-      <h2 className="text-4xl text-deep-brown  font-semibold tracking-wide">
-        Available Products Await
+    <div className="flex flex-col items-center justify-center mt-16 mb-6 ">
+      <h2 className="text-3xl text-deep-brown  font-semibold tracking-wide">
+        New Arrivals Await
       </h2>
 
       <div className="flex items-center mt-2">

@@ -21,7 +21,33 @@ export const reviewsApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    getAllProductsReview: builder.query({
+      query: ({ page, limit, sortBy, sortOrder, searchTerm }) => ({
+        url: `/reviews`,
+        method: "GET",
+        params: {
+          page,
+          limit,
+          sortBy,
+          sortOrder,
+          searchTerm,
+        },
+      }),
+    }),
+
+    deleteReview: builder.mutation({
+      query: (id) => ({
+        url: `/reviews/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useSubmitReviewMutation, useGetProductReviewQuery } = reviewsApi;
+export const {
+  useSubmitReviewMutation,
+  useGetProductReviewQuery,
+  useGetAllProductsReviewQuery,
+  useDeleteReviewMutation,
+} = reviewsApi;

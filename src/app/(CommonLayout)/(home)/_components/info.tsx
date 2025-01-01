@@ -28,19 +28,18 @@ const features = [
 const Info = () => {
   return (
     <div>
-      <div className="bg-warm-brown/10 py-16 px-4 text-center">
+      <div className="bg-warm-brown/10 py-8 px-4 text-center">
         <div className="max-w-4xl mx-auto">
-          <p className="text-2xl md:text-3xl   text-charcoal leading-relaxed">
-            Inspired by the art of timeless fashion and contemporary design, we
-            craft elegant accessories and clothing that combine quality,
-            comfort, and style.
+          <p className="text-xl md:text-2xl   text-charcoal leading-relaxed">
+            Explore unique fashion and accessories, where top vendors bring you
+            quality, style, and elegance for every occasion.
           </p>
           <button className="mt-6 text-sm font-semibold text-warm-brown hover:underline">
             <Link href="/about"> LEARN MORE</Link>
           </button>
         </div>
       </div>
-      <div className="bg-white py-20 w-full md:w-11/12 mx-auto">
+      <div className="bg-white py-10 w-full md:w-11/12 mx-auto">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {features.map((feature, index) => (

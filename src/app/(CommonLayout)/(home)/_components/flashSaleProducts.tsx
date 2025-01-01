@@ -60,13 +60,13 @@ const FlashSaleProducts = () => {
     return null;
   }
 
-  const latestEndDate = new Date(
-    Math.max(
-      ...flashSaleProducts.map((p) =>
-        new Date(p.flashSaleEndDate || "").getTime()
-      )
-    )
-  );
+  // const latestEndDate = new Date(
+  //   Math.max(
+  //     ...flashSaleProducts.map((p) =>
+  //       new Date(p.flashSaleEndDate || "").getTime()
+  //     )
+  //   )
+  // );
 
   return (
     <section className="py-12 px-4">
@@ -97,7 +97,7 @@ const FlashSaleProducts = () => {
            text-red-600"
           >
             <h2 className="text-4xl font-bold mb-4">Flash Sale</h2>
-            <CountdownTimer endDate={latestEndDate} />
+            <CountdownTimer endDate={new Date(2025, 1, 30, 0, 0, 0)} />
           </div>
         </div>
 

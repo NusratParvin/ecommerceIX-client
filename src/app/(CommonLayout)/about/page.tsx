@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import about from "@/assets/2400-clothes-and-fashion-accessories-on-wooden-floor.jpg";
+// import about from "/assets/2400-clothes-and-fashion-accessories-on-wooden-floor.jpg";
 import TeamCard from "./teamCard";
 
 const page = () => {
   return (
     <div>
-      <div className="h-36 bg-deep-brown"></div>
+      <div className="h-24 bg-deep-brown"></div>
       <div className="md:w-11/12 w-full mx-auto ">
-        <div className="flex flex-col items-center justify-center py-20  bg-warm-brown/10">
+        <div className="flex flex-col items-center justify-center py-10  bg-warm-brown/10">
           <h1 className="text-4xl font-medium text-charcoal">ABOUT</h1>
           <nav className="mt-4 text-deep-navy/80 text-base ">
             <ol className="flex items-center space-x-2">
@@ -31,7 +31,7 @@ const page = () => {
           {/* Image Section */}
           <div className="w-full md:w-2/3 lg:3/4 mx-auto py-10 ">
             <Image
-              src={about}
+              src="/assets/2400-clothes-and-fashion-accessories-on-wooden-floor.jpg"
               alt="Clothing rack with fall themed clothing"
               width={800}
               height={400}
@@ -83,17 +83,17 @@ const page = () => {
           <hr className="border-t w-24   mb-8" />
           <div className="md:w-3/4 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <TeamCard
-              imageSrc={about}
+              imageSrc="/assets/2400-clothes-and-fashion-accessories-on-wooden-floor.jpg"
               name="Musa Kalimullah"
               designation="Shopify Expert"
             />
             <TeamCard
-              imageSrc={about}
+              imageSrc="/assets/2400-clothes-and-fashion-accessories-on-wooden-floor.jpg"
               name="Alina Ray"
               designation="Marketing Specialist"
             />
             <TeamCard
-              imageSrc={about}
+              imageSrc="/assets/2400-clothes-and-fashion-accessories-on-wooden-floor.jpg"
               name="John Doe"
               designation="Product Manager"
             />

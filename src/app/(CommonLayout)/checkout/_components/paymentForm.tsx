@@ -143,7 +143,7 @@ export default function PaymentForm({
         <Button
           type="submit"
           disabled={!stripe || isProcessing}
-          className="w-full bg-deep-brown hover:bg-warm-brown text-white transition-colors duration-200 pt-12"
+          className="w-full bg-deep-brown hover:bg-warm-brown text-white transition-colors duration-200 pt-2"
         >
           {isProcessing ? (
             <div className="flex items-center justify-center">
