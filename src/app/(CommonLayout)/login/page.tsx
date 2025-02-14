@@ -274,12 +274,15 @@ export default function LoginModal() {
   };
 
   // Function to fill the form with demo credentials
-  const fillDemoCredentials = (role: "admin" | "vendor") => {
+  const fillDemoCredentials = (role: "admin" | "vendor" | "user") => {
     if (role === "admin") {
       setValue("email", "a@a.com");
       setValue("password", "111111");
     } else if (role === "vendor") {
       setValue("email", "n@n.com");
+      setValue("password", "111111");
+    } else if (role === "user") {
+      setValue("email", "u@u.com");
       setValue("password", "111111");
     }
     toast.info(
@@ -302,17 +305,24 @@ export default function LoginModal() {
             <div className="flex justify-center gap-4 mt-4">
               <Button
                 variant="outline"
-                onClick={() => fillDemoCredentials("admin")}
+                onClick={() => fillDemoCredentials("user")}
                 className="text-sm px-4 py-2 bg-deep-brown text-white hover:bg-warm-brown"
               >
-                Admin Login
-              </Button>
+                User Login
+              </Button>{" "}
               <Button
                 variant="outline"
                 onClick={() => fillDemoCredentials("vendor")}
                 className="text-sm px-4 py-2 bg-deep-brown text-white hover:bg-warm-brown"
               >
                 Vendor Login
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => fillDemoCredentials("admin")}
+                className="text-sm px-4 py-2 bg-deep-brown text-white hover:bg-warm-brown"
+              >
+                Admin Login
               </Button>
             </div>
           </div>
