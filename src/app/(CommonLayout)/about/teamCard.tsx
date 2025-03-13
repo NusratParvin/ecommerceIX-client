@@ -16,7 +16,7 @@ const TeamCard = ({ imageSrc, name, designation }: TeamCardProps) => {
           src={imageSrc}
           alt={name}
           width={320}
-          height={400}
+          height={320}
           className="object-cover w-full h-80"
         />
         <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-deep-brown bg-opacity-70 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">

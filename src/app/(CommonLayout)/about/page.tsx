@@ -7,7 +7,7 @@ const page = () => {
   return (
     <div>
       <div className="h-24 bg-deep-brown"></div>
-      <div className="md:w-11/12 w-full mx-auto ">
+      <div className="md:w-10/12 w-full mx-auto ">
         <div className="flex flex-col items-center justify-center py-10  bg-warm-brown/10">
           <h1 className="text-4xl font-medium text-charcoal">ABOUT</h1>
           <nav className="mt-4 text-deep-navy/80 text-base ">
@@ -29,13 +29,14 @@ const page = () => {
 
         <div>
           {/* Image Section */}
-          <div className="w-full md:w-2/3 lg:3/4 mx-auto py-10 ">
+          <div className="w-full  mx-auto pb-10 ">
             <Image
-              src="/assets/2400-clothes-and-fashion-accessories-on-wooden-floor.jpg"
+              src="/assets/about.jpg"
+              // src="/assets/b.jpg"
               alt="Clothing rack with fall themed clothing"
-              width={800}
-              height={400}
-              className="rounded-sm object-cover"
+              width={1200}
+              height={300}
+              className="rounded-sm object-cover h-96"
             />
           </div>
 
@@ -80,20 +81,20 @@ const page = () => {
           <h2 className="text-4xl font-semibold text-deep-brown mb-6">
             Team Member
           </h2>
-          <hr className="border-t w-24   mb-8" />
-          <div className="md:w-3/4 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <hr className="border-t w-24 mb-8" />
+          <div className=" w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <TeamCard
-              imageSrc="/assets/2400-clothes-and-fashion-accessories-on-wooden-floor.jpg"
+              imageSrc="/assets/person1.jpg"
               name="Musa Kalimullah"
               designation="Shopify Expert"
             />
             <TeamCard
-              imageSrc="/assets/2400-clothes-and-fashion-accessories-on-wooden-floor.jpg"
+              imageSrc="/assets/person2.jpg"
               name="Alina Ray"
               designation="Marketing Specialist"
             />
             <TeamCard
-              imageSrc="/assets/2400-clothes-and-fashion-accessories-on-wooden-floor.jpg"
+              imageSrc="/assets/person3.jpg"
               name="John Doe"
               designation="Product Manager"
             />
