@@ -24,11 +24,11 @@ export function FlashSaleCarousel({ products }: FlashSaleCarouselProps) {
         align: "start",
         loop: true,
       }}
-      className="w-full max-w-5xl mx-auto bg-white p-0"
+      className="w-full  mx-auto bg-white p-0  "
     >
       <CarouselContent className="-ml-3">
         {products.map((product) => (
-          <CarouselItem key={product.id} className="md:basis-1/3 basis-1/2  ">
+          <CarouselItem key={product.id} className="md:basis-1/2 basis-1/2  ">
             <div className="h-64 p-0">
               <Card className="group overflow-hidden border-none rounded-none transition-all duration-300 h-full">
                 <CardContent className="p-0 h-full relative">
@@ -83,8 +83,13 @@ export function FlashSaleCarousel({ products }: FlashSaleCarouselProps) {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="hidden md:flex -left-12 " />
-      <CarouselNext className="hidden md:flex -right-12" />
+      {/* <CarouselPrevious className="hidden md:flex -right-full -top-14" />
+      <CarouselNext className="hidden md:flex right-32 -top-14" />
+     */}
+      <div className="absolute -top-14 right-12 flex gap-0 ">
+        <CarouselPrevious className="hidden md:flex" />
+        <CarouselNext className="hidden md:flex" />
+      </div>
     </Carousel>
   );
 }

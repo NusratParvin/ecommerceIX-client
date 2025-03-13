@@ -9,6 +9,7 @@ import { FlashSaleCarousel } from "./_flashSaleComponents/flashSaleCarousel";
 import { CountdownTimer } from "./_flashSaleComponents/countDownTimer";
 import { Spinner } from "@/components/ui/spinner";
 import { useRouter } from "next/navigation";
+// import Link from "next/link";
 
 const FlashSaleProducts = () => {
   // const router = useRouter();
@@ -70,7 +71,7 @@ const FlashSaleProducts = () => {
 
   return (
     <section className="py-12 px-4">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Flash Sale Banner */}
         {/* <div className="relative aspect-[21/9] rounded-lg overflow-hidden mb-8">
           <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/50" />
@@ -80,25 +81,22 @@ const FlashSaleProducts = () => {
           </div>
         </div> */}
 
-        <div className="relative w-full h-[490px] overflow-hidden border-none rounded-none mb-8">
-          {/* Background Video */}
-          <video
-            src="/assets/YEAR-END SALE.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover border-none"
-          />
-
-          {/* Content Overlay */}
-          <div
-            className="absolute inset-0 left-1/2   top-24 flex flex-col items-center justify-center
-           text-red-600"
-          >
-            <h2 className="text-4xl font-bold mb-4">Flash Sale</h2>
-            <CountdownTimer endDate={new Date(2025, 1, 30, 0, 0, 0)} />
+        <div className="flex flex-row justify-between items-center text-charcoal mb-6">
+          <div className="flex flex-col items-start">
+            <h1 className="text-3xl font-bold text-left mb-0 tracking-tight text-warm-brown">
+              Flash Sale
+            </h1>
+            <p className="font-medium text-xs tracking-tight py-1 ps-1 uppercase text-charcoal/60">
+              Enjoy the best quality products
+            </p>
           </div>
+
+          {/* <Link
+            href="/flashSale"
+            className="text-sm hover:underline text-deep-brown px-3 py-1.5 bg-muted/70"
+          >
+            Explore More
+          </Link> */}
         </div>
 
         {/* Flash Sale Products Carousel */}
@@ -116,6 +114,27 @@ const FlashSaleProducts = () => {
               View More
             </span>
           </Button>
+        </div>
+
+        <div className="relative w-full h-[510px] overflow-hidden border-none rounded-none mb-8 mt-24">
+          {/* Background Video */}
+          <video
+            src="/assets/YEAR-END SALE.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-fill border-none"
+          />
+
+          {/* Content Overlay */}
+          <div
+            className="absolute inset-0 left-1/2   top-24 flex flex-col items-center justify-center
+           text-red-600"
+          >
+            <h2 className="text-4xl font-bold mb-4">Flash Sale</h2>
+            <CountdownTimer endDate={new Date(2025, 3, 30, 0, 0, 0)} />
+          </div>
         </div>
       </div>
     </section>
