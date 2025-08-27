@@ -14,13 +14,13 @@ export function Logo({ isScrolled }: { isScrolled: boolean }) {
       if (ctx) {
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
-        const dotRadius = 70;
+        const dotRadius = isScrolled ? 44 : 55;
 
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // Draw dotted circle
-        ctx.fillStyle = isScrolled ? "#8B5E3C" : "white";
+        ctx.fillStyle = isScrolled ? "#6B26B7" : "#6B26B7";
         ctx.beginPath();
         for (let i = 0; i < 360; i += 15) {
           const x = centerX + dotRadius * Math.cos((i * Math.PI) / 180);
@@ -31,8 +31,8 @@ export function Logo({ isScrolled }: { isScrolled: boolean }) {
         ctx.fill();
 
         // Draw "IX" in the center
-        ctx.fillStyle = isScrolled ? "#8B5E3C" : "white";
-        ctx.font = "bold 64px sans";
+        ctx.fillStyle = isScrolled ? "#6B26B7" : "#6B26B7";
+        ctx.font = isScrolled ? "bold 40px sans" : "bold 48px sans";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText("IX", centerX, centerY);

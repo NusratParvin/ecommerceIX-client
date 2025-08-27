@@ -8,6 +8,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MobileNav } from "./mobileNav";
 import { MainNav } from "./mainNav";
 import { Logo } from "./logo";
+
+import { Info, HelpCircle, Mail } from "lucide-react";
+
 import SearchInput from "./search";
 import UserMenu from "./user";
 import { useAppSelector } from "@/redux/hooks";
@@ -16,6 +19,7 @@ import { useCurrentUser } from "@/redux/features/auth/authSlice";
 import { RootState } from "@/redux/store";
 import { CartItem } from "@/redux/features/cart/cartSlice";
 import Link from "next/link";
+import Image from "next/image";
 // import { useRouter } from "next/navigation";
 
 export function SiteHeader() {
@@ -65,106 +69,137 @@ export function SiteHeader() {
   // };
 
   return (
-    // <header
-    //   className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 md:px-8 ${
-    //     isScrolled ? "bg-white shadow-md" : "bg-transparent"
-    //   }`}
-    // >
-
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 w-full max-w-screen transition-all duration-300 md:px-8 md:h-auto   h-24 ${
-        isScrolled ? "bg-white shadow-md" : "bg-transparent"
-      }`}
-    >
-      <div className=" w-full mx-auto flex items-center   justify-center  pe-0  ">
-        {/* Mobile Navigation Drawer */}
-        <div className="flex flex-1 md:hidden justify-start  ">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="link" size="icon" aria-label="Toggle menu">
-                <Menu
-                  className={`${
-                    isScrolled ? "text-deep-brown" : "text-ivory"
-                  } h-6 w-6`}
-                />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] px-4 py-12">
-              <MobileNav />
-            </SheetContent>
-          </Sheet>
+    <>
+      <div className="w-full bg-deep-brown text-ivory/70 text-xs py-2 px-4 h-8 flex justify-between items-center">
+        <div>
+          <span className="font-semibold">HOTLINE:</span> +01 023 345 678
         </div>
-
-        {/* Main Navigation for Medium Screens and Above */}
-        <div className="hidden md:flex    ">
-          <MainNav isScrolled={isScrolled} />
+        <div className="flex gap-4 items-center text-xs">
+          <div className="flex items-center gap-0.5 cursor-pointer">
+            <Info className="w-4 h-3" />
+            <span className="pt-1">ABOUT</span>
+          </div>
+          <div className="flex items-center gap-0.5 cursor-pointer">
+            <HelpCircle className="w-4 h-3" />
+            <span className="pt-1">FAQ</span>
+          </div>
+          <div className="flex items-center gap-0.5 cursor-pointer">
+            <Mail className="w-4 h-3" />
+            <span className="pt-1">CONTACT</span>
+          </div>
         </div>
+      </div>
 
-        {/* Logo */}
-        <div className="flex flex-1 justify-center    ">
-          <Logo isScrolled={isScrolled} />
-        </div>
+      <header
+        className={`fixed  left-0 right-0 z-50 w-full max-w-screen  md:px-8 md:h-auto h-24 ${
+          isScrolled
+            ? "bg-deep-brown text-ivory shadow-md top-0"
+            : "bg-white text-deep-brown top-8"
+        }`}
+      >
+        <div className=" w-full mx-auto flex items-center   justify-center  pe-0  ">
+          {/* Mobile Navigation Drawer */}
+          <div className="flex flex-1 md:hidden justify-start  ">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="link" size="icon" aria-label="Toggle menu">
+                  <Menu
+                    className={`${
+                      isScrolled ? "text-deep-brown " : "text-ivory"
+                    } h-6 w-6`}
+                  />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[300px] px-4 py-12">
+                <MobileNav />
+              </SheetContent>
+            </Sheet>
+          </div>
 
-        {/* Action Buttons */}
-        <div
-          className={`flex flex-1 justify-end items-center   md:space-x-4  `}
-        >
-          <Button
-            variant="link"
-            size="icon"
-            aria-label="Search"
-            onClick={() => setIsSearchOpen(true)}
-          >
-            <Search
-              className={`h-5 w-5 ${
-                isScrolled ? "text-charcoal" : "text-cream"
+          {/* Main Navigation for Medium Screens and Above */}
+
+          {/* Logo */}
+          <div className="flex flex-1 justify-start flex-row items-center ">
+            {/* <Logo isScrolled={isScrolled} /> */}
+            <div
+              className={`my-auto ${
+                isScrolled ? "w-24 py-1 px-2  bg-white" : "w-28 py-1"
               }`}
-            />
-          </Button>
-
-          <Link href="/cart" className="relative">
-            <div className="relative">
-              <ShoppingCart
-                // onClick={handleCart}
-                className={` h-5 w-5 ${
-                  isScrolled ? "text-charcoal" : "text-cream"
-                }`}
+            >
+              <Image
+                src="/assets/logo2.png"
+                alt="logo"
+                width={200}
+                height={200}
               />
-              <span className="absolute -right-1.5 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-deep-brown text-xs text-primary-foreground">
-                {cartItemCount}
-              </span>{" "}
             </div>
-          </Link>
+          </div>
 
-          {user ? (
-            <UserMenu user={user} />
-          ) : (
-            <Link href="/login">
-              <User
+          <div className="hidden md:flex ">
+            <MainNav isScrolled={isScrolled} />
+          </div>
+
+          {/* Action Buttons */}
+          <div
+            className={`flex flex-1 justify-end items-center   md:space-x-4  `}
+          >
+            <Button
+              variant="link"
+              size="icon"
+              aria-label="Search"
+              onClick={() => setIsSearchOpen(true)}
+            >
+              <Search
                 className={`h-5 w-5 ${
                   isScrolled ? "text-charcoal" : "text-cream"
                 }`}
               />
-            </Link>
-          )}
+            </Button>
 
-          {/* Login Modal */}
-          {/* {isLoginModalOpen && (
+            <Link href="/cart" className="relative">
+              <div className="relative">
+                <ShoppingCart
+                  // onClick={handleCart}
+                  className={` h-5 w-5 ${
+                    isScrolled ? "text-charcoal" : "text-cream"
+                  }`}
+                />
+                <span className="absolute -right-1.5 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-deep-brown text-xs text-primary-foreground">
+                  {cartItemCount}
+                </span>{" "}
+              </div>
+            </Link>
+
+            {user ? (
+              <UserMenu user={user} />
+            ) : (
+              <Link href="/login">
+                <User
+                  className={`h-5 w-5 ${
+                    isScrolled ? "text-charcoal" : "text-cream"
+                  }`}
+                />
+              </Link>
+            )}
+
+            {/* Login Modal */}
+            {/* {isLoginModalOpen && (
             <LoginModal
               isOpen={isLoginModalOpen}
               onClose={() => setIsLoginModalOpen(false)}
             /> 
           )}*/}
+          </div>
         </div>
-      </div>
 
-      {/* Sliding Search Panel */}
-      {isSearchOpen && (
-        <SearchInput
-          isSearchOpen={isSearchOpen}
-          setIsSearchOpen={setIsSearchOpen}
-        />
-      )}
-    </header>
+        {/* Sliding Search Panel */}
+        {isSearchOpen && (
+          <SearchInput
+            isSearchOpen={isSearchOpen}
+            setIsSearchOpen={setIsSearchOpen}
+          />
+        )}
+      </header>
+    </>
   );
 }

@@ -44,12 +44,12 @@ const components: { title: string; href: string; description: string }[] = [
 export function MainNav({ isScrolled }: { isScrolled: boolean }) {
   return (
     <NavigationMenu>
-      <NavigationMenuList className="flex space-x-6 text-lg ">
+      <NavigationMenuList className="flex space-x-6 text-sm ">
         <NavigationMenuItem>
           <Link href="/" legacyBehavior passHref>
             <NavigationMenuLink
               className={`${
-                isScrolled ? "text-deep-brown" : "text-ivory"
+                isScrolled ? "text-ivory" : "text-deep-brown"
               } hover:underline transition-colors duration-200`}
             >
               HOME
@@ -60,8 +60,8 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
         <NavigationMenuItem>
           <NavigationMenuTrigger
             className={`${
-              isScrolled ? "text-deep-brown" : "text-ivory"
-            } text-lg hover:bg-none transition-colors duration-200 bg-transparent hover:underline`}
+              isScrolled ? "text-ivory" : "text-deep-brown"
+            } text-sm hover:bg-none transition-colors duration-200 bg-transparent hover:underline`}
           >
             SHOP
           </NavigationMenuTrigger>
@@ -93,7 +93,7 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
           <Link href="/about" legacyBehavior passHref>
             <NavigationMenuLink
               className={`${
-                isScrolled ? "text-deep-brown" : "text-ivory"
+                isScrolled ? "text-ivory" : "text-deep-brown"
               } text-lg transition-colors duration-200 hover:underline`}
             >
               ABOUT
@@ -104,7 +104,7 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
           <Link href="/contact" legacyBehavior passHref>
             <NavigationMenuLink
               className={`${
-                isScrolled ? "text-deep-brown" : "text-ivory"
+                isScrolled ? "text-ivory" : "text-deep-brown"
               } text-lg transition-colors duration-200 hover:underline`}
             >
               CONTACT
