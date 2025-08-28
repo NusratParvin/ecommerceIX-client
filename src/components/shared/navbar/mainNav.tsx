@@ -49,8 +49,8 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
           <Link href="/" legacyBehavior passHref>
             <NavigationMenuLink
               className={`${
-                isScrolled ? "text-ivory" : "text-deep-brown"
-              } hover:underline transition-colors duration-200`}
+                isScrolled ? "text-ivory" : "text-gray-500"
+              } hover:underline hover:text-deep-brown transition-colors duration-200`}
             >
               HOME
             </NavigationMenuLink>
@@ -60,8 +60,8 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
         <NavigationMenuItem>
           <NavigationMenuTrigger
             className={`${
-              isScrolled ? "text-ivory" : "text-deep-brown"
-            } text-sm hover:bg-none transition-colors duration-200 bg-transparent hover:underline`}
+              isScrolled ? "text-ivory" : "text-gray-500"
+            } text-sm hover:bg-none transition-colors duration-200 bg-transparent hover:underline hover:text-deep-brown`}
           >
             SHOP
           </NavigationMenuTrigger>
@@ -93,8 +93,8 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
           <Link href="/about" legacyBehavior passHref>
             <NavigationMenuLink
               className={`${
-                isScrolled ? "text-ivory" : "text-deep-brown"
-              } text-lg transition-colors duration-200 hover:underline`}
+                isScrolled ? "text-ivory" : "text-gray-500"
+              } text-sm transition-colors duration-200 hover:underline hover:text-deep-brown`}
             >
               ABOUT
             </NavigationMenuLink>
@@ -104,8 +104,8 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
           <Link href="/contact" legacyBehavior passHref>
             <NavigationMenuLink
               className={`${
-                isScrolled ? "text-ivory" : "text-deep-brown"
-              } text-lg transition-colors duration-200 hover:underline`}
+                isScrolled ? "text-ivory" : "text-gray-500"
+              } text-sm transition-colors duration-200 hover:underline hover:text-deep-brown`}
             >
               CONTACT
             </NavigationMenuLink>

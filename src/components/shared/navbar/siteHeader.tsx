@@ -140,9 +140,7 @@ export function SiteHeader() {
           </div>
 
           {/* Action Buttons */}
-          <div
-            className={`flex flex-1 justify-end items-center   md:space-x-4  `}
-          >
+          <div className={`flex flex-1 justify-end items-center md:space-x-4`}>
             <Button
               variant="link"
               size="icon"
@@ -150,8 +148,8 @@ export function SiteHeader() {
               onClick={() => setIsSearchOpen(true)}
             >
               <Search
-                className={`h-5 w-5 ${
-                  isScrolled ? "text-charcoal" : "text-cream"
+                className={`h-4 w-5   ${
+                  isScrolled ? "text-ivory" : "text-gray-500"
                 }`}
               />
             </Button>
@@ -160,11 +158,17 @@ export function SiteHeader() {
               <div className="relative">
                 <ShoppingCart
                   // onClick={handleCart}
-                  className={` h-5 w-5 ${
-                    isScrolled ? "text-charcoal" : "text-cream"
+                  className={` h-4 w-5 hover:text-gray-700 ${
+                    isScrolled ? "text-ivory" : "text-gray-500"
                   }`}
                 />
-                <span className="absolute -right-1.5 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-deep-brown text-xs text-primary-foreground">
+                <span
+                  className={`absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full text-xs  ${
+                    isScrolled
+                      ? "bg-ivory text-gray-500"
+                      : "bg-deep-brown text-primary-foreground"
+                  }`}
+                >
                   {cartItemCount}
                 </span>{" "}
               </div>
@@ -175,8 +179,8 @@ export function SiteHeader() {
             ) : (
               <Link href="/login">
                 <User
-                  className={`h-5 w-5 ${
-                    isScrolled ? "text-charcoal" : "text-cream"
+                  className={`h-4 w-5 hover:text-gray-700 ${
+                    isScrolled ? "text-ivory" : "text-gray-500"
                   }`}
                 />
               </Link>

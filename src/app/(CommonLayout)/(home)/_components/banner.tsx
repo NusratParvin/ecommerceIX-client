@@ -6,6 +6,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const SLIDES = [
   {
@@ -56,74 +57,60 @@ export default function BannerCarousel() {
           <div className="flex">
             {SLIDES.map((s, i) => (
               <div key={s.id} className="flex-[0_0_100%]">
-                <div className="relative h-[540px] w-full flex items-center">
-                  <div className="grid grid-cols-1 md:grid-cols-2 w-full h-full">
-                    {/* Left text side */}
-                    <div className="flex flex-col justify-center px-8 md:px-16 relative z-10 bg-gradient-to-r from-[#f8f3f0] to-[#f1e9e3]">
-                      <AnimatePresence mode="wait">
-                        {i === selected && (
-                          <motion.div
-                            key={s.id}
-                            initial={{ opacity: 0, x: 60, y: 40 }}
-                            animate={{ opacity: 1, x: 0, y: 0 }}
-                            exit={{ opacity: 0, x: 20, y: 20 }}
-                            transition={{ duration: 1.6 }}
-                            className="space-y-4"
-                          >
-                            <p className="text-teal-600 font-medium text-lg">
-                              {s.tag}
-                            </p>
-                            <h2 className="text-4xl md:text-6xl font-serif font-semibold tracking-tight text-gray-900">
-                              {s.headline}
-                            </h2>
+                <div className="relative h-[540px] w-full bg-white overflow-hidden">
+                  {/* Layout wrapper */}
+                  <div className="relative flex h-full w-full max-w-screen-xl mx-auto px-4 md:px-0 items-center">
+                    {/* Right: Image Side (partial width) */}
+                    <div className="relative w-[60%] h-full ml-auto z-10">
+                      {/* Clipped image wrapper to form trapezium/parallelogram */}
+                      <div className="absolute inset-0 z-10 [clip-path:polygon(15%_0%,100%_0%,85%_100%,0%_100%)] overflow-hidden">
+                        <Image
+                          src={s.image}
+                          alt={s.headline}
+                          fill
+                          className="object-cover object-center"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          priority={i === 0}
+                        />
+                      </div>
 
-                            <Link
-                              href={s.href}
-                              className="inline-block mt-4 px-6 py-3 bg-teal-600 text-white font-semibold rounded hover:bg-teal-700 transition"
-                            >
-                              {s.cta}
-                            </Link>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                      {/* LEFT Slanted White Overlay (slants rightward) */}
+                      {/* <div className="absolute inset-0 z-20 [clip-path:polygon(0_0,15%_0,0_100%,0_100%)] bg-white/20" /> */}
+
+                      <div
+                        className="absolute inset-0 z-20 
+[clip-path: polygon(0% 0%, 15% 0%, 0% 100%, -15% 100%);
+] bg-blue-500/10"
+                      />
+
+                      {/* RIGHT Slanted White Overlay (slants leftward) */}
+                      <div className="absolute inset-0 z-20 [clip-path:polygon(100%_0,100%_100%,85%_100%,100%_0)] bg-white/20" />
                     </div>
 
-                    {/* Right image side with angled overlay */}
-                    <Link
-                      href={s.href}
-                      className="relative h-full w-full block group"
-                    >
-                      <AnimatePresence mode="wait">
-                        {i === selected && (
-                          <motion.div
-                            key={s.image}
-                            initial={{ opacity: 0, x: -40 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: 30 }}
-                            transition={{ duration: 1.6 }}
-                            className="relative h-full w-full overflow-hidden"
-                          >
-                            {/* Next.js Image Component */}
-                            <div className="w-full h-full relative">
-                              <Image
-                                src={s.image}
-                                alt={s.headline}
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 768px) 100vw, 50vw"
-                                priority={i === 0} // Only prioritize the first image for performance
-                              />
-                            </div>
-
-                            {/* Right Diagonal Overlay */}
-                            <div className="absolute inset-0 bg-white/70 [clip-path:polygon(100%_0,100%_100%,70%_100%,85%_0)] z-10" />
-
-                            {/* Optional: Add a subtle gradient to the overlay */}
-                            <div className="absolute inset-0 [clip-path:polygon(100%_0,100%_100%,70%_100%,85%_0)] bg-gradient-to-r from-transparent to-white/30 z-20" />
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </Link>
+                    {/* Left: Text Section */}
+                    {i === selected && (
+                      <motion.div
+                        key={s.id}
+                        initial={{ opacity: 0, x: 60, y: 40 }}
+                        animate={{ opacity: 1, x: 0, y: 0 }}
+                        exit={{ opacity: 0, x: 20, y: 20 }}
+                        transition={{ duration: 1.4 }}
+                        className="absolute w-full md:w-[70%] z-50 space-y-5 ml-20"
+                      >
+                        <p className="text-teal-600 font-medium text-lg">
+                          {s.tag}
+                        </p>
+                        <h2 className="text-4xl md:text-6xl font-serif font-semibold tracking-tight text-black">
+                          {s.headline}
+                        </h2>
+                        <Link
+                          href={s.href}
+                          className="inline-block mt-2 px-6 py-3 bg-teal-600 text-white font-semibold rounded hover:bg-teal-700 transition"
+                        >
+                          {s.cta}
+                        </Link>
+                      </motion.div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -134,15 +121,16 @@ export default function BannerCarousel() {
         {/* Controls */}
         <button
           onClick={scrollPrev}
-          className="absolute -left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-600 rounded-full w-10 h-10 z-30 shadow flex items-center justify-center"
+          className="absolute left-2 top-1/2 -translate-y-1/2 bg-transparent z-30 flex items-center justify-center"
         >
-          &#8249;
+          {/* &#8249; */}
+          <ChevronLeft className="w-16 h-12 text-gray-400 font-normal" />
         </button>
         <button
           onClick={scrollNext}
-          className="absolute -right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-600 rounded-full w-10 h-10 z-30 shadow flex items-center justify-center"
+          className="absolute right-2 top-1/2 -translate-y-1/2 bg-transparent text-gray-600 rounded-full w-10 h-20 z-30   flex items-center justify-center"
         >
-          &#8250;
+          <ChevronRight className="w-16 h-12 text-gray-400 font-normal" />
         </button>
 
         {/* Dots indicator */}
