@@ -14,7 +14,7 @@ const SLIDES = [
     tag: "Check out our F/W 2022 collection!",
     headline: "Muted colors & relaxed silhouettes",
     cta: "Shop new collection",
-    image: "/assets/1.png",
+    image: "/assets/slide1.jpg",
     href: "/collection/fw22",
   },
   {
@@ -22,7 +22,23 @@ const SLIDES = [
     tag: "Now Trending",
     headline: "Soft knits & neutrals",
     cta: "Browse the edit",
-    image: "/assets/3.png",
+    image: "/assets/slide2.jpg",
+    href: "/collection/knits",
+  },
+  {
+    id: 2,
+    tag: "Now Trending",
+    headline: "Soft knits & neutrals",
+    cta: "Browse the edit",
+    image: "/assets/slide3.jpg",
+    href: "/collection/knits",
+  },
+  {
+    id: 2,
+    tag: "Now Trending",
+    headline: "Soft knits & neutrals",
+    cta: "Browse the edit",
+    image: "/assets/slide4.jpg",
     href: "/collection/knits",
   },
 ];
@@ -59,11 +75,11 @@ export default function BannerCarousel() {
               <div key={s.id} className="flex-[0_0_100%]">
                 <div className="relative h-[540px] w-full bg-white overflow-hidden">
                   {/* Layout wrapper */}
-                  <div className="relative flex h-full w-full max-w-screen-xl mx-auto px-4 md:px-0 items-center">
+                  <div className="relative flex h-full w-full max-w-screen mx-auto px-4 md:px-0 items-center">
                     {/* Right: Image Side (partial width) */}
-                    <div className="relative w-[60%] h-full ml-auto z-10">
+                    <div className="relative w-[80%] h-full ml-auto z-10">
                       {/* Clipped image wrapper to form trapezium/parallelogram */}
-                      <div className="absolute inset-0 z-10 [clip-path:polygon(15%_0%,100%_0%,85%_100%,0%_100%)] overflow-hidden">
+                      <div className="absolute border-red-600  inset-0 z-10 [clip-path:polygon(20%_0%,100%_0%,100%_100%,0%_100%)] overflow-hidden">
                         <Image
                           src={s.image}
                           alt={s.headline}
@@ -75,16 +91,19 @@ export default function BannerCarousel() {
                       </div>
 
                       {/* LEFT Slanted White Overlay (slants rightward) */}
-                      {/* <div className="absolute inset-0 z-20 [clip-path:polygon(0_0,15%_0,0_100%,0_100%)] bg-white/20" /> */}
+                      {/* opposite slanted div */}
+                      {/* <div
+                         className="absolute inset-0 z-20 
+   [clip-path:polygon(0%_0%,20%_0%,100%_100%,80%_100%)] bg-blue-800/50"
+                       /> */}
 
                       <div
                         className="absolute inset-0 z-20 
-[clip-path: polygon(0% 0%, 15% 0%, 0% 100%, -15% 100%);
-] bg-blue-500/10"
+  [clip-path:polygon(20%_0%,40%_0%,20%_100%,0%_100%)] bg-white/40"
                       />
 
                       {/* RIGHT Slanted White Overlay (slants leftward) */}
-                      <div className="absolute inset-0 z-20 [clip-path:polygon(100%_0,100%_100%,85%_100%,100%_0)] bg-white/20" />
+                      <div className="absolute inset-0 z-20 [clip-path:polygon(100%_0,100%_100%,80%_100%,100%_0)] bg-white/40" />
                     </div>
 
                     {/* Left: Text Section */}
@@ -100,7 +119,7 @@ export default function BannerCarousel() {
                         <p className="text-teal-600 font-medium text-lg">
                           {s.tag}
                         </p>
-                        <h2 className="text-4xl md:text-6xl font-serif font-semibold tracking-tight text-black">
+                        <h2 className="text-4xl md:text-6xl font-serif font-semibold tracking-tight text-black/80">
                           {s.headline}
                         </h2>
                         <Link
