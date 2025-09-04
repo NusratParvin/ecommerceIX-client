@@ -39,7 +39,7 @@ const Info = () => {
           </button>
         </div> */}
 
-        <div className="container mx-auto px-4">
+        <div className="w-full md:w-11/12 mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {features.map((feature, index) => (
               <div

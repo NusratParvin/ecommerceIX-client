@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import useEmblaCarousel, { EmblaCarouselType } from "embla-carousel-react";
+import useEmblaCarousel from "embla-carousel-react";
+import type { EmblaCarouselType } from "embla-carousel";
+
 import Autoplay from "embla-carousel-autoplay";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -45,8 +47,11 @@ const SLIDES = [
 
 export default function BannerCarousel() {
   const autoplay = useRef(
-    Autoplay({ delay: 4000, stopOnInteraction: true, stopOnMouseEnter: true })
+    Autoplay({
+      delay: 3000,
+    })
   );
+
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "center" },
     [autoplay.current]

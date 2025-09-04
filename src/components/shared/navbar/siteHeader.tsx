@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MobileNav } from "./mobileNav";
 import { MainNav } from "./mainNav";
-import { Logo } from "./logo";
+// import { Logo } from "./logo";
 
 import { Info, HelpCircle, Mail } from "lucide-react";
 
