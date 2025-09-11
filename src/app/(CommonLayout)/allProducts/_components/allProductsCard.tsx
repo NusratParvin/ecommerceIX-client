@@ -125,27 +125,6 @@ AllProductsCardProps) => {
 
               {/* Product Info */}
               <div className="pb-2 px-2">
-                {/* <div className="flex items-center justify-between">
-                  <Badge className="text-[10px] bg-warm-brown/10 text-warm-brown hover:border-deep-brown/80 hover:bg-transparent hover:text-deep-brown hover:underline">
-                    {!isFollowed ? (
-                      <Link href={`/shop/${product?.shop?.id}`}>
-                        {product?.shop?.name}
-                      </Link>
-                    ) : (
-                      <>
-                        <Link href={`/shops/${product?.shop?.id}`}>
-                          {product?.shop?.name}
-                        </Link>
-                        <Heart className="w-4 h-4 text-red-500 fill-current" />
-                      </>
-                    )}
-                  </Badge>
-                  <Badge variant="outline" className="text-[10px]">
-                    <Timer className="w-3 h-3 mr-1" />
-                    Limited Time
-                  </Badge>
-                </div> */}
-
                 <div>
                   <h3 className="font-semibold text-lg line-clamp-1">
                     {product?.name}

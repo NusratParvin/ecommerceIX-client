@@ -103,7 +103,7 @@ const CategoriesSection = () => {
 
   return (
     // <div className="flex md:flex-row flex-col w-full md:w-11/12 mx-auto h-auto mb-36 mt-8 px-4">
-    <div className="  w-full   bg-gray-200 mx-auto h-auto mb-36  p-8">
+    <div className="  w-full   bg-gray-200 mx-auto h-auto mb-16  p-8">
       {/* Left Panel with ALL CATEGORY */}
       {/* <div className="md:w-1/6 w-full py-6 bg-warm-brown/10 flex items-center justify-center">
         <h3 className="transform md:-rotate-90 text-2xl font-medium py-16 text-deep-brown uppercase whitespace-nowrap">

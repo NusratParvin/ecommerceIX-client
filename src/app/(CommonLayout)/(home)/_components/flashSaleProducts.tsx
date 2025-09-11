@@ -61,27 +61,12 @@ const FlashSaleProducts = () => {
     return null;
   }
 
-  // const latestEndDate = new Date(
-  //   Math.max(
-  //     ...flashSaleProducts.map((p) =>
-  //       new Date(p.flashSaleEndDate || "").getTime()
-  //     )
-  //   )
-  // );
-
   return (
     <section className="py-12 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Flash Sale Banner */}
-        {/* <div className="relative aspect-[21/9] rounded-lg overflow-hidden mb-8">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/50" />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-            <h2 className="text-4xl font-bold mb-4">Flash Sale</h2>
-            <CountdownTimer endDate={latestEndDate} />
-          </div>
-        </div> */}
 
-        <div className="flex flex-row justify-between items-center text-charcoal mb-6">
+        <div className="flex flex-row justify-between items-center text-charcoal mb-2">
           <div className="flex flex-col items-start">
             <h1 className="text-3xl font-bold text-left mb-0 tracking-tight text-warm-brown">
               Flash Sale

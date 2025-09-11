@@ -152,8 +152,8 @@ import { useGetProductsQuery } from "@/redux/features/products/productsApi";
 import NoDataFound from "@/components/ui/noDataFound";
 import { useGetFollowedShopsQuery } from "@/redux/features/shops/shopsApi";
 import { Product } from "@/types";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+// import { Button } from "@/components/ui/button";
+// import Link from "next/link";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -243,7 +243,7 @@ const ProductGrid = () => {
   // };
 
   return (
-    <div className="w-full md:w-11/12 mx-auto px-4 py-8">
+    <div className="w-full md:w-11/12 mx-auto px-4 py-2">
       {/* Filters Section */}
       {/* <div className="mb-8 space-y-4">
         <ProductFilters filters={filters} onFilterChange={handleFilterChange} />
@@ -274,19 +274,6 @@ const ProductGrid = () => {
       {/* <div ref={ref} className="mt-8 flex justify-center">
         {isFetching && page > 1 && <ProductGridSkeleton count={4} />}
       </div> */}
-      <div className="w-40 mx-auto mt-16">
-        <Link href="/allProducts">
-          <Button className="relative w-full rounded-none border border-deep-brown bg-white hover:bg-white text-deep-brown overflow-hidden group py-5">
-            {/* Animated Background */}
-            <span className="absolute bottom-0 left-0 w-full h-full bg-deep-brown transform origin-bottom-left skew-y-1 scale-y-0 transition-transform duration-700 ease-out group-hover:scale-y-125"></span>
-
-            {/* Button Text */}
-            <span className="relative z-10 group-hover:text-white font-semibold text-sm uppercase">
-              All Products
-            </span>
-          </Button>
-        </Link>
-      </div>
     </div>
   );
 };

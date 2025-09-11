@@ -4,6 +4,7 @@ import CategoryList from "./_components/categoryList";
 import FlashSaleProducts from "./_components/flashSaleProducts";
 import Info from "./_components/info";
 import NewsletterSection from "./_components/newsletter";
+import ParallaxBannerHome from "./_components/parallaxBanner";
 import ProductListing from "./_components/productListing";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <ProductListing />
 
       <BestSellerProducts />
+      <ParallaxBannerHome />
       <FlashSaleProducts />
       <NewsletterSection />
     </>

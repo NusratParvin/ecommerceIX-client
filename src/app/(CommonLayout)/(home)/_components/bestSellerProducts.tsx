@@ -28,52 +28,20 @@ const BestSellerProducts = () => {
   }
 
   return (
-    // <div className="w-full md:w-11/12 mx-auto h-auto my-36 px-4">
-    //   <div className="flex flex-row justify-between items-center text-charcoal">
-    //     <div className="flex flex-col items-start mb-8">
-    //       <h1 className="text-4xl font-bold text-left mb-0 tracking-tight text-warm-brown">
-    //         Best Sellers
-    //       </h1>
-    //       <p className="font-medium text-sm tracking-tight py-2 ps-1 uppercase text-charcoal/60">
-    //         Enjoy the best quality products
-    //       </p>
-    //     </div>
-
-    //     <Link
-    //       href="/allProducts"
-    //       className="text-lg hover:underline text-deep-brown px-4 py-2 bg-muted/70"
-    //     >
-    //       Explore More
-    //     </Link>
-    //   </div>
-
-    //   <div className="grid grid-cols-5 gap-2">
-    //     {bestsellerProducts
-    //       ?.slice(0, 9)
-    //       .map((product: Product, index: number) =>
-    //         index === 0 ? (
-    //           <FirstCard key={product.id} product={product} />
-    //         ) : (
-    //           <RegularCard key={product.id} product={product} />
-    //         )
-    //       )}
-    //   </div>
-    // </div>
-
-    <div className="w-full md:w-11/12 mx-auto h-auto my-12 px-4">
-      <div className="flex flex-row justify-between items-center text-charcoal mb-6">
+    <div className="w-full md:w-11/12 mx-auto h-auto mb-12 px-4">
+      <div className="flex flex-row justify-between items-center text-charcoal mb-1">
         <div className="flex flex-col items-start">
-          <h1 className="text-3xl font-bold text-left mb-0 tracking-tight text-warm-brown">
+          <h1 className="text-3xl font-bold text-left mb-0 tracking-tight text-deep-brown">
             Best Sellers
           </h1>
-          <p className="font-medium text-xs tracking-tight py-1 ps-1 uppercase text-charcoal/60">
+          <p className="font-medium text-xs tracking-tight pb-1 ps-1 uppercase text-charcoal/60">
             Enjoy the best quality products
           </p>
         </div>
 
         <Link
           href="/allProducts"
-          className="text-sm hover:underline text-deep-brown px-3 py-1.5 bg-muted/70"
+          className="text-base hover:underline text-gray-600 px-6 py-1.5 bg-muted/70 tracking-tighter"
         >
           Explore More
         </Link>

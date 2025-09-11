@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Bookmark, Eye, GitCompare } from "lucide-react";
+import { Bookmark, Eye, GitCompare, ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
 import { Product } from "@/types";
 import Image from "next/image";
@@ -23,6 +23,7 @@ import {
   removeFromCompare,
 } from "@/redux/features/compare/compareSlice";
 import { toast } from "sonner";
+import StarDisplay from "@/components/shared/starRating";
 
 // import { useState } from "react";
 
@@ -82,7 +83,7 @@ export const ProductCard = ({
         transition={{ duration: 0.3, delay: index * 0.1 }}
         className="relative group"
       >
-        <Card className="hover:shadow-2xl shadow-none transition-transform duration-300 overflow-hidden flex flex-col h-full rounded-none border-none pb-6 bg-muted/50">
+        <Card className="hover:shadow-2xl shadow-none transition-transform duration-300 overflow-hidden flex flex-col h-full rounded-none border-none tracking-tight pb-6 bg-gray-100">
           {/* Image Section */}
           <div className="relative h-40 w-full overflow-hidden">
             {product?.imageUrl ? (
@@ -102,7 +103,7 @@ export const ProductCard = ({
             {/* Overlay on Hover */}
             <Link
               href={`/products/${product?.id}`}
-              className="absolute inset-0 bg-deep-brown/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
+              className="absolute inset-0 bg-deep-brown/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
             >
               <Eye className="w-8 h-8 text-cream" />
             </Link>
@@ -119,7 +120,7 @@ export const ProductCard = ({
 
             {/* Discount and Wishlist Icons */}
             <div className="absolute top-2 right-2 flex items-center gap-2">
-              {/* Discount Bookmark */}
+              {/* Discount   */}
               {product?.discount > 0 && (
                 <div className="relative">
                   <Bookmark
@@ -135,93 +136,69 @@ export const ProductCard = ({
           </div>
 
           {/* Product Information */}
-          <CardContent className="p-4 flex-grow">
-            <div className="space-y-0">
-              <div className="space-y-1">
-                <h3 className="font-medium text-base line-clamp-1 text-deep-brown">
+          <CardContent className="px-2 py-3 flex-grow">
+            <div>
+              <div>
+                <div className="flex flex-row justify-between w-full">
+                  <p className="text-sm font-normal tracking-tight text-gray-500">
+                    {product?.category?.name}
+                  </p>
+                  <p className="text-xs font-normal tracking-tight text-gray-700 flex flex-row">
+                    <StarDisplay rating={product?.rating} /> (
+                    {product?.rating?.toFixed(1)})
+                  </p>
+                </div>
+                <h3 className="font-medium text-base text-gray-800 ">
                   {product?.name}
                 </h3>
-                {/* <p className="text-xs text-muted-foreground line-clamp-1">
-                  {product?.category?.name}
-                </p> */}
               </div>
-              <div>
-                <div className="flex justify-between items-center">
-                  {/* shop name */}
-                  {/* <Badge className="text-xs bg-warm-brown/10 text-warm-brown hover:border-deep-brown/80 hover:bg-transparent hover:text-deep-brown hover:underline">
-                    {!isFollowed ? (
-                      <Link href={`/shop/${product?.shop?.id}`}>
-                        {product?.shop?.name}
-                      </Link>
-                    ) : (
-                      <>
-                        <Link href={`/shop/${product?.shop?.id}`}>
-                          {product?.shop?.name}
-                        </Link>
-                        <Heart className="w-4 h-4 text-red-500 fill-current" />
-                      </>
-                    )}
-                  </Badge> */}
-                  {/* //rating */}
-                  {/* <div className="flex items-center gap-1 text-yellow-500">
-                  <div className="flex">
-                    <StarDisplay rating={product?.rating} />
-                  </div>
-                  <Badge className="text-xs font-medium bg-yellow-500 px-2 text-cream rounded-md">
-                    {product?.rating}
-                  </Badge>
-                </div> */}
-                </div>
-              </div>
-              <div className="flex justify-between items-end  ">
-                <div>
+              <div className="flex flex-row justify-between items-end text-red-700/80">
+                <div className="flex flex-row items-center gap-2">
                   {product?.isFlashSale ? (
                     <>
-                      <p className="text-base font-bold">
-                        ${product?.flashSalePrice?.toFixed(2)}
+                      <p className="text-base font-sans font-semibold">
+                        <span>$ </span>
+                        {product?.flashSalePrice?.toFixed(2)}
                       </p>
-                      <p className="text-xs line-through text-muted-foreground">
-                        ${product?.price.toFixed(2)}
+                      <p className="text-sm line-through text-gray-600  font-sans">
+                        <span>$ </span>
+                        {product?.price.toFixed(2)}
                       </p>
                     </>
                   ) : product?.discount > 0 ? (
                     <>
-                      <p className="text-base font-bold">
-                        $
+                      <p className="text-base font-sans font-semibold">
+                        <span>$ </span>
                         {(
                           product?.price *
                           (1 - product?.discount / 100)
                         ).toFixed(2)}
                       </p>
-                      <p className="text-xs line-through text-muted-foreground">
-                        ${product?.price.toFixed(2)}
+                      <p className="text-sm line-through text-gray-600 font-sans ">
+                        <span>$ </span>
+                        {product?.price.toFixed(2)}
                       </p>
                     </>
                   ) : (
-                    <p className="text-base font-bold">
-                      ${product?.price.toFixed(2)}
+                    <p className="text-base font-sans font-semibold">
+                      <span>$ </span>
+                      {product?.price.toFixed(2)}
                     </p>
                   )}
                 </div>
                 <div className="flex flex-col justify-end">
-                  {/* {product?.stock < 10 && (
-                    <Badge variant="secondary" className="text-xs">
-                      {product?.stock} left
-                    </Badge>
-                  )} */}
-
                   <Button
                     variant="ghost"
                     onClick={handleCompare}
-                    className={`mt-2  shadow-md border-none bg-white ${
+                    className={`shadow-md border-none bg-white size-6 ${
                       isCompared
-                        ? " text-blue-600 "
+                        ? " text-deep-brown"
                         : "bg-gray-100 text-gray-600 "
                     }`}
                   >
                     <GitCompare
                       className={`h-5 w-5 ${
-                        isCompared ? "text-blue-600" : "text-gray-600"
+                        isCompared ? "text-deep-brown" : "text-gray-600"
                       }`}
                     />
                   </Button>
@@ -237,11 +214,11 @@ export const ProductCard = ({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
-                    className="w-full bg-deep-brown hover:bg-warm-brown text-cream rounded-none"
+                    className="w-full bg-deep-brown hover:bg-gray-600 text-cream rounded-none flex items-start justify-center gap-2 py-2 font-bold"
                     onClick={handleAddToCartClick}
                   >
-                    <ShoppingCart className="w-4 h-4 mr-2" />
-                    Add to Cart
+                    <ShoppingBag className="w-8 h-8" />
+                    BUY
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
