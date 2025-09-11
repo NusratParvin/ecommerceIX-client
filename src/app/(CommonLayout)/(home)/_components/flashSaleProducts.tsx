@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { useGetProductsQuery } from "@/redux/features/products/productsApi";
 import { Product } from "@/types";
 import { FlashSaleCarousel } from "./_flashSaleComponents/flashSaleCarousel";
 import { CountdownTimer } from "./_flashSaleComponents/countDownTimer";
 import { Spinner } from "@/components/ui/spinner";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -30,7 +30,7 @@ const FlashSaleProducts = () => {
     maxPrice: 1000,
   });
 
-  const router = useRouter();
+  // const router = useRouter();
 
   if (isLoading) {
     return (
@@ -71,7 +71,7 @@ const FlashSaleProducts = () => {
             {/* Left Content */}
             <div className="flex flex-col items-start">
               <h1 className="text-3xl font-bold text-left mb-0 tracking-tight text-deep-brown">
-                Flash Sale
+                Dont Miss These
               </h1>
               <p className="font-medium text-xs tracking-tight py-1 uppercase text-charcoal/60">
                 Enjoy the best quality products

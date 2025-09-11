@@ -1,5 +1,6 @@
 import Banner from "./_components/banner";
 import BestSellerProducts from "./_components/bestSellerProducts";
+import BrandStrip from "./_components/brandStrip";
 import CategoryList from "./_components/categoryList";
 import FlashSaleProducts from "./_components/flashSaleProducts";
 import Info from "./_components/info";
@@ -18,6 +19,7 @@ export default function Home() {
       <BestSellerProducts />
       <ParallaxBannerHome />
       <FlashSaleProducts />
+      <BrandStrip />
       <NewsletterSection />
     </>
   );
