@@ -5,8 +5,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
+  // CarouselNext,
+  // CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Product } from "@/types";
 import Image from "next/image";
@@ -18,18 +18,20 @@ interface FlashSaleCarouselProps {
 }
 
 export function FlashSaleCarousel({ products }: FlashSaleCarouselProps) {
+  // console.log(products);
+
   return (
     <Carousel
       opts={{
         align: "start",
         loop: true,
       }}
-      className="w-full  mx-auto bg-white p-0  "
+      className="w-full mx-auto bg-white p-0"
     >
-      <CarouselContent className="-ml-3">
+      <CarouselContent className=" grid grid-cols-2 justify-center  gap-2">
         {products.map((product) => (
           <CarouselItem key={product.id} className="md:basis-1/2 basis-1/2  ">
-            <div className="h-64 p-0">
+            <div className="h-40 md:h-52   p-0">
               <Card className="group overflow-hidden border-none rounded-none transition-all duration-300 h-full">
                 <CardContent className="p-0 h-full relative">
                   {/* Product Image Container */}
@@ -84,12 +86,21 @@ export function FlashSaleCarousel({ products }: FlashSaleCarouselProps) {
         ))}
       </CarouselContent>
       {/* <CarouselPrevious className="hidden md:flex -right-full -top-14" />
-      <CarouselNext className="hidden md:flex right-32 -top-14" />
-     */}
-      <div className="absolute -top-14 right-12 flex gap-0 ">
+      <CarouselNext className="hidden md:flex right-32 -top-14" /> */}
+
+      {/* <div className="absolute -top-14 right-12 flex gap-0  ">
         <CarouselPrevious className="hidden md:flex" />
         <CarouselNext className="hidden md:flex" />
-      </div>
+      </div> */}
+
+      {/* <div className="absolute -top-5 right-12 flex gap-0 z-50 ">
+        <Link
+          href="/allProducts"
+          className="text-base hover:underline text-gray-600 px-6 py-1.5 bg-muted/70 tracking-tighter"
+        >
+          Explore Mores
+        </Link>
+      </div> */}
     </Carousel>
   );
 }

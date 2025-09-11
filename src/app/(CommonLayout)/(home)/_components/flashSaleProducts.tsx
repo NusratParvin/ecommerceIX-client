@@ -9,7 +9,8 @@ import { FlashSaleCarousel } from "./_flashSaleComponents/flashSaleCarousel";
 import { CountdownTimer } from "./_flashSaleComponents/countDownTimer";
 import { Spinner } from "@/components/ui/spinner";
 import { useRouter } from "next/navigation";
-// import Link from "next/link";
+import Image from "next/image";
+import Link from "next/link";
 
 const FlashSaleProducts = () => {
   // const router = useRouter();
@@ -28,7 +29,6 @@ const FlashSaleProducts = () => {
     minPrice: 0,
     maxPrice: 1000,
   });
-  console.log(productsData);
 
   const router = useRouter();
 
@@ -60,35 +60,53 @@ const FlashSaleProducts = () => {
   if (flashSaleProducts.length === 0) {
     return null;
   }
-
+  // console.log(flashSaleProducts);
   return (
     <section className="py-12 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Flash Sale Banner */}
 
-        <div className="flex flex-row justify-between items-center text-charcoal mb-2">
-          <div className="flex flex-col items-start">
-            <h1 className="text-3xl font-bold text-left mb-0 tracking-tight text-warm-brown">
-              Flash Sale
-            </h1>
-            <p className="font-medium text-xs tracking-tight py-1 ps-1 uppercase text-charcoal/60">
-              Enjoy the best quality products
-            </p>
-          </div>
+        <div className="grid grid-cols-3   items-center text-charcoal mb-0">
+          <div className="col-span-2   flex justify-between items-center">
+            {/* Left Content */}
+            <div className="flex flex-col items-start">
+              <h1 className="text-3xl font-bold text-left mb-0 tracking-tight text-deep-brown">
+                Flash Sale
+              </h1>
+              <p className="font-medium text-xs tracking-tight py-1 uppercase text-charcoal/60">
+                Enjoy the best quality products
+              </p>
+            </div>
 
-          {/* <Link
-            href="/flashSale"
-            className="text-sm hover:underline text-deep-brown px-3 py-1.5 bg-muted/70"
-          >
-            Explore More
-          </Link> */}
+            {/* Right Content */}
+            <Link
+              href="/allProducts"
+              className="text-base hover:underline text-gray-600 px-6 py-1.5 bg-muted/70 tracking-tighter"
+            >
+              Explore More
+            </Link>
+          </div>
         </div>
 
-        {/* Flash Sale Products Carousel */}
-        <FlashSaleCarousel products={flashSaleProducts} />
+        <div className="grid grid-cols-3 gap-3   overflow-hidden">
+          <div className="col-span-2 h-full overflow-hidden">
+            <FlashSaleCarousel products={flashSaleProducts} />
+          </div>
+
+          <div className="relative col-span-1 h-full">
+            <Image
+              src="/assets/offer/flash1.png"
+              alt="Flash Sale"
+              fill
+              sizes="(min-width:1024px) 33vw, 100vw"
+              className="object-cover  "
+              priority
+            />
+          </div>
+        </div>
 
         {/* View All Button */}
-        <div className="mt-8 text-center">
+        {/* <div className="mt-8 text-center">
           <Button
             onClick={() => router.push("/flashSale")}
             type="submit"
@@ -99,7 +117,7 @@ const FlashSaleProducts = () => {
               View More
             </span>
           </Button>
-        </div>
+        </div> */}
 
         <div className="relative w-full h-[510px] overflow-hidden border-none rounded-none mb-8 mt-24">
           {/* Background Video */}
