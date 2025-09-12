@@ -1,4 +1,5 @@
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, House } from "lucide-react";
+import Link from "next/link";
 
 type ContactTextAreaProps = {
   row: number;
@@ -48,16 +49,39 @@ const ContactInputBox = ({ type, placeholder, name }: ContactInputBoxProps) => {
 const Contact = () => {
   return (
     <div>
-      <div className="h-24 bg-deep-brown"></div>
+      <div className="h-16"></div>{" "}
+      <div className="flex flex-col items-center justify-center py-10  bg-slate-800/80 text-white">
+        <h1 className=" text-4xl font-medium ">CONTACT US</h1>
+
+        <nav className="mt-4  text-lg ">
+          <ol className="flex items-center space-x-2">
+            <li>
+              <Link
+                href="/"
+                className="hover:underline flex flex-row justify-center items-start gap-1  "
+              >
+                <House size={16} className="mt-1" />
+                Home
+              </Link>
+            </li>
+            <li>
+              <span>/</span>
+            </li>
+            <li>
+              <span className="font-medium">Contact</span>
+            </li>
+          </ol>
+        </nav>
+      </div>
       <div className="md:w-10/12 w-full mx-auto ">
-        <section className="relative z-10 overflow-hidden bg-white py-20  ">
+        <section className="relative z-10 overflow-hidden bg-white pt-14 pb-28  ">
           <div className="container">
             <div className="-mx-4 flex flex-wrap lg:justify-between">
               <div className="w-full px-4 lg:w-1/2 xl:w-6/12">
                 <div className="mb-12 max-w-[570px] lg:mb-0">
                   <h2
                     className="mb-6 text-2xl font-semibold uppercase
-                   text-deep-brown sm:text-3xl lg:text-4xl "
+                   text-slate-800/80 sm:text-3xl lg:text-4xl tracking-tighter"
                   >
                     GET IN TOUCH WITH US
                   </h2>

@@ -77,24 +77,30 @@ export function SiteHeader() {
         <div className="flex gap-4 items-center text-xs">
           <div className="flex items-center gap-0.5 cursor-pointer">
             <Info className="w-4 h-3" />
-            <span className="pt-1">ABOUT</span>
+            <Link href="/about" className="pt-1 hover:underline">
+              ABOUT
+            </Link>
           </div>
           <div className="flex items-center gap-0.5 cursor-pointer">
             <HelpCircle className="w-4 h-3" />
-            <span className="pt-1">FAQ</span>
+            <Link href="/contact" className="pt-1 hover:underline">
+              FAQ
+            </Link>
           </div>
           <div className="flex items-center gap-0.5 cursor-pointer">
             <Mail className="w-4 h-3" />
-            <span className="pt-1">CONTACT</span>
+            <Link href="/contact" className="pt-1 hover:underline">
+              CONTACT
+            </Link>
           </div>
         </div>
       </div>
 
       <header
-        className={`fixed  left-0 right-0 z-50 w-full max-w-screen  md:px-8 md:h-auto h-24 ${
+        className={`fixed  left-0 right-0 z-50 w-full max-w-screen  md:px-8 md:h-auto h-24 transition-all duration-500 ${
           isScrolled
-            ? "bg-deep-brown text-ivory shadow-md top-0"
-            : "bg-white text-deep-brown top-8"
+            ? "bg-deep-brown text-ivory shadow-md top-0 "
+            : "bg-white text-deep-brown top-8 "
         }`}
       >
         <div className=" w-full mx-auto flex items-center   justify-center  pe-0  ">

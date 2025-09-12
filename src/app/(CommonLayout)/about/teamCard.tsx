@@ -34,13 +34,13 @@ const TeamCard = ({ imageSrc, name, designation }: TeamCardProps) => {
         {/* Social Icons */}
         <div className="flex justify-center space-x-4   h-12">
           <a href="#" aria-label="Facebook">
-            <Facebook className="h-7 w-7 p-1 border  text-warm-brown hover:text-blue-600 transition-colors duration-300" />
+            <Facebook className="h-7 w-7 p-1    text-deep-brown hover:text-blue-600 transition-colors duration-300" />
           </a>
           <a href="#" aria-label="Twitter">
-            <Twitter className="h-7 w-7 p-1 border  text-warm-brown hover:text-blue-400 transition-colors duration-300" />
+            <Twitter className="h-7 w-7 p-1    text-deep-brown hover:text-blue-400 transition-colors duration-300" />
           </a>
           <a href="#" aria-label="LinkedIn">
-            <Linkedin className="h-7 w-7 p-1 border  text-warm-brown hover:text-blue-700 transition-colors duration-300" />
+            <Linkedin className="h-7 w-7 p-1    text-deep-brown hover:text-blue-700 transition-colors duration-300" />
           </a>
         </div>
       </div>

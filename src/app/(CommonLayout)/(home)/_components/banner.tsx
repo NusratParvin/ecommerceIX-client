@@ -17,7 +17,7 @@ const SLIDES = [
     headline: "Timeless layers for crisp autumn days",
     cta: "Shop the collection",
     image: "/assets/slide1.jpg",
-    href: "/collection/fw22",
+    href: "/allProducts",
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const SLIDES = [
     headline: "Cozy knits in warm neutrals",
     cta: "Discover Selection",
     image: "/assets/slide2.jpg",
-    href: "/collection/knits",
+    href: "/allProducts",
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ const SLIDES = [
     headline: "Bold textures meet effortless style",
     cta: "Discover more",
     image: "/assets/slide3.jpg",
-    href: "/collection/statement",
+    href: "/allProducts",
   },
   {
     id: 4,
@@ -41,7 +41,7 @@ const SLIDES = [
     headline: "Minimal silhouettes for modern living",
     cta: "Explore essentials",
     image: "/assets/slide4.jpg",
-    href: "/collection/essentials",
+    href: "/allProducts",
   },
 ];
 

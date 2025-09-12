@@ -2,6 +2,8 @@ import Banner from "./_components/banner";
 import BestSellerProducts from "./_components/bestSellerProducts";
 import BrandStrip from "./_components/brandStrip";
 import CategoryList from "./_components/categoryList";
+import DealsTicker from "./_components/dealsTicker";
+import FlashsaleCounter from "./_components/flashsaleCounter";
 import FlashSaleProducts from "./_components/flashSaleProducts";
 import Info from "./_components/info";
 import NewsletterSection from "./_components/newsletter";
@@ -12,10 +14,11 @@ export default function Home() {
   return (
     <>
       <Banner />
+      <DealsTicker />
       <Info />
       <CategoryList />
       <ProductListing />
-
+      <FlashsaleCounter />
       <BestSellerProducts />
       <ParallaxBannerHome />
       <FlashSaleProducts />

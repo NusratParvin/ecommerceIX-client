@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useGetProductsQuery } from "@/redux/features/products/productsApi";
 import { Product } from "@/types";
 import { FlashSaleCarousel } from "./_flashSaleComponents/flashSaleCarousel";
-import { CountdownTimer } from "./_flashSaleComponents/countDownTimer";
+// import { CountdownTimer } from "./_flashSaleComponents/countDownTimer";
 import { Spinner } from "@/components/ui/spinner";
 // import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -119,8 +119,7 @@ const FlashSaleProducts = () => {
           </Button>
         </div> */}
 
-        <div className="relative w-full h-[510px] overflow-hidden border-none rounded-none mb-8 mt-24">
-          {/* Background Video */}
+        {/* <div className="relative w-full h-[510px] overflow-hidden border-none rounded-none mb-8 mt-24">
           <video
             src="/assets/YEAR-END SALE.mp4"
             autoPlay
@@ -130,15 +129,14 @@ const FlashSaleProducts = () => {
             className="absolute inset-0 w-full h-full object-fill border-none"
           />
 
-          {/* Content Overlay */}
-          <div
+           <div
             className="absolute inset-0 left-1/2   top-24 flex flex-col items-center justify-center
            text-red-600"
           >
             <h2 className="text-4xl font-bold mb-4">Flash Sale</h2>
             <CountdownTimer endDate={new Date(2025, 3, 30, 0, 0, 0)} />
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
