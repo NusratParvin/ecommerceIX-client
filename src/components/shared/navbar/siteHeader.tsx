@@ -83,7 +83,7 @@ export function SiteHeader() {
           </div>
           <div className="flex items-center gap-0.5 cursor-pointer">
             <HelpCircle className="w-4 h-3" />
-            <Link href="/contact" className="pt-1 hover:underline">
+            <Link href="/faq" className="pt-1 hover:underline">
               FAQ
             </Link>
           </div>
