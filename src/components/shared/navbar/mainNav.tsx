@@ -60,8 +60,8 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
         <NavigationMenuItem>
           <NavigationMenuTrigger
             className={`${
-              isScrolled ? "text-ivory" : "text-gray-500"
-            } text-sm hover:bg-none transition-colors duration-200 bg-transparent hover:underline hover:text-deep-brown`}
+              isScrolled ? "text-ivory hover:text-ivory" : "text-gray-500"
+            } text-sm hover:bg-none transition-colors duration-200 bg-transparent hover:underline `}
           >
             SHOP
           </NavigationMenuTrigger>

@@ -192,10 +192,10 @@ const ProductGrid = () => {
 
   // Prioritize products from followed shops
   const prioritizeProducts = (allProducts: Product[]) => {
-    const followedProducts = allProducts.filter((product) =>
+    const followedProducts = allProducts?.filter((product) =>
       followedShopIds.includes(product?.shop?.id)
     );
-    const otherProducts = allProducts.filter(
+    const otherProducts = allProducts?.filter(
       (product) => !followedShopIds.includes(product?.shop?.id)
     );
     return [...followedProducts, ...otherProducts];
@@ -204,7 +204,7 @@ const ProductGrid = () => {
   useEffect(() => {
     if (productsData?.data) {
       setProducts((prev) => {
-        const newProducts = prioritizeProducts(productsData.data);
+        const newProducts = prioritizeProducts(productsData?.data);
 
         const existingIds = new Set(
           prev.map((product: Product) => product?.id)

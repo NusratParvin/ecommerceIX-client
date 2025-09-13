@@ -76,7 +76,7 @@ AllProductsCardProps) => {
     }
     return product?.discount;
   };
-  console.log(product?.shop?.name);
+  // console.log(product?.shop?.name);
   return (
     <>
       <motion.div
@@ -126,11 +126,9 @@ AllProductsCardProps) => {
               {/* Product Info */}
               <div className="pb-2 px-2">
                 <div>
-                  <h3 className="font-semibold text-lg line-clamp-1">
-                    {product?.name}
-                  </h3>
-                  <div className="flex items-center justify-between   h-8">
-                    <p className="text-xs text-muted-foreground line-clamp-1">
+                  <h3 className="font-semibold text-lg  ">{product?.name}</h3>
+                  <div className="flex items-center justify-between border  h-6">
+                    <p className="text-xs text-gray-500">
                       {product?.category?.name}
                     </p>
                     <div className="flex items-center gap-1">
@@ -145,14 +143,14 @@ AllProductsCardProps) => {
                 </div>
 
                 {/* Price Section */}
-                <div className="flex items-center justify-between   ">
-                  <div className="space-y-1">
+                <div className="flex items-center justify-between font-sans  ">
+                  <div className="border">
                     {product?.isFlashSale ? (
                       <>
-                        <span className="text-lg font-bold text-red-500">
+                        <span className="text-lg font-semibold text-red-500">
                           ${product?.flashSalePrice?.toFixed(2)}
                         </span>
-                        <span className="text-xs text-muted-foreground line-through ps-1">
+                        <span className="text-sm text-gray-500 line-through ps-1">
                           ${product?.price.toFixed(2)}
                         </span>
                       </>

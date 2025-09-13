@@ -115,8 +115,8 @@ export default function Footer() {
           </div>
 
           {/* Right Side */}
-          <div className="w-full lg:w-1/3 px-4 flex flex-col justify-center items-start">
-            {/* <h4 className="text-3xl font-semibold  ">Lets keep in touch!</h4> */}
+          <div className="w-full lg:w-1/3 pe-2 flex flex-col justify-center items-start tracking-tight">
+            <h4 className="text-xl font-semibold  ">Lets keep in touch!</h4>
 
             <h5 className=" mt-0 mb-2 tracking-tighter text-gray-500 text-lg leading-tight ">
               Find us on any of these platforms; we respond within 1-2 business
