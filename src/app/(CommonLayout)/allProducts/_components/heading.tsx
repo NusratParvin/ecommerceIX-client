@@ -24,13 +24,6 @@ const PageHeading = () => {
             </ol>
           </nav>
         </div>
-        {/* Page Title and Description */}
-        {/* <div className="flex flex-col gap-5 mt-10">
-          <h3 className="text-2xl font-bold md:text-5xl">Filter Products</h3>
-          <p className="text-sm text-gray-500 sm:text-base">
-            Browse and filter products to find exactly what you need
-          </p>
-        </div> */}
       </div>
     </div>
   );

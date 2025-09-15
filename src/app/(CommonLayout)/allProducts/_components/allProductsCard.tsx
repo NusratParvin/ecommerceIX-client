@@ -84,7 +84,7 @@ AllProductsCardProps) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: index * 0.1 }}
       >
-        <Card className="group relative overflow-hidden h-[350px] bg-gray-100/50">
+        <Card className="group relative overflow-hidden h-[340px] bg-gray-100/50">
           {/* Conditional Discount Badge */}
           {calculateDiscountPercentage() > 0 && (
             <div className="absolute -right-12 top-6 z-10 rotate-45">
@@ -126,9 +126,11 @@ AllProductsCardProps) => {
               {/* Product Info */}
               <div className="pb-2 px-2">
                 <div>
-                  <h3 className="font-semibold text-lg  ">{product?.name}</h3>
-                  <div className="flex items-center justify-between border  h-6">
-                    <p className="text-xs text-gray-500">
+                  <h3 className="font-medium text-lg tracking-tighter ">
+                    {product?.name}
+                  </h3>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-gray-500">
                       {product?.category?.name}
                     </p>
                     <div className="flex items-center gap-1">
@@ -144,37 +146,37 @@ AllProductsCardProps) => {
 
                 {/* Price Section */}
                 <div className="flex items-center justify-between font-sans  ">
-                  <div className="border">
+                  <div>
                     {product?.isFlashSale ? (
                       <>
                         <span className="text-lg font-semibold text-red-500">
                           ${product?.flashSalePrice?.toFixed(2)}
                         </span>
-                        <span className="text-sm text-gray-500 line-through ps-1">
+                        <span className="text-sm text-gray-500 line-through ps-2">
                           ${product?.price.toFixed(2)}
                         </span>
                       </>
                     ) : product?.discount > 0 ? (
                       <>
-                        <span className="text-lg font-bold text-red-500">
+                        <span className="text-lg font-semibold text-red-500">
                           $
                           {(
                             product?.price *
                             (1 - product?.discount / 100)
                           ).toFixed(2)}
                         </span>
-                        <span className="text-xs ps-1 text-muted-foreground line-through">
+                        <span className="text-xs ps-2 text-muted-foreground line-through">
                           ${product?.price.toFixed(2)}
                         </span>
                       </>
                     ) : (
-                      <span className="text-lg font-bold text-red-500">
+                      <span className="text-lg font-semibold text-red-500">
                         ${product?.price.toFixed(2)}
                       </span>
                     )}
 
                     {product?.stock < 10 && (
-                      <p className="text-[10px] text-red-500 font-medium">
+                      <p className="text-sm text-red-500 font-medium">
                         Only {product?.stock} left!
                       </p>
                     )}
@@ -203,10 +205,10 @@ AllProductsCardProps) => {
           {/* Add to Cart Button */}
           <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
             <Button
-              className="w-full rounded-none bg-warm-brown hover:bg-deep-brown text-cream"
+              className="w-full rounded-none bg-slate-500 hover:bg-deep-brown text-white  text-base"
               onClick={handleAddToCartClick}
             >
-              <ShoppingCart className="w-4 h-4 mr-2" />
+              <ShoppingCart className="w-4 h-4" />
               Add to Cart
             </Button>
           </div>
