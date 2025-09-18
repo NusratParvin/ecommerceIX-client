@@ -64,7 +64,7 @@ const SaleProductList: React.FC<SaleProductListProps> = ({ filters }) => {
 
   // Reset on filters change
   useEffect(() => {
-    console.log("parent filter");
+    // console.log("parent filter");
     setPage(1);
     // setProducts([]);
   }, [filters]);

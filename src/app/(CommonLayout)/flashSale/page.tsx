@@ -36,7 +36,7 @@ const FlashSalePage = () => {
           </nav>
         </div>
       </div>{" "}
-      <div className="md:w-11/12 w-full mx-auto ">
+      <div className="md:w-11/12 w-full mx-auto mb-20">
         <div className="min-h-screen flex md:flex-row flex-col mx-auto gap-0 w-full text-slate-800 tracking-tight">
           <aside className="bg-gray-50 p-2 md:w-[25%] w-full">
             <FilterSection filters={filters} onFilterChange={setFilters} />

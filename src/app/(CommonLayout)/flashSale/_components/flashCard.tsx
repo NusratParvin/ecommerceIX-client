@@ -28,7 +28,7 @@ export const FlashSaleCard = ({ product, index }: FlashSaleCardProps) => {
 
   const { products } = useAppSelector((state: RootState) => state.compare);
   const isCompared = products.some((p) => p.id === product.id);
-
+  console.log(product);
   const handleCompare = () => {
     if (isCompared) {
       dispatch(removeFromCompare(product.id));
@@ -71,6 +71,21 @@ export const FlashSaleCard = ({ product, index }: FlashSaleCardProps) => {
     }
     return product.discount || 0;
   };
+
+  function getTimeLeft(endDateString: string | undefined): string {
+    if (!endDateString) return "0d 0h";
+
+    const endDate = new Date(endDateString);
+    const now = new Date();
+    const timeLeft = endDate.getTime() - now.getTime();
+
+    if (timeLeft <= 0) return "0d 0h";
+
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+
+    return `${days}d ${hours}h`;
+  }
 
   return (
     <>
@@ -115,34 +130,35 @@ export const FlashSaleCard = ({ product, index }: FlashSaleCardProps) => {
               </div>
 
               {/* Product Info */}
-              <div className="space-y-2 px-2">
-                <div className="flex items-center justify-between">
+              <div className="space-y-1 px-2 tracking-tight">
+                <div className="flex items-center justify-between ">
                   <Badge
                     variant="outline"
-                    className="text-xs bg-red-500/10 text-red-500 border-red-500/20"
+                    className="text-xs bg-red-500/10 text-red-600 border-red-500/20 font-medium"
                   >
                     {product.shop?.name}
                   </Badge>
-                  <Badge variant="outline" className="text-xs">
-                    <Timer className="w-3 h-3 mr-1" />
-                    Limited Time
+                  <Badge
+                    variant="outline"
+                    className="text-xs font-sans text-red-600 border-red-500/20 animate-pulse"
+                  >
+                    <Timer className="w-3 h-3 mr-1 " />
+                    {getTimeLeft(product?.flashSaleEndDate?.toLocaleString())}
                   </Badge>
                 </div>
 
                 <div className="space-y-1">
-                  <h3 className="font-semibold text-lg line-clamp-1">
-                    {product.name}
-                  </h3>
-                  <p className="text-sm text-muted-foreground line-clamp-1">
+                  <h3 className="font-medium text-lg">{product.name}</h3>
+                  <p className="text-sm text-muted-foreground">
                     {product.category?.name}
                   </p>
                 </div>
 
                 {/* Price Section */}
                 <div className="flex items-center justify-between  ">
-                  <div className="space-y-1  ">
+                  <div className="space-y-1 font-sans ">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-bold text-red-500">
+                      <span className="text-xl font-semibold text-red-500">
                         ${product.flashSalePrice?.toFixed(2)}
                       </span>
                       <span className="text-sm text-muted-foreground line-through">
@@ -150,7 +166,7 @@ export const FlashSaleCard = ({ product, index }: FlashSaleCardProps) => {
                       </span>
                     </div>
                     {product.stock < 10 && (
-                      <p className="text-xs text-red-500 font-medium">
+                      <p className="text-sm text-red-500 font-medium">
                         Only {product.stock} left!
                       </p>
                     )}

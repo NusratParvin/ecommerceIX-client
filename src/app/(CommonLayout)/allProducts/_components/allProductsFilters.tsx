@@ -280,120 +280,68 @@ const AllProductsFilterSection: React.FC<AllProductsFilterSectionProps> = ({
 
   return (
     <section>
-      <div className="mx-auto w-full px-4 sm:px-6 py-6 mb-20">
+      <div className="mx-auto w-full px-2 sm:px-1 py-6 mb-20 tracking-tight">
         <div className="flex flex-col gap-2">
-          <h3 className="text-base sm:text-lg md:text-xl font-semibold">
+          <h3 className="text-base sm:text-lg md:text-xl font-semibold text-slate-700">
             Filter Products
           </h3>
-          <p className="text-sm sm:text-sm text-gray-500">
-            Browse and filter products to find exactly what you need
+          <p className="md:text-base text-sm text-gray-500">
+            Browse and filter products to find exactly what you need.
           </p>
         </div>
         <div className="mt-4 p-0">
           <form className="flex flex-col gap-0">
-            <div className="mb-6 flex flex-col sm:flex-row items-center justify-between py-2">
-              <h5 className="text-lg font-semibold text-warm-brown">Filters</h5>
+            <div
+              className="flex flex-col sm:flex-row items-center justify-between 
+            py-2"
+            >
+              <h5 className="text-lg font-semibold text-slate-700">Filters</h5>
               <button
                 type="button"
                 onClick={clearAllFilters}
-                className="text-sm text-red-600 hover:underline mt-2 sm:mt-0"
+                className="text-base text-red-600 hover:underline mt-2 sm:mt-0"
               >
                 Clear All
               </button>
             </div>
 
-            <div className="relative w-full mb-10">
+            <div className="relative w-full mb-6">
               <input
                 type="text"
-                className="block h-10 w-full rounded-none border-b-gray-300 bg-gray-100 px-10 py-2 text-sm sm:text-base font-medium text-gray-700"
+                className="block h-10 w-full rounded-none border-b-gray-300
+                 bg-gray-100 px-7 py-2 text-sm sm:text-base font-medium text-gray-700"
                 placeholder="Search by name..."
                 value={filters.search}
                 onChange={(e) => handleFilterChange("search", e.target.value)}
               />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
+              <Search className="absolute left-1 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
             </div>
 
             {/* Categories */}
             <div className="flex flex-col gap-3 mb-8">
-              <p className="text-lg font-semibold text-warm-brown">
-                Categories
+              <p className="text-lg font-semibold text-slate-700">
+                Select by Categories
               </p>
-              {/* <div className="flex flex-wrap items-center gap-2">
+
+              <div className="flex flex-col items-start gap-2">
                 {isFetchingCategories ? (
                   <Spinner />
                 ) : (
                   categoriesData?.data?.map((category: TCategory) => (
                     <button
-                      key={category.id}
+                      key={category?.id}
                       type="button"
-                      className={`flex items-center gap-3 rounded-md p-3 font-semibold ${
-                        filters.category === category.id
-                          ? "bg-deep-brown text-white"
-                          : "bg-gray-100 hover:bg-gray-200"
-                      }`}
+                      className={`flex items-center gap-2 w-full rounded-md p-1 px-4 
+                         text-base font-medium ${
+                           filters?.category === category?.id
+                             ? "bg-deep-brown/80 text-white"
+                             : "bg-gray-100 hover:bg-gray-200"
+                         }`}
                       onClick={() =>
                         handleFilterChange("category", category.id)
                       }
                     >
-                      {category.imageUrl ? (
-                        <Image
-                          src={category.imageUrl}
-                          alt={category.name}
-                          width={20}
-                          height={20}
-                          className="rounded-full"
-                        />
-                      ) : (
-                        <div className="w-5 h-5 bg-gray-300 rounded-full" />
-                      )}
-                      <p className="text-sm sm:text-base">{category.name}</p>
-                    </button>
-                  ))
-                )}
-              </div> */}
-
-              <div className="flex flex-wrap items-center gap-2">
-                {isFetchingCategories ? (
-                  <Spinner />
-                ) : (
-                  categoriesData?.data?.map((category: TCategory) => (
-                    // <button
-                    //   key={category.id}
-                    //   type="button"
-                    //   className={`flex items-center gap-3 rounded-md p-3 font-semibold ${
-                    //     filters.category === category.id
-                    //       ? "bg-deep-brown/80 text-white"
-                    //       : "bg-gray-100 hover:bg-gray-200"
-                    //   }`}
-                    //   onClick={() =>
-                    //     handleFilterChange("category", category.id)
-                    //   }
-                    // >
-                    //   <div className="w-5 h-5 rounded-none overflow-hidden">
-                    //     <Image
-                    //       src={category.imageUrl as string} // fallback to a default image if none
-                    //       alt={category.name}
-                    //       width={20}
-                    //       height={20}
-                    //       className="object-contain"
-                    //     />
-                    //   </div>
-                    //   <p className="text-sm  ">{category.name}</p>
-                    // </button>
-
-                    <button
-                      key={category.id}
-                      type="button"
-                      className={`flex items-center gap-2 rounded-md p-1 px-2 font-medium ${
-                        filters.category === category.id
-                          ? "bg-deep-brown/80 text-white"
-                          : "bg-gray-100 hover:bg-gray-200"
-                      }`}
-                      onClick={() =>
-                        handleFilterChange("category", category.id)
-                      }
-                    >
-                      <div className="relative w-7 h-7 rounded-full overflow-hidden flex items-center justify-center bg-gray-200">
+                      <div className="relative w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-gray-200">
                         <Image
                           src={category.imageUrl as string}
                           alt={category.name}
@@ -401,7 +349,7 @@ const AllProductsFilterSection: React.FC<AllProductsFilterSectionProps> = ({
                           className="object-cover"
                         />
                       </div>
-                      <p className="text-sm">{category.name}</p>
+                      <p>{category.name}</p>
                     </button>
                   ))
                 )}
@@ -409,8 +357,10 @@ const AllProductsFilterSection: React.FC<AllProductsFilterSectionProps> = ({
             </div>
 
             {/* Shop Filter */}
-            <div className="flex flex-col gap-2 mb-8">
-              <p className="text-lg font-semibold text-warm-brown">By Shop</p>
+            <div className="flex flex-col gap-2 mb-6">
+              <p className="text-lg font-semibold text-slate-700">
+                Select by Shop
+              </p>
               {isFetchingShops ? (
                 <Spinner />
               ) : (
@@ -437,8 +387,8 @@ const AllProductsFilterSection: React.FC<AllProductsFilterSectionProps> = ({
 
             {/* Price Range */}
             <div className="flex flex-col gap-3 mb-8">
-              <p className="text-lg font-semibold text-warm-brown">
-                Price Range
+              <p className="text-lg font-semibold text-slate-700 ">
+                Select by Price Range
               </p>
               {[100, 200, 300, 500, 1000].map((price) => (
                 <div key={price} className="flex items-center">
@@ -451,7 +401,7 @@ const AllProductsFilterSection: React.FC<AllProductsFilterSectionProps> = ({
                   />
                   <label
                     htmlFor={`price-${price}`}
-                    className="ml-2 text-sm font-medium"
+                    className="ml-2 text-base font-medium"
                   >
                     Below ${price}
                   </label>
@@ -461,7 +411,9 @@ const AllProductsFilterSection: React.FC<AllProductsFilterSectionProps> = ({
 
             {/* Rating Filter */}
             <div className="flex flex-col gap-3">
-              <p className="text-lg font-semibold text-warm-brown">Rating</p>
+              <p className="text-lg font-semibold text-slate-700">
+                Select by Rating
+              </p>
               {[5, 4, 3, 2, 1].map((rating) => (
                 <div key={rating} className="flex items-center">
                   <Checkbox

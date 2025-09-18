@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { ShoppingCart, Eye, GitCompare } from "lucide-react";
+import { ShoppingCart, Eye, GitCompare, Store } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Product } from "@/types";
@@ -16,6 +16,7 @@ import {
 } from "@/redux/features/compare/compareSlice";
 import { RootState } from "@/redux/store";
 import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 
 interface AllProductsCardProps {
   product: Product;
@@ -102,10 +103,17 @@ AllProductsCardProps) => {
                   variant="destructive"
                   className="absolute top-2 left-2 z-10 animate-pulse bg-red-500"
                 >
-                  <Flame className="w-4 h-4 mr-1" />
                   Flash Sale
                 </Badge>
+                
               )} */}
+              <Badge
+                variant="outline"
+                className="absolute top-2 left-2 z-10 text-sm bg-white text-slate-600 border-white font-medium"
+              >
+                <Store className="w-3 h-3 mr-1 " />
+                {product.shop?.name}
+              </Badge>
 
               {/* Image Container */}
               <div className="relative h-44 w-full mb-4 overflow-hidden rounded-t-md">

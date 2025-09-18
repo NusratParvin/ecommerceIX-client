@@ -54,198 +54,46 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   }, [filters, onFilterChange]);
 
   return (
-    // <section>
-    //   <div className="mx-auto w-full px-2 py-6">
-    //     <div className="flex flex-col gap-2">
-    //       <h3 className="text-base font-semibold md:text-xl">
-    //         Filter Products
-    //       </h3>
-    //       <p className="text-sm text-gray-500">
-    //         Browse and filter products to find exactly what you need
-    //       </p>
-    //     </div>
-    //     <div className="mt-4 p-0">
-    //       <form className="flex flex-col gap-0">
-    //         <div className="mb-6 flex items-center justify-between py-2">
-    //           <h5 className="text-lg font-semibold text-warm-brown">Filters</h5>
-    //           <button
-    //             type="button"
-    //             onClick={clearAllFilters}
-    //             className="text-sm text-red-600 hover:underline"
-    //           >
-    //             Clear All
-    //           </button>
-    //         </div>
-
-    //         <div className="relative w-full mb-10">
-    //           <input
-    //             type="text"
-    //             className="block h-10 w-full rounded-none border-b-gray-300 bg-gray-100 px-10 py-2 text-sm font-medium text-gray-700"
-    //             placeholder="Search by name..."
-    //             value={filters.search}
-    //             onChange={(e) => handleFilterChange("search", e.target.value)}
-    //           />
-    //           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-    //         </div>
-
-    //         <div className="flex flex-col gap-3">
-    //           <p className="text-lg font-semibold text-warm-brown">
-    //             Categories
-    //           </p>
-    //           <div className="flex flex-wrap items-center gap-2">
-    //             {isFetchingCategories ? (
-    //               <Spinner />
-    //             ) : (
-    //               categoriesData?.data?.map((category: TCategory) => (
-    //                 <button
-    //                   key={category.id}
-    //                   type="button"
-    //                   className={`flex items-center gap-3 rounded-md p-3 font-semibold transition-colors ${
-    //                     filters.category === category.id
-    //                       ? "bg-black text-white"
-    //                       : "bg-gray-100 hover:bg-gray-200"
-    //                   }`}
-    //                   onClick={() =>
-    //                     handleFilterChange("category", category.id)
-    //                   }
-    //                 >
-    //                   {category.imageUrl ? (
-    //                     <Image
-    //                       src={category.imageUrl}
-    //                       alt={category.name}
-    //                       width={20}
-    //                       height={20}
-    //                       className="rounded-full"
-    //                     />
-    //                   ) : (
-    //                     <div className="w-5 h-5 bg-gray-300 rounded-full" />
-    //                   )}
-    //                   <p className="text-sm">{category.name}</p>
-    //                 </button>
-    //               ))
-    //             )}
-    //           </div>
-    //         </div>
-
-    //         <div className="my-6 h-px w-full bg-gray-300"></div>
-
-    //         {/* rating */}
-    //         {/* <div className="flex flex-col gap-6">
-    //           <p className="text-lg font-semibold text-warm-brown">Rating</p>
-    //           <div className="flex flex-wrap gap-2">
-    //             {[1, 2, 3, 4, 5].map((rating) => (
-    //               <button
-    //                 key={rating}
-    //                 type="button"
-    //                 className={`flex h-8 w-10 items-center justify-center rounded-md ${
-    //                   filters.rating === rating
-    //                     ? "bg-warm-brown text-cream"
-    //                     : "bg-gray-100 text-gray-700"
-    //                 } text-base font-medium`}
-    //                 onClick={() => handleFilterChange("rating", rating)}
-    //               >
-    //                 {rating}
-    //               </button>
-    //             ))}
-    //           </div>
-    //         </div> */}
-
-    //         <div className="my-6 h-px w-full bg-gray-300"></div>
-
-    //         <div className="flex flex-col gap-2">
-    //           <p className="text-lg font-semibold text-warm-brown">By Shop</p>
-    //           {isFetchingShops ? (
-    //             <Spinner />
-    //           ) : (
-    //             <Select
-    //               value={filters.shop || "all"}
-    //               onValueChange={(value) =>
-    //                 handleFilterChange("shop", value === "all" ? null : value)
-    //               }
-    //             >
-    //               <SelectTrigger>
-    //                 <SelectValue placeholder="Select Shop" />
-    //               </SelectTrigger>
-    //               <SelectContent>
-    //                 <SelectItem value="all">All Shops</SelectItem>
-    //                 {shopsData?.data?.map((shop: TShop) => (
-    //                   <SelectItem key={shop.id} value={shop.id}>
-    //                     {shop.name}
-    //                   </SelectItem>
-    //                 ))}
-    //               </SelectContent>
-    //             </Select>
-    //           )}
-    //         </div>
-
-    //         <div className="my-6 h-px w-full bg-gray-300"></div>
-
-    //         <div className="flex flex-col gap-3">
-    //           <p className="text-lg font-semibold text-warm-brown">
-    //             Price Range
-    //           </p>
-    //           {[100, 200, 300, 500, 1000].map((price) => (
-    //             <div key={price} className="flex items-center">
-    //               <Checkbox
-    //                 checked={filters.maxPrice === price}
-    //                 onCheckedChange={(checked) =>
-    //                   handleFilterChange("maxPrice", checked ? price : null)
-    //                 }
-    //                 id={`price-${price}`}
-    //               />
-    //               <label
-    //                 htmlFor={`price-${price}`}
-    //                 className="ml-2 text-sm font-medium"
-    //               >
-    //                 Below ${price}
-    //               </label>
-    //             </div>
-    //           ))}
-    //         </div>
-    //       </form>
-    //     </div>
-    //   </div>
-    // </section>
-
     <section>
-      <div className="mx-auto w-full px-4 sm:px-6 py-6">
+      <div className="mx-auto w-full px-2 sm:px-1 py-6">
         <div className="flex flex-col gap-2">
-          <h3 className="text-base sm:text-lg md:text-xl font-semibold">
+          <h3 className="text-base sm:text-lg md:text-xl font-semibold text-slate-700">
             Filter Products
           </h3>
-          <p className="text-sm sm:text-base text-gray-500">
+          <p className="md:text-base text-sm text-gray-500">
             Browse and filter products to find exactly what you need
           </p>
         </div>
         <div className="mt-4 p-0">
           <form className="flex flex-col gap-0">
-            <div className="mb-6 flex flex-col sm:flex-row items-center justify-between py-2">
-              <h5 className="text-lg font-semibold text-warm-brown">Filters</h5>
+            <div className="flex flex-col sm:flex-row items-center justify-between py-2">
+              <h5 className="text-lg font-semibold text-slate-700">Filters</h5>
               <button
                 type="button"
                 onClick={clearAllFilters}
-                className="text-sm text-red-600 hover:underline mt-2 sm:mt-0"
+                className="text-base text-red-600 hover:underline mt-2 sm:mt-0"
               >
                 Clear All
               </button>
             </div>
 
-            <div className="relative w-full mb-10">
+            <div className="relative w-full mb-6">
               <input
                 type="text"
-                className="block h-10 w-full rounded-none border-b-gray-300 bg-gray-100 px-10 py-2 text-sm sm:text-base font-medium text-gray-700"
+                className="block h-10 w-full rounded-none border-b-gray-300
+                 bg-gray-100 px-7 py-2 text-sm sm:text-base font-medium text-gray-700"
                 placeholder="Search by name..."
                 value={filters.search}
                 onChange={(e) => handleFilterChange("search", e.target.value)}
               />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
+              <Search className="absolute left-1 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
             </div>
 
-            <div className="flex flex-col gap-3">
-              <p className="text-lg font-semibold text-warm-brown">
-                Categories
+            <div className="flex flex-col gap-3  mb-8">
+              <p className="text-lg font-semibold text-slate-700">
+                Select by Categories
               </p>
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-col items-start  gap-2">
                 {isFetchingCategories ? (
                   <Spinner />
                 ) : (
@@ -253,23 +101,25 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                     <button
                       key={category.id}
                       type="button"
-                      className={`flex items-center gap-3 rounded-md p-3 font-semibold transition-colors ${
-                        filters.category === category.id
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-gray-200"
-                      }`}
+                      className={`flex items-center gap-2 w-full rounded-md p-1 px-4 
+                         text-base font-medium ${
+                           filters.category === category.id
+                             ? "bg-deep-brown/80 text-white"
+                             : "bg-gray-100 hover:bg-gray-200"
+                         }`}
                       onClick={() =>
                         handleFilterChange("category", category.id)
                       }
                     >
                       {category.imageUrl ? (
-                        <Image
-                          src={category.imageUrl}
-                          alt={category.name}
-                          width={20}
-                          height={20}
-                          className="rounded-full"
-                        />
+                        <div className="relative w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-gray-200">
+                          <Image
+                            src={category.imageUrl as string}
+                            alt={category.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
                       ) : (
                         <div className="w-5 h-5 bg-gray-300 rounded-full" />
                       )}
@@ -280,10 +130,12 @@ const FilterSection: React.FC<FilterSectionProps> = ({
               </div>
             </div>
 
-            <div className="my-6 h-px w-full bg-gray-300"></div>
+            {/* <div className="my-6 h-px w-full bg-gray-300"></div> */}
 
-            <div className="flex flex-col gap-2">
-              <p className="text-lg font-semibold text-warm-brown">By Shop</p>
+            <div className="flex flex-col gap-2  mb-6">
+              <p className="text-lg font-semibold text-slate-700">
+                Select by Shop
+              </p>
               {isFetchingShops ? (
                 <Spinner />
               ) : (
@@ -308,11 +160,11 @@ const FilterSection: React.FC<FilterSectionProps> = ({
               )}
             </div>
 
-            <div className="my-6 h-px w-full bg-gray-300"></div>
+            {/* <div className="my-6 h-px w-full bg-gray-300"></div> */}
 
-            <div className="flex flex-col gap-3">
-              <p className="text-lg font-semibold text-warm-brown">
-                Price Range
+            <div className="flex flex-col gap-3 mb-8">
+              <p className="text-lg font-semibold text-slate-700 ">
+                Select by Price Range
               </p>
               {[100, 200, 300, 500, 1000].map((price) => (
                 <div key={price} className="flex items-center">
@@ -325,7 +177,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                   />
                   <label
                     htmlFor={`price-${price}`}
-                    className="ml-2 text-sm sm:text-base font-medium"
+                    className="ml-2 text-base font-medium"
                   >
                     Below ${price}
                   </label>
