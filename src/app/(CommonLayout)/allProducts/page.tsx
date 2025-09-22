@@ -11,7 +11,7 @@ const FlashSalePage = () => {
 
   return (
     <div>
-      <div className="h-16" />{" "}
+      <div className="h-16" />
       <div>
         <div className="flex flex-col items-center justify-center py-10 bg-slate-800/80 text-white">
           <h1 className="text-4xl font-medium">All Collections</h1>

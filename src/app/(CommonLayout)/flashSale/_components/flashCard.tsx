@@ -16,6 +16,7 @@ import {
   addToCompare,
   removeFromCompare,
 } from "@/redux/features/compare/compareSlice";
+import StarDisplay from "@/components/shared/starRating";
 
 interface FlashSaleCardProps {
   product: Product;
@@ -94,7 +95,7 @@ export const FlashSaleCard = ({ product, index }: FlashSaleCardProps) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: index * 0.1 }}
       >
-        <Card className="group relative overflow-hidden h-[420px] bg-gray-100/50">
+        <Card className="group relative overflow-hidden h-[400px] bg-gray-100/50">
           {/* Discount Badge */}
           <div className="absolute -right-12 top-6 z-10 rotate-45">
             <div className="bg-red-500 text-white px-12 py-1 text-sm font-normal shadow-lg">
@@ -149,13 +150,23 @@ export const FlashSaleCard = ({ product, index }: FlashSaleCardProps) => {
 
                 <div className="space-y-1">
                   <h3 className="font-medium text-lg">{product.name}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {product.category?.name}
-                  </p>
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
+                    <p className="text-sm text-muted-foreground break-words sm:max-w-[60%]">
+                      {product.category?.name}
+                    </p>
+                    <div className="flex items-center gap-1 flex-shrink-0 sm:ml-2">
+                      <div className="flex items-center">
+                        <StarDisplay rating={product?.rating} />
+                      </div>
+                      <p className="text-sm font-medium text-yellow-500 rounded-md pt-0.5">
+                        {product?.rating.toFixed(1)}
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Price Section */}
-                <div className="flex items-center justify-between  ">
+                <div className="flex items-center justify-between">
                   <div className="space-y-1 font-sans ">
                     <div className="flex items-baseline gap-2">
                       <span className="text-xl font-semibold text-red-500">
@@ -194,10 +205,10 @@ export const FlashSaleCard = ({ product, index }: FlashSaleCardProps) => {
           {/* Add to Cart Button */}
           <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
             <Button
-              className="w-full rounded-none bg-warm-brown hover:bg-deep-brown text-cream"
+              className="w-full rounded-none bg-slate-500 hover:bg-deep-brown text-white  text-base"
               onClick={handleAddToCartClick}
             >
-              <ShoppingCart className="w-4 h-4 mr-2" />
+              <ShoppingCart className="w-4 h-4 mb-2" />
               Add to Cart
             </Button>
           </div>

@@ -137,11 +137,11 @@ AllProductsCardProps) => {
                   <h3 className="font-medium text-lg tracking-tighter ">
                     {product?.name}
                   </h3>
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm text-gray-500">
-                      {product?.category?.name}
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
+                    <p className="text-sm text-muted-foreground break-words sm:max-w-[50%]">
+                      {product.category?.name}
                     </p>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 flex-shrink-0 sm:ml-2">
                       <div className="flex items-center">
                         <StarDisplay rating={product?.rating} />
                       </div>
@@ -216,7 +216,7 @@ AllProductsCardProps) => {
               className="w-full rounded-none bg-slate-500 hover:bg-deep-brown text-white  text-base"
               onClick={handleAddToCartClick}
             >
-              <ShoppingCart className="w-4 h-4" />
+              <ShoppingCart className="w-4 h-4 mb-2" />
               Add to Cart
             </Button>
           </div>
