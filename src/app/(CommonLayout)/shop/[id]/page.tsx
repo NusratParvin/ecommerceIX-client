@@ -9,11 +9,13 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import { toast } from "sonner";
 import { useParams } from "next/navigation";
-import { ShopHeader } from "./_components/shopHearder";
+import { ShopHeader } from "./_components/shopHeader";
 import { ShopProducts } from "./_components/shopProducts";
 import { useGetUserByEmailQuery } from "@/redux/features/users/usersApi";
 import { useEffect, useState } from "react";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import { House } from "lucide-react";
+import Link from "next/link";
 
 const ShopPage = () => {
   const { id } = useParams();
@@ -33,15 +35,6 @@ const ShopPage = () => {
   const [followShop, { isLoading: isFollowing }] = useFollowShopMutation();
   const [unfollowShop, { isLoading: isUnfollowing }] =
     useUnfollowShopMutation();
-
-  // useEffect(() => {
-  //   if (isSuccess && shopData && userDetails) {
-  //      const isFollowed = shopData.followers.some(
-  //       (follower: { userId: string }) => follower.userId === userDetails.id
-  //     );
-  //     setIsShopFollowed(isFollowed);
-  //   }
-  // }, [shopData, userDetails, isSuccess]);
 
   useEffect(() => {
     if (isSuccess && shopData) {
@@ -116,6 +109,31 @@ const ShopPage = () => {
   const shopInfo = { id: shopData?.id, name: shopData?.name };
   return (
     <main className="min-h-screen bg-background">
+      <div className="h-16" />
+      <div>
+        <div className="flex flex-col items-center justify-center py-10 bg-slate-800/80 text-white">
+          <h1 className="text-4xl font-medium">Vendor Profile</h1>
+          <nav className="mt-4 text-lg">
+            <ol className="flex items-center space-x-2">
+              <li>
+                <Link
+                  href="/"
+                  className="hover:underline flex items-start gap-1"
+                >
+                  <House size={16} className="mt-1" />
+                  Home
+                </Link>
+              </li>
+              <li>
+                <span>/</span>
+              </li>
+              <li>
+                <span className="font-medium">{shopInfo?.name} - Profile</span>
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
       <ShopHeader
         shop={shopData}
         isFollowing={isShopFollowed}

@@ -17,10 +17,12 @@ interface ShopProductsProps {
 export const ShopProducts = ({ products, shop }: ShopProductsProps) => {
   // console.log(shop, "shopproduct");
   return (
-    <div className="w-full md:w-11/12 mx-auto px-4 py-8">
+    <div className="w-full md:w-11/12 mx-auto px-4 pb-24 pt-8">
       {/* Filters and Sort */}
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl font-bold text-foreground">Products</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-semibold text-slate-700 tracking-tight">
+          Products Offering
+        </h2>
         <div className="flex gap-4">
           <Select defaultValue="newest">
             <SelectTrigger className="w-[180px]">

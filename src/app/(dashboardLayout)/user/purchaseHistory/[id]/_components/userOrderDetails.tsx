@@ -98,30 +98,31 @@ export const UserOrderDetails = ({ order }: UserOrderDetailsProps) => {
   const discount = order?.coupon?.discountAmount || 0;
   const total = subtotal - discount + shipping + tax;
 
-  console.log(subtotal);
+  // console.log(subtotal);
   return (
     <motion.div
-      className="max-w-4xl mx-auto p-4 space-y-2"
+      className="w-full mx-auto p-2 space-y-2  "
       initial="hidden"
       animate="visible"
       variants={containerAnimation}
     >
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center ">
         <Link href="/user/purchaseHistory">
-          <Button variant="outline" className="gap-2">
-            <ArrowLeft className="h-4 w-4" />
+          <Button variant="ghost" className="gap-2">
+            <ArrowLeft className="h-4 w-4 transform transition-transform duration-200 hover:-translate-x-2" />
             Back to Purchase History
           </Button>
         </Link>
-        <Badge variant="outline" className="text-lg font-mono">
-          Order #{order?.id.slice(0, 8)}
+        <Badge variant="outline" className="text-lg font-mono border-none">
+          {/* Order #{order?.id.slice(0, 8)} */}
+          Order# {order?.id}
         </Badge>
       </div>
 
       {/* Order Status and Date */}
       <motion.div variants={itemAnimation}>
-        <Card>
+        <Card className="border-slate-200/50 shadow-lg rounded-none">
           <CardHeader className="flex flex-row items-center justify-between">
             <div className="flex items-center gap-2">
               <Calendar className="h-5 w-5 text-muted-foreground" />
@@ -136,7 +137,7 @@ export const UserOrderDetails = ({ order }: UserOrderDetailsProps) => {
               variant={
                 order?.paymentStatus === "PAID" ? "outline" : "destructive"
               }
-              className="uppercase"
+              className="uppercase "
             >
               {order?.paymentStatus}
             </Badge>
@@ -147,7 +148,7 @@ export const UserOrderDetails = ({ order }: UserOrderDetailsProps) => {
       <div className="grid grid-cols-2 justify-center gap-2 items-center">
         {/* Shop Information */}
         <motion.div variants={itemAnimation}>
-          <Card>
+          <Card className="border-slate-200/50 shadow-lg rounded-none">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Store className="h-5 w-5" />
@@ -179,7 +180,7 @@ export const UserOrderDetails = ({ order }: UserOrderDetailsProps) => {
 
         {/* Shipping Information */}
         <motion.div variants={itemAnimation}>
-          <Card>
+          <Card className="border-slate-200/50 shadow-lg rounded-none">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Truck className="h-5 w-5" />
@@ -210,14 +211,14 @@ export const UserOrderDetails = ({ order }: UserOrderDetailsProps) => {
 
       {/* Order Items */}
       <motion.div variants={itemAnimation}>
-        <Card>
+        <Card className="border-slate-200/50 shadow-lg rounded-none">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Package className="h-5 w-5" />
               Order Items
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-1">
             {order?.items?.map((item, index) => (
               <OrderItemCard key={index} item={item} />
             ))}
@@ -227,7 +228,7 @@ export const UserOrderDetails = ({ order }: UserOrderDetailsProps) => {
 
       {/* Payment Information */}
       <motion.div variants={itemAnimation}>
-        <Card>
+        <Card className="border-slate-200/50 shadow-lg rounded-none">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CreditCard className="h-5 w-5" />

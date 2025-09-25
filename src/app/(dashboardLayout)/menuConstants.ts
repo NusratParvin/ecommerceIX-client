@@ -13,6 +13,7 @@ import {
   Ticket,
   ShoppingBag,
   UserRoundPlus,
+  Home,
 } from "lucide-react";
 
 export type MenuType = {
@@ -37,6 +38,11 @@ export const adminMenuItems: MenuType[] = [
     url: "/admin/customerFeedback",
   },
   { title: "Transactions", icon: BarChart3, url: "/admin/transactions" },
+  {
+    title: "Home",
+    icon: Home,
+    url: "/",
+  },
 ];
 
 // Vendor Menu Items
@@ -54,6 +60,11 @@ export const vendorMenuItems: MenuType[] = [
     title: "Manage Password",
     icon: Key,
     url: "/vendor/managePassword",
+  },
+  {
+    title: "Home",
+    icon: Home,
+    url: "/",
   },
 ];
 // USer Menu Items
@@ -74,5 +85,10 @@ export const userMenuItems: MenuType[] = [
     title: "Manage Password",
     icon: Key,
     url: "/user/managePassword",
+  },
+  {
+    title: "Home",
+    icon: Home,
+    url: "/",
   },
 ];

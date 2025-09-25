@@ -31,10 +31,10 @@ export const OrderItemCard = ({ item }: OrderItemCardProps) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg"
+      className="flex items-center gap-4 py-2 px-4 bg-slate-100/50 rounded-none"
     >
       <Link href={`/products/${item?.product?.id}`} className="shrink-0">
-        <div className="h-20 w-20 relative rounded-md overflow-hidden">
+        <div className="h-24 w-24 relative rounded-none overflow-hidden">
           <Image
             src={item?.product?.imageUrl}
             alt={item?.product?.name}
@@ -46,14 +46,17 @@ export const OrderItemCard = ({ item }: OrderItemCardProps) => {
 
       <div className="flex-1 space-y-1">
         <Link href={`/products/${item?.product?.id}`}>
-          <h3 className="font-medium  text-deep-brown underline">
-            {item?.product?.name}
+          <h3 className=" text-base">
+            <span className="font-semibold  text-slate-700 hover:underline ">
+              {item?.product?.name}
+            </span>
+            <span> x {item?.quantity}</span>
           </h3>
         </Link>
-        <p className="text-sm text-muted-foreground">
+        {/* <p className="text-sm text-muted-foreground">
           Quantity: {item?.quantity}
-        </p>
-        <div className="flex items-center gap-2">
+        </p> */}
+        <div className="flex items-center gap-2 text-base">
           {item?.product?.discount > 0 && (
             <Badge variant="secondary" className="text-red-600">
               {item?.product?.discount}% OFF
@@ -69,33 +72,15 @@ export const OrderItemCard = ({ item }: OrderItemCardProps) => {
           variant="outline"
           size="sm"
           onClick={() => setIsReviewOpen(true)}
-          className="mt-2 text-red-700"
+          className="mt-2 text-red-600"
         >
           Write a Review
         </Button>
       </div>
 
       <div className="text-right">
-        <p className="font-medium">
+        <p className="font-medium font-sans">
           $
-          {/* {item?.product?.isFlashSale
-            ? (
-                (item?.product?.flashSalePrice || item?.product?.price) *
-                item?.quantity
-              ).toFixed(2)
-            : item?.product?.discount > 0
-            ? (
-                (item?.product?.price -
-                  (item?.product?.price * item?.product?.discount) / 100) *
-                item?.quantity
-              ).toFixed(2)
-            : (item?.product?.price * item?.quantity).toFixed(2)}
-        </p>
-        {(item?.product?.isFlashSale || item?.product?.discount > 0) && (
-          <p className="text-sm text-muted-foreground line-through">
-            ${(item?.product?.price * item?.quantity).toFixed(2)}
-          </p>
-        )} */}
           {item?.product.isFlashSale
             ? (
                 (item?.product.price - (item?.product.flashSalePrice || 0)) *

@@ -49,8 +49,10 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
           <Link href="/" legacyBehavior passHref>
             <NavigationMenuLink
               className={`${
-                isScrolled ? "text-ivory" : "text-gray-500"
-              } hover:underline hover:text-deep-brown transition-colors duration-200`}
+                isScrolled
+                  ? "text-ivory hover:text-white"
+                  : "text-gray-500 hover:text-deep-brown"
+              } hover:underline transition-colors duration-200`}
             >
               HOME
             </NavigationMenuLink>
@@ -93,8 +95,10 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
           <Link href="/about" legacyBehavior passHref>
             <NavigationMenuLink
               className={`${
-                isScrolled ? "text-ivory" : "text-gray-500"
-              } text-sm transition-colors duration-200 hover:underline hover:text-deep-brown`}
+                isScrolled
+                  ? "text-ivory hover:text-white"
+                  : "text-gray-500 hover:text-deep-brown"
+              } hover:underline transition-colors duration-200`}
             >
               ABOUT
             </NavigationMenuLink>
@@ -104,8 +108,10 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
           <Link href="/contact" legacyBehavior passHref>
             <NavigationMenuLink
               className={`${
-                isScrolled ? "text-ivory" : "text-gray-500"
-              } text-sm transition-colors duration-200 hover:underline hover:text-deep-brown`}
+                isScrolled
+                  ? "text-ivory hover:text-white"
+                  : "text-gray-500 hover:text-deep-brown"
+              } hover:underline transition-colors duration-200`}
             >
               CONTACT
             </NavigationMenuLink>

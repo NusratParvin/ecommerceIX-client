@@ -49,15 +49,15 @@ const UserOrdersPage = () => {
   }, [searchTerm]);
 
   return (
-    <div className="flex flex-col min-h-screen p-2 space-y-4">
+    <div className="flex flex-col min-h-screen p-2 space-y-4 tracking-tight text-slate-700">
       <div className="flex items-center gap-2">
-        <h1 className="text-2xl font-semibold">Your Orders</h1>
+        <h1 className="text-lg font-semibold ">Your Previous Orders</h1>
       </div>
 
-      <div className="flex  justify-around items-center gap-4 mb-6">
-        <div className="relative w-full md:w-2/5 text-xs">
+      <div className="flex  justify-between items-center gap-4 mb-6">
+        <div className="relative w-full md:w-2/5 text-xs ">
           <Input
-            placeholder="Search by Order ID / product / shop   "
+            placeholder="Search by Order ID / product / shop "
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
@@ -67,30 +67,32 @@ const UserOrdersPage = () => {
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
-          <label className="text-sm font-medium">Sort By:</label>
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-40">{sortBy}</SelectTrigger>
-            <SelectContent>
-              <SelectItem value="createdAt">Date</SelectItem>
-              <SelectItem value="totalPrice">Total Price</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <div className="flex flex-row  gap-4 justify-center items-center">
+          <div className="flex items-center space-x-2">
+            <label className="text-sm font-medium">Sort By:</label>
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-40">{sortBy}</SelectTrigger>
+              <SelectContent>
+                <SelectItem value="createdAt">Date</SelectItem>
+                <SelectItem value="totalPrice">Total Price</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-        <div className="flex items-center space-x-2">
-          <label className="text-sm font-medium">Order:</label>
-          <Select value={sortOrder} onValueChange={setSortOrder}>
-            <SelectTrigger className="w-32">{sortOrder}</SelectTrigger>
-            <SelectContent>
-              <SelectItem value="asc">Ascending</SelectItem>
-              <SelectItem value="desc">Descending</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="flex items-center space-x-2">
+            <label className="text-sm font-medium">Order:</label>
+            <Select value={sortOrder} onValueChange={setSortOrder}>
+              <SelectTrigger className="w-32">{sortOrder}</SelectTrigger>
+              <SelectContent>
+                <SelectItem value="asc">Ascending</SelectItem>
+                <SelectItem value="desc">Descending</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 
-      <div className="flex-grow border rounded-lg p-4 shadow-md min-h-screen">
+      <div className="flex-grow border border-slate-200/60 rounded-none p-4 shadow-xl min-h-screen text-black">
         {isLoading ? (
           <Spinner />
         ) : isError ? (
@@ -99,7 +101,7 @@ const UserOrdersPage = () => {
           <p className="text-center">No orders found.</p>
         ) : (
           <Table>
-            <TableHeader>
+            <TableHeader className="font-semibold">
               <TableRow>
                 <TableHead>#</TableHead>
                 <TableHead>Order ID</TableHead>
@@ -131,7 +133,7 @@ const UserOrdersPage = () => {
                   </TableCell>
                   <TableCell>
                     <Link href={`/user/purchaseHistory/${order?.id}`}>
-                      <Eye className="h-4 w-4 text-warm-brown" />
+                      <Eye className="h-4 w-4 text-deep-brown/70" />
                     </Link>
                   </TableCell>
                 </TableRow>
