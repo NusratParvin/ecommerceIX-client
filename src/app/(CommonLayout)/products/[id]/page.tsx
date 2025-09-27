@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Heart, ShoppingCart, Timer, ChevronRight } from "lucide-react";
+import { Heart, ShoppingCart, Timer, ChevronRight, House } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import ProductReviews from "./_components/productReviews";
@@ -23,6 +23,7 @@ import {
 import { useEffect, useState } from "react";
 import { handleAddToCart } from "@/lib/addCartUtils";
 import { Product } from "@/types";
+import { DeliveryReturns } from "./_components/delivery&returns";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -114,7 +115,29 @@ const ProductDetails = () => {
   if (isFetching) {
     return (
       <>
-        <div className="h-36 bg-deep-brown"></div>
+        <div className="h-16" />
+        <div className="py-5 bg-slate-700/80 text-white tracking-tight">
+          <div className="flex flex-row  items-center justify-between w-11/12 mx-auto px-4">
+            <h1 className="text-2xl font-medium">Product Details</h1>
+
+            {/* Breadcrumb */}
+            <div className="flex items-center gap-2 text-base">
+              <Link
+                href="/"
+                className="hover:underline flex items-center gap-1"
+              >
+                <House size={16} className="" />
+                Home
+              </Link>
+              <ChevronRight className="w-4 h-4" />
+              <Link href="/allProducts" className="hover:underline">
+                Category
+              </Link>
+              <ChevronRight className="w-4 h-4" />
+              <span>Product Name</span>
+            </div>
+          </div>
+        </div>
         <div className="container mx-auto px-4 py-8">
           <Skeleton className="h-[500px] w-full" />
         </div>
@@ -131,24 +154,35 @@ const ProductDetails = () => {
       </div>
     );
   }
-  console.log(product.reviews, "details");
+  // console.log(product.reviews, "details");
   return (
     <>
-      <div className="h-36 bg-deep-brown"></div>
-      <div className=" w-full md:w-10/12 mx-auto px-4 py-8">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
-          <Link href="/" className="hover:underline">
-            Home
-          </Link>
-          <ChevronRight className="w-4 h-4" />
-          <Link href="/allProducts" className="hover:underline">
-            {product?.category?.name}
-          </Link>
-          <ChevronRight className="w-4 h-4" />
-          <span className="text-foreground">{product?.name}</span>
-        </div>
+      <div className="h-16" />
+      <div className="py-5 bg-slate-700/80 text-white tracking-tight">
+        <div className="flex flex-row  items-center justify-between w-11/12 mx-auto px-4">
+          <h1 className="text-2xl font-medium">Product Details</h1>
 
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-base">
+            <Link href="/" className="hover:underline flex items-center gap-1">
+              <House size={16} />
+              Home
+            </Link>
+            <ChevronRight className="w-4 h-4" />
+            <Link
+              href={`/allProducts/${product?.category?.id}`}
+              className="hover:underline"
+            >
+              {product?.category?.name ? product?.category?.name : "Category"}
+            </Link>
+            <ChevronRight className="w-4 h-4" />
+
+            <span>{product?.name}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className=" w-full md:w-11/12 mx-auto px-4 pb-8 pt-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Product Image */}
           <motion.div
@@ -162,7 +196,7 @@ const ProductDetails = () => {
               alt={product?.name}
               layout="fill"
               objectFit="cover"
-              className="rounded-lg shadow-lg"
+              className="rounded-none shadow-lg"
             />
             {product?.isFlashSale && (
               <Badge
@@ -180,18 +214,17 @@ const ProductDetails = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col space-y-6 h-full"
+            className="flex flex-col space-y-6 h-full text-slate-700 tracking-tight"
           >
-            <div className="space-y-2">
+            <div className="space-y-2 ">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Badge
                     variant="outline"
-                    className="bg-gray-50 text-warm-brown"
+                    className="bg-gray-50 text-deep-brown"
                   >
                     <Link href={`/shop/${product?.shop?.id}`}>
                       <span className="hover:underline">
-                        {" "}
                         {product?.shop?.name}
                       </span>
                     </Link>
@@ -211,39 +244,39 @@ const ProductDetails = () => {
                     />
                   </Button>
                 </div>
-                <h1 className="text-3xl font-bold">{product?.name}</h1>
+                <h1 className="text-3xl font-semibold">{product?.name}</h1>
+                <Badge variant="secondary" className="bg-deep-brown/30  ">
+                  {product?.category?.name}
+                </Badge>
                 <div className="flex items-center gap-2">
-                  <Badge
-                    variant="secondary"
-                    className="bg-warm-brown/30 text-charcoal"
-                  >
-                    {product?.category?.name}
-                  </Badge>
-                  <div className="flex items-center text-yellow-500">
+                  <div className="flex items-center  text-2xl  text-yellow-500 font-sans font-normal">
                     {/* Dynamic Star Display and Review Count */}
-                    <StarDisplay rating={product?.rating} />
-                    <span className="ml-1 text-sm font-medium">
-                      {product?.rating.toFixed(1)} (
-                      {product?.reviews?.length || 0}
-                      <span> reviews</span>)
+                    <StarDisplay rating={product?.rating} size="w-5 h-5" />{" "}
+                    <span className="ml-3 underline">
+                      {product?.reviews?.length
+                        ? product?.rating.toFixed(1)
+                        : 0}
+                      <span> Reviews</span>
                     </span>
                   </div>
                 </div>
               </div>
             </div>
             <Separator />
+            <DeliveryReturns />
+            <Separator />
             <div className="flex-grow">
               <div className="space-y-2 mb-6">
                 <div className="space-y-1">
                   {product?.isFlashSale ? (
-                    <>
-                      <p className="text-2xl font-bold text-primary">
+                    <div className="flex flex-row gap-6 justify-start items-center text-3xl font-sans">
+                      <p className=" font-medium text-red-600 ">
                         ${product?.flashSalePrice.toFixed(2)}
                       </p>
-                      <p className="text-sm text-charcoal line-through">
+                      <p className=" text-gray-500 line-through font-light">
                         ${product?.price}
                       </p>
-                    </>
+                    </div>
                   ) : (
                     <>
                       {/* No flash sale, regular discount may apply */}
@@ -261,6 +294,9 @@ const ProductDetails = () => {
                       )}
                     </>
                   )}
+                  <p className="text-gray-400 text-lg font-normal">
+                    Inclusive all the tax
+                  </p>
                 </div>
 
                 <div className="flex items-center gap-2 ">

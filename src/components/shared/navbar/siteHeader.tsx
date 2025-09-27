@@ -132,12 +132,14 @@ export function SiteHeader() {
                 isScrolled ? "w-24 py-1 px-2  bg-white" : "w-28 py-1"
               }`}
             >
-              <Image
-                src="/assets/logo2.png"
-                alt="logo"
-                width={200}
-                height={200}
-              />
+              <Link href="/">
+                <Image
+                  src="/assets/logo2.png"
+                  alt="logo"
+                  width={200}
+                  height={200}
+                />
+              </Link>
             </div>
           </div>
 

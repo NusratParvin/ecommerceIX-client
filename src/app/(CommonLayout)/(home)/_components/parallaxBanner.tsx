@@ -50,7 +50,7 @@ export default function ParallaxBannerHome() {
 
                   <Button asChild>
                     <Link
-                      href=""
+                      href="/allProducts"
                       className="relative w-40 rounded-none   bg-white hover:bg-white  overflow-hidden group py-5"
                     >
                       {/* Animated Background */}
@@ -107,7 +107,7 @@ export default function ParallaxBannerHome() {
                   </p>
                   <Button asChild>
                     <Link
-                      href=""
+                      href="/allProducts"
                       className="relative w-40 rounded-none  border-none bg-white hover:bg-white overflow-hidden group py-5"
                     >
                       {/* Animated Background */}
