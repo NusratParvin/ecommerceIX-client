@@ -69,7 +69,7 @@ export const vendorMenuItems: MenuType[] = [
 ];
 // USer Menu Items
 export const userMenuItems: MenuType[] = [
-  { title: "Dashboard", icon: LayoutDashboard, url: "/user/dashboard" },
+  { title: "Dashboard", icon: LayoutDashboard, url: "/user/account" },
   {
     title: "Recently Viewed",
     icon: Package,

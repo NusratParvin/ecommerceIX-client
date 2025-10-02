@@ -15,6 +15,7 @@ import PaymentForm from "./_components/paymentForm";
 import { useProcessOrderAndPaymentMutation } from "@/redux/features/orders/ordersApi";
 import { useGetUserByEmailQuery } from "@/redux/features/users/usersApi";
 import { ProcessOrderAndPaymentProps, ShippingInfoProps } from "@/types";
+import BillingSummary from "./_components/billingSummary";
 
 export default function CheckoutPage() {
   const [step, setStep] = useState(1);
@@ -78,8 +79,8 @@ export default function CheckoutPage() {
       toast.error("Failed to create payment intent. Please try again.");
     }
   };
-  console.log(clientSecret);
-  console.log(user);
+  // console.log(clientSecret);
+  // console.log(user);
   // // **Step 2: Handle Payment Confirmation and Backend API Call**
   const handlePaymentSubmit = async (paymentIntentId: string) => {
     try {
@@ -124,11 +125,15 @@ export default function CheckoutPage() {
 
   return (
     <>
-      <div className="h-24 bg-deep-brown"></div>
-      <div className="w-full md:w-10/12 mx-auto mt-4 p-4">
-        <h1 className="text-2xl font-bold mb-4">Checkout</h1>
-        <div className="grid md:grid-cols-2 justify-center gap-16 min-h-screen">
-          <div className="md:col-span-1">
+      <div className="h-16" />
+      <div className="py-5 bg-slate-600/80 text-white tracking-tight">
+        <div className="flex flex-row  items-center justify-between w-11/12 mx-auto px-4">
+          <h1 className="text-2xl font-medium">Checkout</h1>
+        </div>
+      </div>
+      <div className="w-full md:w-11/12 mx-auto mt-4 min-h-screen">
+        <div className="grid md:grid-cols-5 justify-center gap-4 ">
+          <div className="md:col-span-3">
             {step === 1 && <ShippingForm onSubmit={handleShippingSubmit} />}
             {step === 2 && clientSecret && (
               <Elements stripe={stripePromise} options={{ clientSecret }}>
@@ -139,9 +144,9 @@ export default function CheckoutPage() {
               </Elements>
             )}
           </div>
-          <div>
-            <OrderSummary
-              items={cartItems}
+          <div className="md:col-span-2 flex flex-col gap-4">
+            <OrderSummary items={cartItems} />
+            <BillingSummary
               discountAmount={discountAmount}
               totalAmount={Number(totalAmount) || 0}
               finalAmount={finalAmount}

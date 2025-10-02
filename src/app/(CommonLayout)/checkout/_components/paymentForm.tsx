@@ -67,94 +67,79 @@ export default function PaymentForm({
   };
 
   return (
-    // <form onSubmit={handleSubmit} className="space-y-4">
-    //   <div className="p-4 border rounded">
-    //     <CardElement
-    //       options={{
-    //         style: {
-    //           base: {
-    //             fontSize: "16px",
-    //             color: "#424770",
-    //             "::placeholder": {
-    //               color: "#aab7c4",
-    //             },
-    //           },
-    //           invalid: {
-    //             color: "#9e2146",
-    //           },
-    //         },
-    //       }}
-    //     />
-    //   </div>
-    //   {error && <div className="text-red-500">{error}</div>}
-    //   <Button type="submit" disabled={!stripe || isProcessing}>
-    //     {isProcessing ? "Processing..." : "Pay Now"}
-    //   </Button>
-    // </form>
-    // <Elements stripe={stripePromise} options={{ clientSecret }}>
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
+      className="min-h-screen"
     >
-      <form onSubmit={handleSubmit} className="space-y-6  min-h-screen">
-        <div className="p-4 bg-white border rounded-lg shadow-sm">
-          <div className="mb-4">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              Payment Details
-            </h3>
-            <p className="text-sm text-gray-500">
-              All transactions are secure and encrypted
-            </p>
-          </div>
-          <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
-            <CardElement
-              options={{
-                style: {
-                  base: {
-                    fontSize: "16px",
-                    fontFamily: "system-ui, sans-serif",
-                    color: "#424770",
-                    "::placeholder": {
-                      color: "#aab7c4",
+      <div
+        className="border border-dashed border-slate-300 bg-slate-50 
+      p-6 tracking-tight"
+      >
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <h1 className="text-2xl text-slate-700 font-medium pb-3 border-b border-dashed ">
+            Payment Details
+          </h1>
+          <p className="text-base text-gray-500">
+            All transactions are secure and encrypted
+          </p>
+          <div className="p-8 bg-white shadow-none">
+            <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
+              <CardElement
+                options={{
+                  style: {
+                    base: {
+                      fontSize: "16px",
+                      fontFamily: "system-ui, sans-serif",
+                      color: "#424770",
+                      "::placeholder": {
+                        color: "#aab7c4",
+                      },
+                      padding: "10px 0",
                     },
-                    padding: "10px 0",
+                    invalid: {
+                      color: "#9e2146",
+                      iconColor: "#9e2146",
+                    },
                   },
-                  invalid: {
-                    color: "#9e2146",
-                    iconColor: "#9e2146",
-                  },
-                },
-              }}
-            />
-          </div>
-        </div>
-
-        {error && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-red-500 text-sm bg-red-50 p-3 rounded-md"
-          >
-            {error}
-          </motion.div>
-        )}
-
-        <Button
-          type="submit"
-          disabled={!stripe || isProcessing}
-          className="w-full bg-deep-brown hover:bg-warm-brown text-white transition-colors duration-200 pt-2"
-        >
-          {isProcessing ? (
-            <div className="flex items-center justify-center">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-              Processing...
+                }}
+              />
             </div>
-          ) : (
-            "Pay Now"
+          </div>
+
+          {error && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-red-500 text-sm bg-red-50 p-3 rounded-md"
+            >
+              {error}
+            </motion.div>
           )}
-        </Button>
-      </form>
+
+          <div className="w-full md:w-1/2 mx-auto ">
+            <Button
+              type="submit"
+              disabled={!stripe || isProcessing}
+              className="rounded-none text-lg bg-slate-500 hover:bg-slate-700
+             text-white transition-colors duration-200 py-3 w-full"
+            >
+              {isProcessing ? (
+                <div className="flex items-center justify-center">
+                  <div
+                    className="animate-spin rounded-full h-4 w-4 
+                border-b-2 border-white mr-2"
+                  />
+                  Processing...
+                </div>
+              ) : (
+                "Pay Now"
+              )}
+            </Button>
+          </div>
+        </form>{" "}
+      </div>
     </motion.div>
     // </Elements>
   );

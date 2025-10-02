@@ -52,7 +52,7 @@ const UserMenu = ({ user }: { user: CustomJwtPayload }) => {
 
   const handleDashboard = () => {
     if (user?.role === "USER") {
-      router.push("/user/dashboard");
+      router.push("/user/account");
     } else if (user?.role === "VENDOR") {
       router.push("/vendor/dashboard");
     } else if (user?.role === "ADMIN") {
@@ -90,7 +90,7 @@ const UserMenu = ({ user }: { user: CustomJwtPayload }) => {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleDashboard}>
-            Dashboard
+            {user?.role === "USER" ? "My Account" : "Dashboard"}
           </DropdownMenuItem>
           {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
           <DropdownMenuSeparator />

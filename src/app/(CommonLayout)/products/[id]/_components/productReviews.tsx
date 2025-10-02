@@ -1,5 +1,7 @@
-import { Star } from "lucide-react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
+import ReviewSummary from "./reviewSummary";
+import StarDisplay from "@/components/shared/starRating";
 
 interface Review {
   id: string;
@@ -22,101 +24,104 @@ interface ReviewProps {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ProductReviews = ({ reviews }: ReviewProps) => {
-  console.log(reviews, "review");
-  // const { data, isLoading, isError, error } = console.log(data, error);
-  // const dummyReviews = [
-  //   {
-  //     id: 1,
-  //     rating: 5,
-  //     comment: "Excellent product! Really satisfied with the quality.",
-  //     user: { name: "John Doe" },
-  //     createdAt: "2024-03-09T10:00:00Z",
-  //   },
-  //   {
-  //     id: 2,
-  //     rating: 4,
-  //     comment: "Good value for money, would recommend.",
-  //     user: { name: "Jane Smith" },
-  //     createdAt: "2024-03-08T15:30:00Z",
-  //   },
-  //   {
-  //     id: 3,
-  //     rating: 5,
-  //     comment: "Perfect fit and great design!",
-  //     user: { name: "Mike Johnson" },
-  //     createdAt: "2024-03-07T09:15:00Z",
-  //   },
-  // ];
+  // console.log(reviews, "review");
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const renderStars = (rating: any) => {
-    return (
-      <>
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`w-4 h-4 ${
-              i < rating ? "text-yellow-500" : "text-gray-300"
-            }`}
-            fill="currentColor"
-          />
-        ))}
-      </>
-    );
-  };
-
-  if (!reviews || reviews.length === 0) {
-    return (
-      <div className="text-sm">
-        <h2 className="text-2xl font-bold mb-8 text-warm-brown">
-          Customer Reviews
-        </h2>
-        <p> No one has reviewed the product yet !</p>
-      </div>
-    );
+  function formatReviewDate(iso: string) {
+    const d = new Date(iso);
+    const date = d.toLocaleDateString(undefined, {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+    const time = d.toLocaleTimeString(undefined, {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+    // e.g., "10 Aug 2024 11:05 AM"
+    return `${date} ${time}`;
   }
 
+  console.log(reviews);
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-8 text-warm-brown">
-        Customer Reviews
-      </h2>
-      {reviews?.map((review) => (
-        <div key={review?.id} className="bg-warm-brown/10 p-6 rounded-sm my-4">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              {/* <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-medium text-lg">
-                {review?.user?.name}
-              </div> */}
+    <div className="my-20 tracking-tight">
+      <h2 className="font-semibold text-2xl text-slate-600 mb-4">Reviews</h2>
 
-              <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center font-medium text-lg">
-                {review?.user?.profilePhoto ? (
-                  <Image
-                    src={review?.user?.profilePhoto}
-                    alt={review?.user?.name}
-                    width={40}
-                    height={40}
-                    className="w-full h-full"
-                  />
-                ) : (
-                  <span>{review?.user?.name}</span>
-                )}
-              </div>
+      <div className="grid grid-cols-5 gap-3 p-4 border border-dashed border-slate-300">
+        <div className="col-span-2">
+          <ReviewSummary reviews={reviews} />
+        </div>
 
-              <div>
-                <p className="text-base font-semibold">{review?.user?.name}</p>
-                <p className="text-sm text-gray-500">
-                  {new Date(review?.createdAt).toLocaleDateString()}
+        <div className="col-span-3">
+          {/* Reviews panel (scrollable like the image) */}
+          <div className="h-[320px] overflow-y-auto pr-2 ">
+            <div className="space-y-4">
+              {!reviews || reviews.length === 0 ? (
+                <p className="text-base ps-4 text-slate-500">
+                  No one has reviewed the product yet!
                 </p>
-              </div>
-            </div>
-            <div className="flex items-center">
-              {renderStars(review?.rating)}
+              ) : (
+                reviews.map((review) => (
+                  <div
+                    key={review.id}
+                    className="bg-slate-50/50 p-4 border border-dashed border-slate-300"
+                  >
+                    {/* top row: avatar + name/date ... stars on right */}
+                    <div className="flex items-start justify-start gap-4 ">
+                      {/* avatar */}
+                      <div className="w-14 h-14 bg-white grid place-items-center text-xl font-semibold text-slate-700 overflow-hidden shrink-0">
+                        {review.user?.profilePhoto ? (
+                          <Image
+                            src={review.user.profilePhoto}
+                            alt={review.user?.name || "User"}
+                            width={56}
+                            height={56}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <span>
+                            {(review.user?.name || "?")
+                              .slice(0, 1)
+                              .toUpperCase()}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* content column */}
+                      <div className="flex flex-col justify-between items-start w-full min-w-0">
+                        <div className="flex flex-row justify-between items-center w-full min-w-0">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="flex flex-row gap-4 justify-start items-center text-lg min-w-0">
+                              <p className="font-semibold text-slate-900 truncate">
+                                {review.user?.name || "Anonymous"}
+                              </p>
+                              <p className="text-slate-500 whitespace-nowrap">
+                                {formatReviewDate(review.createdAt)}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* stars (orange) */}
+                          <div className="flex shrink-0">
+                            <StarDisplay rating={review?.rating} />
+                          </div>
+                        </div>
+
+                        {/* body */}
+                        {review.comment && (
+                          <p className="text-slate-700 text-base mt-3 leading-relaxed whitespace-normal break-words">
+                            “{review.comment}”
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
-          <p className="text-gray-600 text-base">{review?.comment}</p>
         </div>
-      ))}
+      </div>
     </div>
   );
 };

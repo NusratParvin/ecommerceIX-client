@@ -7,17 +7,14 @@ import {
   AlertDialogTrigger,
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { Truck } from "lucide-react";
 
 export function DeliveryReturns() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <div
-          //   variant="link"
-          className="hover:no-underline flex items-center gap-2 text-lg text-slate-500 cursor-pointer "
-        >
+        <div className="hover:no-underline flex items-center gap-2 text-lg text-slate-500 cursor-pointer">
           <Truck className="w-5 h-5 mb-1" />
           Delivery & Returns
         </div>
