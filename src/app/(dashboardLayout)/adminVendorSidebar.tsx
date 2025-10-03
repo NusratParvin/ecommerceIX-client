@@ -197,7 +197,7 @@ export function AdminVendorSidebar({
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 py-3 px-1 bg-white">{children}</main>
+        <main className="flex-1 py-3 px-1 bg-slate-50">{children}</main>
       </div>
     </div>
   );

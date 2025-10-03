@@ -1,52 +1,56 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { Product } from "@/types";
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  imageUrl: string;
-  shop: string;
-}
+export function RecentlyViewedProducts() {
+  const [recentProducts, setRecentProducts] = useState<Product[]>([]);
 
-interface RecentlyViewedProductsProps {
-  products?: Product[];
-  className?: string;
-}
+  useEffect(() => {
+    const recentProductsKey = "recentProducts";
 
-export function RecentlyViewedProducts({
-  products,
-  className,
-}: RecentlyViewedProductsProps) {
-  if (!products) return null;
+    // Fetch and parse localStorage
+    const storedProducts = JSON.parse(
+      localStorage.getItem(recentProductsKey) || "[]"
+    ) as (Product | null)[];
+
+    // Filter out null or undefined values
+    const validProducts = storedProducts.filter(
+      (product): product is Product => product !== null && product !== undefined
+    );
+
+    setRecentProducts(validProducts);
+  }, []);
 
   return (
-    <Card className={cn(className)}>
+    <Card className="lg:col-span-4 bg-white border border-dashed border-slate-300 rounded-none shadow-none text-slate-700">
       <CardHeader>
-        <CardTitle>Recently Viewed Products</CardTitle>
+        <CardTitle className="text-lg">Recently Viewed Products</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          {products.map((product) => (
-            <div key={product.id} className="flex items-center space-x-4">
-              <div className="relative h-16 w-16 overflow-hidden rounded-md">
+        <div className="space-y-2">
+          {recentProducts.slice(0, 4).map((product) => (
+            <div key={product.id} className="flex items-center space-x-4  ">
+              <div className="relative h-14 w-20 overflow-hidden rounded-none">
                 <Image
                   src={product.imageUrl || " "}
                   alt={product.name}
-                  width={400}
-                  height={300}
-                  className="object-cover rounded-md"
+                  fill
+                  className="object-cover rounded-none"
                 />
               </div>
               <div className="flex-1 space-y-1">
-                <p className="text-sm font-medium leading-none">
+                <p className="text-sm font-semibold leading-none">
                   {product.name}
                 </p>
-                <p className="text-sm text-muted-foreground">{product.shop}</p>
+                <p className="text-sm text-muted-foreground">
+                  {product.shop?.name}
+                </p>
               </div>
-              <div className="text-sm font-medium">${product.price}</div>
+              <div className="text-sm font-bold font-sans">
+                ${product.price}
+              </div>
             </div>
           ))}
         </div>

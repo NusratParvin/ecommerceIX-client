@@ -18,9 +18,14 @@ export function FollowedShops({ shops, className }: FollowedShopsProps) {
   if (!shops) return null;
 
   return (
-    <Card className={cn(className)}>
+    <Card
+      className={cn(
+        className,
+        "bg-white border border-dashed border-slate-300 rounded-none shadow-none text-slate-700"
+      )}
+    >
       <CardHeader>
-        <CardTitle>Followed Shops</CardTitle>
+        <CardTitle className="text-lg">Followed Shops</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">

@@ -25,7 +25,7 @@ export default function RecentProductsPage() {
   }, []);
 
   return (
-    <div className=" w-full min-h-screen mx-auto p-2 tracking-tight">
+    <div className=" w-full h-full  mx-auto p-2 tracking-tight overflow-x-hidden">
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -109,9 +109,12 @@ const UserDashboard = () => {
   }
 
   return (
-    <div className="flex-1 space-y-4 p-8 pt-6">
+    <div
+      className="flex-1 space-y-4 p-2 text-slate-700
+    mb-10"
+    >
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">My Dashboard</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">My Dashboard</h2>
       </div>
 
       {/* Pass null-safe data */}
@@ -121,15 +124,15 @@ const UserDashboard = () => {
             totalOrders: 0,
             totalSpent: 0,
             activeOrders: 0,
-            savedItems: 0,
+            // savedItems: 0,
           }
         }
       />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <RecentlyViewedProducts
-          products={recentlyViewed || []}
-          className="lg:col-span-4"
+        // products={recentlyViewed || []}
+        // className="lg:col-span-4"
         />
         <FollowedShops shops={followedShops || []} className="lg:col-span-3" />
       </div>

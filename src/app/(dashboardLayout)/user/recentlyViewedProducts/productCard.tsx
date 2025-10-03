@@ -20,8 +20,12 @@ export function ProductCard({ product, index }: ProductCardProps) {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3, delay: index * 0.7 }}
+      className="overflow-x-hidden will-change-transform"
     >
-      <Card className="flex items-center gap-4 h-[180px] bg-slate-100/50  hover:shadow-md transition-colors p-0 rounded-none border-none shadow-xl">
+      <Card
+        className="flex items-center gap-4 h-[180px] bg-white  hover:shadow-md transition-colors p-0 rounded-none 
+      border border-dashed border-slate-300 shadow-xl"
+      >
         {/* Product Image on the Side */}
         <div className="relative w-[45%] h-full flex-shrink-0">
           <Image

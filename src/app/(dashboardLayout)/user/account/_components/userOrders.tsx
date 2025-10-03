@@ -24,9 +24,9 @@ export function UserOrders({ orders }: UserOrdersProps) {
   if (!orders) return null;
 
   return (
-    <Card>
+    <Card className="bg-white border border-dashed border-slate-300 rounded-none shadow-none text-slate-700">
       <CardHeader>
-        <CardTitle>Recent Orders</CardTitle>
+        <CardTitle className="text-lg">Recent Orders</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
