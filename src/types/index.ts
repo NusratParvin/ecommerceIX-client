@@ -35,6 +35,10 @@ export interface TShop {
   owner?: TUser; // Owner of the shop
   products?: Product[]; // Products in the shop
   followers?: TShopFollower[]; // Followers of the shop
+  _count?: {
+    products: number;
+    followers: number;
+  };
 }
 export interface TShopFollower {
   userId: string;

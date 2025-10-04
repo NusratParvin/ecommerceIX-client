@@ -8,16 +8,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-interface Order {
-  id: string;
-  date: string;
-  status: string;
-  total: number;
-}
+import { TOrder } from "@/types";
+import moment from "moment";
 
 interface UserOrdersProps {
-  orders?: Order[];
+  orders?: TOrder[];
 }
 
 export function UserOrders({ orders }: UserOrdersProps) {
@@ -42,9 +37,12 @@ export function UserOrders({ orders }: UserOrdersProps) {
             {orders.map((order) => (
               <TableRow key={order.id}>
                 <TableCell>#{order.id}</TableCell>
-                <TableCell>{order.date}</TableCell>
-                <TableCell>{order.status}</TableCell>
-                <TableCell>${order.total.toFixed(2)}</TableCell>
+                {/* <TableCell>{order.createdAt}</TableCell> */}
+                <TableCell>
+                  {moment(order.createdAt).format("MMMM Do YYYY")}
+                </TableCell>
+                <TableCell>{order.paymentStatus}</TableCell>
+                <TableCell>${order.totalPrice.toFixed(2)}</TableCell>
               </TableRow>
             ))}
           </TableBody>

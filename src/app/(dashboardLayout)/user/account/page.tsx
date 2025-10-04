@@ -4,38 +4,9 @@ import { UserOrders } from "./_components/userOrders";
 import { FollowedShops } from "./_components/followedShops";
 import { RecentlyViewedProducts } from "./_components/recentlyViewedProducts";
 import { UserStats } from "./_components/userStats";
+import { useGetUserOrdersQuery } from "@/redux/features/orders/ordersApi";
 
 // --- Simulated data fetching functions (kept as-is) ---
-const fetchUserStats = async () => ({
-  totalOrders: 15,
-  totalSpent: 2500.0,
-  activeOrders: 2,
-  savedItems: 8,
-});
-
-const fetchRecentlyViewed = async () => [
-  {
-    id: "1",
-    name: "Wireless Earbuds",
-    price: 99.99,
-    imageUrl: "https://images.unsplash.com/photo-1484704849700-f032a568e944",
-    shop: "Tech Haven",
-  },
-  {
-    id: "2",
-    name: "Smart Watch",
-    price: 199.99,
-    imageUrl: "https://images.unsplash.com/photo-1434494878577-86c23bcb06b9",
-    shop: "Gadget World",
-  },
-  {
-    id: "3",
-    name: "Laptop Stand",
-    price: 49.99,
-    imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-    shop: "Office Essentials",
-  },
-];
 
 const fetchRecentOrders = async () => [
   { id: "1", date: "2024-02-20", status: "Delivered", total: 299.99 },
@@ -52,11 +23,44 @@ const fetchFollowedShops = async () => [
 // --- Dashboard without TanStack Query ---
 const UserDashboard = () => {
   const [stats, setStats] = useState<any | null>(null);
-  const [recentlyViewed, setRecentlyViewed] = useState<any[]>([]);
+  // const [recentlyViewed, setRecentlyViewed] = useState<any[]>([]);
   const [recentOrders, setRecentOrders] = useState<any[]>([]);
   const [followedShops, setFollowedShops] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortOrder, setSortOrder] = useState("desc");
+
+  const { data, isLoading, isError } = useGetUserOrdersQuery({
+    // userId: "user-id-from-auth-context-or-param",
+    page,
+    limit,
+    searchTerm,
+    sortBy,
+    sortOrder,
+  });
+  console.log(data?.data);
+  const orders = data?.data || [];
+  // const totalOrders = data?.meta?.total || 0;
+
+  const activeOrders = orders.filter((o) => o.paymentStatus !== "PAID");
+
+  const totalSpent = orders.reduce(
+    (acc, order) =>
+      acc + (order.paymentStatus === "PAID" ? order.totalPrice : 0),
+    0
+  );
+  console.log(totalSpent);
+  const fetchUserStats = async () => ({
+    totalOrders: data?.meta?.total || 0,
+    totalSpent,
+    activeOrders,
+    // savedItems: 8,
+  });
 
   useEffect(() => {
     let cancelled = false;
@@ -66,17 +70,18 @@ const UserDashboard = () => {
         setLoading(true);
         setError(null);
 
-        const [statsRes, recentlyViewedRes, recentOrdersRes, followedShopsRes] =
-          await Promise.all([
+        const [statsRes, recentOrdersRes, followedShopsRes] = await Promise.all(
+          [
             fetchUserStats(),
-            fetchRecentlyViewed(),
+            // fetchRecentlyViewed(),
             fetchRecentOrders(),
             fetchFollowedShops(),
-          ]);
+          ]
+        );
 
         if (!cancelled) {
           setStats(statsRes);
-          setRecentlyViewed(recentlyViewedRes);
+          // setRecentlyViewed(recentlyViewedRes);
           setRecentOrders(recentOrdersRes);
           setFollowedShops(followedShopsRes);
         }
@@ -130,14 +135,11 @@ const UserDashboard = () => {
       />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <RecentlyViewedProducts
-        // products={recentlyViewed || []}
-        // className="lg:col-span-4"
-        />
-        <FollowedShops shops={followedShops || []} className="lg:col-span-3" />
+        <RecentlyViewedProducts />
+        <FollowedShops />
       </div>
 
-      <UserOrders orders={recentOrders || []} />
+      <UserOrders orders={orders || []} />
     </div>
   );
 };
