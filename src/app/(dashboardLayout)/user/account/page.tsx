@@ -1,117 +1,49 @@
 "use client";
-import { useEffect, useState } from "react";
 import { UserOrders } from "./_components/userOrders";
 import { FollowedShops } from "./_components/followedShops";
 import { RecentlyViewedProducts } from "./_components/recentlyViewedProducts";
 import { UserStats } from "./_components/userStats";
 import { useGetUserOrdersQuery } from "@/redux/features/orders/ordersApi";
+import { TOrder } from "@/types";
 
-// --- Simulated data fetching functions (kept as-is) ---
-
-const fetchRecentOrders = async () => [
-  { id: "1", date: "2024-02-20", status: "Delivered", total: 299.99 },
-  { id: "2", date: "2024-02-15", status: "In Transit", total: 149.99 },
-  { id: "3", date: "2024-02-10", status: "Processing", total: 89.99 },
-];
-
-const fetchFollowedShops = async () => [
-  { id: "1", name: "Tech Haven", productCount: 150, followers: 1200 },
-  { id: "2", name: "Fashion Plus", productCount: 300, followers: 2500 },
-  { id: "3", name: "Home Decor", productCount: 200, followers: 1800 },
-];
-
-// --- Dashboard without TanStack Query ---
 const UserDashboard = () => {
-  const [stats, setStats] = useState<any | null>(null);
-  // const [recentlyViewed, setRecentlyViewed] = useState<any[]>([]);
-  const [recentOrders, setRecentOrders] = useState<any[]>([]);
-  const [followedShops, setFollowedShops] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data,
+    isLoading: isOrdersLoading,
+    isError: isOrdersError,
+  } = useGetUserOrdersQuery({});
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [page, setPage] = useState(1);
-  const [limit] = useState(10);
-  const [sortBy, setSortBy] = useState("createdAt");
-  const [sortOrder, setSortOrder] = useState("desc");
-
-  const { data, isLoading, isError } = useGetUserOrdersQuery({
-    // userId: "user-id-from-auth-context-or-param",
-    page,
-    limit,
-    searchTerm,
-    sortBy,
-    sortOrder,
-  });
-  console.log(data?.data);
   const orders = data?.data || [];
-  // const totalOrders = data?.meta?.total || 0;
 
-  const activeOrders = orders.filter((o) => o.paymentStatus !== "PAID");
+  const activeOrders = orders.filter((o: TOrder) => o.paymentStatus !== "PAID");
 
   const totalSpent = orders.reduce(
-    (acc, order) =>
+    (acc: number, order: TOrder) =>
       acc + (order.paymentStatus === "PAID" ? order.totalPrice : 0),
     0
   );
-  console.log(totalSpent);
-  const fetchUserStats = async () => ({
+  // console.log(totalSpent);
+  const userStats = {
     totalOrders: data?.meta?.total || 0,
     totalSpent,
-    activeOrders,
-    // savedItems: 8,
-  });
+    activeOrders: activeOrders.length,
+  };
 
-  useEffect(() => {
-    let cancelled = false;
+  // if (loading) {
+  //   return (
+  //     <div className="flex justify-center items-center min-h-screen">
+  //       Loading dashboard…
+  //     </div>
+  //   );
+  // }
 
-    (async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const [statsRes, recentOrdersRes, followedShopsRes] = await Promise.all(
-          [
-            fetchUserStats(),
-            // fetchRecentlyViewed(),
-            fetchRecentOrders(),
-            fetchFollowedShops(),
-          ]
-        );
-
-        if (!cancelled) {
-          setStats(statsRes);
-          // setRecentlyViewed(recentlyViewedRes);
-          setRecentOrders(recentOrdersRes);
-          setFollowedShops(followedShopsRes);
-        }
-      } catch (e: any) {
-        if (!cancelled) setError(e?.message || "Something went wrong.");
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        Loading dashboard…
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="text-red-600">Error: {error}</div>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className="flex justify-center items-center min-h-screen">
+  //       <div className="text-red-600">Error: {error}</div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div
@@ -122,14 +54,12 @@ const UserDashboard = () => {
         <h2 className="text-2xl font-semibold tracking-tight">My Dashboard</h2>
       </div>
 
-      {/* Pass null-safe data */}
       <UserStats
         stats={
-          stats || {
+          userStats || {
             totalOrders: 0,
             totalSpent: 0,
             activeOrders: 0,
-            // savedItems: 0,
           }
         }
       />
@@ -139,7 +69,11 @@ const UserDashboard = () => {
         <FollowedShops />
       </div>
 
-      <UserOrders orders={orders || []} />
+      <UserOrders
+        orders={orders || []}
+        isOrdersLoading={isOrdersLoading}
+        isOrdersError={isOrdersError}
+      />
     </div>
   );
 };

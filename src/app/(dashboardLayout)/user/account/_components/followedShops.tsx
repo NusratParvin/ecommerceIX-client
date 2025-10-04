@@ -1,13 +1,39 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
 import { useGetFollowedShopsQuery } from "@/redux/features/shops/shopsApi";
 import { TShop } from "@/types";
 import { Users, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 
 export function FollowedShops() {
-  const { data } = useGetFollowedShopsQuery(undefined);
+  const { data, isLoading, isError } = useGetFollowedShopsQuery(undefined);
   const followedShops = data?.data?.followedShops;
   // console.log(followedShops);
+
+  if (!followedShops) return null;
+  if (isLoading) {
+    return (
+      <div className="text-center py-8 bg-white border border-dashed border-slate-300 rounded-none shadow-none text-slate-700">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="text-center py-8 text-red-600">
+        Failed to load shops .
+      </div>
+    );
+  }
+
+  if (!followedShops.length) {
+    return (
+      <div className="text-center py-8 bg-white border border-dashed border-slate-300 rounded-none shadow-none text-slate-700">
+        You are not following any shops!
+      </div>
+    );
+  }
   return (
     <Card className="lg:col-span-3 bg-white border border-dashed border-slate-300 rounded-none shadow-none text-slate-700">
       <CardHeader>
