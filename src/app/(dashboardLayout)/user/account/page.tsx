@@ -29,22 +29,6 @@ const UserDashboard = () => {
     activeOrders: activeOrders.length,
   };
 
-  // if (loading) {
-  //   return (
-  //     <div className="flex justify-center items-center min-h-screen">
-  //       Loading dashboard…
-  //     </div>
-  //   );
-  // }
-
-  // if (error) {
-  //   return (
-  //     <div className="flex justify-center items-center min-h-screen">
-  //       <div className="text-red-600">Error: {error}</div>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div
       className="flex-1 space-y-4 p-2 text-slate-700

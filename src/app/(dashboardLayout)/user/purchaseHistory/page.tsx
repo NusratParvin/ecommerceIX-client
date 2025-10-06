@@ -54,7 +54,7 @@ const UserOrdersPage = () => {
         <h1 className="text-lg font-semibold ">Your Previous Orders</h1>
       </div>
 
-      <div className="flex  justify-between items-center gap-4 mb-6">
+      <div className="flex justify-between items-center gap-4 mb-6">
         <div className="relative w-full md:w-2/5 text-xs ">
           <Input
             placeholder="Search by Order ID / product / shop "
