@@ -45,7 +45,7 @@ const AdminOrdersPage = () => {
     sortOrder,
     searchTerm,
   });
-  console.log(data, error);
+  // console.log(data, error);
   const orders = data?.data || [];
   const totalRecords = data?.meta?.total || 0;
 
@@ -57,7 +57,7 @@ const AdminOrdersPage = () => {
     <div className="flex flex-col min-h-screen p-2 space-y-4">
       {/* Heading */}
       <div className="flex items-center gap-2">
-        <ShoppingBag className="w-6 h-6" />
+        <ShoppingBag className="w-6 h-6 mb-1" />
         <h1 className="text-2xl font-semibold text-charcoal">Orders</h1>
       </div>
 

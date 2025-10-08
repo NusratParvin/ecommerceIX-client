@@ -82,9 +82,9 @@ export const userMenuItems: MenuType[] = [
     url: "/user/purchaseHistory",
   },
   {
-    title: "Manage Password",
+    title: "Account Info",
     icon: Key,
-    url: "/user/managePassword",
+    url: "/user/accountInfo",
   },
   {
     title: "Home",

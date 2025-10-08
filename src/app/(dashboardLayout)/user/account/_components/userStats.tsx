@@ -30,9 +30,9 @@ export function UserStats({ stats }: UserStatsProps) {
         </div>
       </Card> */}
 
-      <Card className="relative overflow-hidden bg-white border border-dashed border-slate-300 rounded-none shadow-none h-[120px]">
+      <Card className="relative overflow-hidden bg-white border border-dashed border-slate-300 border-l-0 rounded-none shadow-none h-[120px]">
         {/* left accent line */}
-        <span className="absolute left-0 top-1 bottom-1 w-[3px] bg-deep-brown/80 rounded-full" />
+        <span className="absolute left-0 top-0 bottom-0 w-[4px] bg-deep-brown/80 rounded-none" />
 
         <div className="flex h-full items-center gap-6 ps-6 pe-5">
           <div className="shrink-0">
