@@ -9,6 +9,7 @@ interface StatCardProps {
   icon: LucideIcon;
   // icon: ReactNode;
   description?: string;
+  descriptionClassName?: string;
 }
 
 export function StatCard({
@@ -17,6 +18,7 @@ export function StatCard({
   icon: Icon,
   // icon,
   description,
+  descriptionClassName,
 }: StatCardProps) {
   return (
     // <Card className="relative overflow-hidden bg-white border border-dashed border-slate-300 border-l-0 rounded-none shadow-none h-[120px]">
@@ -39,21 +41,27 @@ export function StatCard({
       {/* left accent line */}
       <span className="absolute left-0 top-0 bottom-0 w-[4px] bg-deep-brown/80 rounded-none" />
 
-      <div className="flex h-full items-center gap-6 ps-6 pe-5">
+      <div className="flex h-full items-center gap-4 ps-6 pe-2">
         {/* Icon */}
-        <div className="shrink-0 border p-4 bg-deep-brown/20 rounded-full shadow-md">
+        <div className="shrink-0 border p-4 bg-deep-brown/20 rounded-full shadow-md  ">
           <Icon className="h-8 w-8 text-deep-brown" strokeWidth={1.6} />
           {/* <Icon className="h-14 w-14 text-deep-brown/80" strokeWidth={1.6} /> */}
           {/* {icon} */}
         </div>
 
         {/* Text content */}
-        <div className="leading-tight">
+        <div className="leading-tight   w-full">
           <div className="text-3xl font-semibold font-sans">{value}</div>
           <div className="text-base text-slate-700 mt-1">{title}</div>
 
           {description && (
-            <p className="text-xs text-muted-foreground mt-1">{description}</p>
+            <p
+              className={`mt-1 text-sm ${
+                descriptionClassName ?? "text-muted-foreground"
+              }`}
+            >
+              {description}
+            </p>
           )}
         </div>
       </div>

@@ -8,61 +8,63 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TOrder } from "@/types";
+import moment from "moment";
+import Link from "next/link";
 
-const recentOrders = [
-  {
-    id: "1",
-    product: "Gaming Laptop",
-    customer: "John Doe",
-    status: "Paid",
-    amount: "$1,999.00",
-    date: "2024-02-20",
-  },
-  {
-    id: "2",
-    product: "Wireless Earbuds",
-    customer: "Jane Smith",
-    status: "Processing",
-    amount: "$129.00",
-    date: "2024-02-19",
-  },
-  {
-    id: "3",
-    product: "Smart Watch",
-    customer: "Bob Johnson",
-    status: "Shipped",
-    amount: "$299.00",
-    date: "2024-02-18",
-  },
-];
-
-export function RecentVendorOrders() {
+export const RecentVendorOrders = ({
+  recentOrders,
+}: {
+  recentOrders: TOrder[];
+}) => {
   return (
-    <Card>
+    <Card className="bg-white border border-dashed border-slate-300 rounded-none shadow-none">
       <CardHeader>
-        <CardTitle>Recent Orders</CardTitle>
+        <CardTitle className="text-lg">Recent Orders</CardTitle>
       </CardHeader>
       <CardContent>
-        <Table>
+        <Table className="text-base">
           <TableHeader>
             <TableRow>
-              <TableHead>Order ID</TableHead>
-              <TableHead>Product</TableHead>
-              <TableHead>Customer</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Amount</TableHead>
-              <TableHead>Date</TableHead>
+              <TableHead className="font-bold">#</TableHead>
+              <TableHead className="font-bold">Order ID</TableHead>
+              <TableHead className="font-bold">Product</TableHead>
+              <TableHead className="font-bold">Total Price</TableHead>
+              <TableHead className="font-bold">Payment Status</TableHead>
+              <TableHead className="font-bold">Date</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {recentOrders.map((order) => (
+            {recentOrders.slice(0, 4).map((order, index: number) => (
               <TableRow key={order.id}>
-                <TableCell>#{order.id}</TableCell>
-                <TableCell>{order.product}</TableCell>
-                <TableCell>{order.customer}</TableCell>
-                <TableCell>{order.status}</TableCell>
-                <TableCell>{order.amount}</TableCell>
-                <TableCell>{order.date}</TableCell>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell className="hover:underline">
+                  <Link href={`/vendor/orders/${order.id}`}>{order.id}</Link>
+                </TableCell>
+                <TableCell className="text-deep-brown">
+                  {order.items
+                    .slice(0, 3)
+                    .map((item) => item.product?.name)
+                    .join(", ")}
+                  {order.items.length > 3 && " ..."}
+                </TableCell>
+                <TableCell className="font-semibold font-sans">
+                  ${order.totalPrice.toFixed(2)}
+                </TableCell>
+                <TableCell>
+                  <span
+                    className={`px-2 py-1 rounded ${
+                      order.paymentStatus === "PAID"
+                        ? "bg-green-100 text-green-600"
+                        : "bg-red-100 text-red-600"
+                    }`}
+                  >
+                    {order.paymentStatus}
+                  </span>
+                </TableCell>{" "}
+                <TableCell>
+                  {moment(order.createdAt).format("MMM Do YYYY")}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -70,4 +72,4 @@ export function RecentVendorOrders() {
       </CardContent>
     </Card>
   );
-}
+};

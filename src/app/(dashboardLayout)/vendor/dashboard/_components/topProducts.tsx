@@ -10,7 +10,7 @@ const topProducts = [
 
 export function TopProducts() {
   return (
-    <Card className="col-span-3">
+    <Card className="col-span-3 bg-white border border-dashed border-slate-300 rounded-none shadow-none">
       <CardHeader>
         <CardTitle>Top Products</CardTitle>
       </CardHeader>

@@ -95,7 +95,7 @@ const chartOptions: ChartOptions<"bar"> = {
 
 export function VendorRevenueChart() {
   return (
-    <Card className="col-span-4">
+    <Card className="col-span-4 bg-white border border-dashed border-slate-300 rounded-none shadow-none">
       <CardHeader>
         <CardTitle>Shop Revenue</CardTitle>
       </CardHeader>
