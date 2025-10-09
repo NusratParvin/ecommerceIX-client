@@ -22,7 +22,7 @@ const UserDashboard = () => {
       acc + (order.paymentStatus === "PAID" ? order.totalPrice : 0),
     0
   );
-  // console.log(totalSpent);
+
   const userStats = {
     totalOrders: data?.meta?.total || 0,
     totalSpent,

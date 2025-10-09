@@ -18,7 +18,7 @@ export const RecentVendorOrders = ({
   recentOrders: TOrder[];
 }) => {
   return (
-    <Card className="bg-white border border-dashed border-slate-300 rounded-none shadow-none">
+    <Card className="col-span-5 bg-white border border-dashed border-slate-300 rounded-none shadow-none">
       <CardHeader>
         <CardTitle className="text-lg">Recent Orders</CardTitle>
       </CardHeader>
@@ -39,7 +39,9 @@ export const RecentVendorOrders = ({
               <TableRow key={order.id}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell className="hover:underline">
-                  <Link href={`/vendor/orders/${order.id}`}>{order.id}</Link>
+                  <Link href={`/vendor/orders/${order.id}`}>
+                    {order.id.slice(0, 8)}
+                  </Link>
                 </TableCell>
                 <TableCell className="text-deep-brown">
                   {order.items
