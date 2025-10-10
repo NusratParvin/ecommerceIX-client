@@ -49,20 +49,74 @@ export const TopProductsChart = ({ products }: TopProductsChartProps) => {
     plugins: {
       legend: {
         position: "top" as const,
+        labels: {
+          color: "#374151",
+          font: {
+            size: 14,
+            family: "'Inter', sans-serif",
+            weight: 500,
+          },
+          padding: 20,
+          usePointStyle: true,
+        },
       },
       title: {
         display: true,
         text: "Top Products by Revenue",
+        color: "#111827",
+        font: {
+          size: 18,
+          family: "'Inter', sans-serif",
+          weight: 600,
+        },
+        padding: {
+          top: 10,
+          bottom: 30,
+        },
+      },
+      tooltip: {
+        backgroundColor: "rgba(17, 24, 39, 0.9)",
+        titleColor: "#F9FAFB",
+        bodyColor: "#F9FAFB",
+        titleFont: {
+          size: 14,
+          family: "'Inter', sans-serif",
+        },
+        bodyFont: {
+          size: 13,
+          family: "'Inter', sans-serif",
+        },
+        padding: 12,
+        cornerRadius: 8,
+        displayColors: true,
       },
     },
     scales: {
       x: {
         beginAtZero: true,
         ticks: {
+          color: "#6B7280",
+          font: {
+            size: 12,
+            family: "'Inter', sans-serif",
+            weight: 600,
+          },
           callback: function (value: any) {
             return "$" + value;
           },
         },
+      },
+      y: {
+        grid: { display: false },
+        ticks: {
+          color: "#6B7280",
+          font: {
+            size: 12,
+            family: "'Inter', sans-serif",
+            weight: 600,
+          },
+        },
+        border: { display: false },
       },
     },
   };

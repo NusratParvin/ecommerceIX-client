@@ -53,19 +53,16 @@ const VendorDashboard = () => {
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
-        <div className="bg-white border border-dashed border-slate-300 rounded-none shadow-none h-80">
+        <div className="bg-white border border-dashed border-slate-300 rounded-none shadow-none h-80 p-4">
           <RevenueTrendsChart orders={orders} />
         </div>
-
-        <div className="bg-white border border-dashed border-slate-300 rounded-none shadow-none h-80">
+        <div className="bg-white border border-dashed border-slate-300 rounded-none shadow-none h-80 p-4">
           <TopProductsChart products={products} />
         </div>
-
-        <div className="bg-white border border-dashed border-slate-300 rounded-none shadow-none h-80">
+        <div className="bg-white border border-dashed border-slate-300 rounded-none shadow-none h-80 p-4">
           <OrderStatusChart orders={orders} />
         </div>
-
-        <div className="bg-white border border-dashed border-slate-300 rounded-none shadow-none h-80">
+        <div className="bg-white border border-dashed border-slate-300 rounded-none shadow-none h-80 p-4 ">
           <CategoryPerformanceChart products={products} />
         </div>
       </div>
