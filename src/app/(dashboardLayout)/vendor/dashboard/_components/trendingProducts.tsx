@@ -30,11 +30,11 @@ export const TrendingProducts = ({ products }: { products: Product[] }) => {
   return (
     <Card className="col-span-2 bg-white border border-dashed border-slate-300 rounded-none shadow-none max-h-[400px] overflow-y-auto">
       <CardHeader>
-        <CardTitle className="text-lg">Trending products</CardTitle>
+        <CardTitle className="text-base">Trending products</CardTitle>
       </CardHeader>
 
       <CardContent>
-        <div className="space-y-4 text-base">
+        <div className="space-y-4 text-sm">
           {trendingProducts.map((product) => (
             <div
               key={product.name}

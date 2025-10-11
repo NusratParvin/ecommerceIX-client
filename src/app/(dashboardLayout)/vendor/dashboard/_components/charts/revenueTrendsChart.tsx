@@ -72,7 +72,7 @@ export const RevenueTrendsChart = ({ orders }: RevenueTrendsChartProps) => {
         text: "Revenue Trends",
         color: "#111827",
         font: {
-          size: 18,
+          size: 14,
           family: "'Inter', sans-serif",
           weight: 600,
         },

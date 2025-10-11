@@ -57,7 +57,7 @@ export const OrderStatusChart = ({ orders }: OrderStatusChartProps) => {
         text: "Order Status Distribution",
         color: "#111827",
         font: {
-          size: 18,
+          size: 14,
           family: "'Inter', sans-serif",
           weight: 600,
         },
@@ -73,7 +73,6 @@ export const OrderStatusChart = ({ orders }: OrderStatusChartProps) => {
         titleFont: {
           size: 14,
           family: "'Inter', sans-serif",
-          // weight optional
         },
         bodyFont: {
           size: 13,

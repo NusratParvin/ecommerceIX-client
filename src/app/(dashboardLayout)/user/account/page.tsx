@@ -35,7 +35,7 @@ const UserDashboard = () => {
     mb-10"
     >
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-2xl font-semibold tracking-tight">My Dashboard</h2>
+        <h2 className="text-xl font-semibold tracking-tight">My Dashboard</h2>
       </div>
 
       <UserStats

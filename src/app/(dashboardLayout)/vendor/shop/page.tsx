@@ -17,6 +17,7 @@ const MyShop = () => {
     fetchShop(undefined);
   }, [fetchShop]);
   // console.log(data, "fetch");
+
   useEffect(() => {
     if (!isLoading && data) {
       setIsCreatingShop(!data?.data);
@@ -49,16 +50,22 @@ const MyShop = () => {
   }
 
   return (
-    <div className="p-8">
-      {isCreatingShop ? (
-        <CreateShop onShopCreated={handleShopCreated} />
-      ) : (
-        <ShopDetails
-          shop={data?.data}
-          // onEditShop={() => setIsCreatingShop(true)}
-          onShopCreated={handleShopCreated}
-        />
-      )}
+    <div className="flex flex-col min-h-screen p-2 space-y-4 tracking-tight text-slate-700">
+      <div className="flex items-center gap-2">
+        <h1 className="text-lg font-semibold ">Shop Profile</h1>
+      </div>
+
+      <div className="w-full mx-auto">
+        {isCreatingShop ? (
+          <CreateShop onShopCreated={handleShopCreated} />
+        ) : (
+          <ShopDetails
+            shop={data?.data}
+            // onEditShop={() => setIsCreatingShop(true)}
+            onShopCreated={handleShopCreated}
+          />
+        )}
+      </div>
     </div>
   );
 };

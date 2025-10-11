@@ -65,7 +65,7 @@ export const TopProductsChart = ({ products }: TopProductsChartProps) => {
         text: "Top Products by Revenue",
         color: "#111827",
         font: {
-          size: 18,
+          size: 14,
           family: "'Inter', sans-serif",
           weight: 600,
         },

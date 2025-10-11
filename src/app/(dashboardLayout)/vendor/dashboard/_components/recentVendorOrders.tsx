@@ -20,10 +20,10 @@ export const RecentVendorOrders = ({
   return (
     <Card className="col-span-5 bg-white border border-dashed border-slate-300 rounded-none shadow-none">
       <CardHeader>
-        <CardTitle className="text-lg">Recent Orders</CardTitle>
+        <CardTitle className="text-base">Recent Orders</CardTitle>
       </CardHeader>
       <CardContent>
-        <Table className="text-base">
+        <Table className="text-sm">
           <TableHeader>
             <TableRow>
               <TableHead className="font-bold">#</TableHead>

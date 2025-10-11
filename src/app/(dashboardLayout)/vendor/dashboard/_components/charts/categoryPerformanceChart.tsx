@@ -66,7 +66,7 @@ export const CategoryPerformanceChart = ({
         text: "Category Performance",
         color: "#111827",
         font: {
-          size: 18,
+          size: 14,
           family: "'Inter', sans-serif",
           weight: 600,
         },
@@ -82,7 +82,6 @@ export const CategoryPerformanceChart = ({
         titleFont: {
           size: 14,
           family: "'Inter', sans-serif",
-          // weight optional
         },
         bodyFont: {
           size: 13,

@@ -48,9 +48,9 @@ export const adminMenuItems: MenuType[] = [
 // Vendor Menu Items
 export const vendorMenuItems: MenuType[] = [
   { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/dashboard" },
-  { title: "My Shop", icon: Store, url: "/vendor/shop" },
   { title: "Products", icon: Package, url: "/vendor/products" },
   { title: "Orders", icon: ClipboardList, url: "/vendor/orders" },
+  { title: "Shop Profile", icon: Store, url: "/vendor/shop" },
   // {
   //   title: "Customer Feedback",
   //   icon: MessageSquare,

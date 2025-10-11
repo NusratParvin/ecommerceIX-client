@@ -26,33 +26,37 @@ export function RecentlyViewedProducts() {
   return (
     <Card className="lg:col-span-4 bg-white border border-dashed border-slate-300 rounded-none shadow-none text-slate-700">
       <CardHeader>
-        <CardTitle className="text-lg">Recently Viewed Products</CardTitle>
+        <CardTitle className="text-base">Recently Viewed Products</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
-          {recentProducts.slice(0, 4).map((product) => (
-            <div key={product.id} className="flex items-center space-x-4  ">
-              <div className="relative h-14 w-20 overflow-hidden rounded-none">
-                <Image
-                  src={product.imageUrl || " "}
-                  alt={product.name}
-                  fill
-                  className="object-cover rounded-none"
-                />
+          {recentProducts?.length > 0 ? (
+            recentProducts.slice(0, 4).map((product) => (
+              <div key={product.id} className="flex items-center space-x-4  ">
+                <div className="relative h-14 w-20 overflow-hidden rounded-none">
+                  <Image
+                    src={product.imageUrl || " "}
+                    alt={product.name}
+                    fill
+                    className="object-cover rounded-none"
+                  />
+                </div>
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-semibold leading-none">
+                    {product.name}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {product.shop?.name}
+                  </p>
+                </div>
+                <div className="text-sm font-bold font-sans">
+                  ${product.price}
+                </div>
               </div>
-              <div className="flex-1 space-y-1">
-                <p className="text-sm font-semibold leading-none">
-                  {product.name}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {product.shop?.name}
-                </p>
-              </div>
-              <div className="text-sm font-bold font-sans">
-                ${product.price}
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div>You have not viewed any product lately!</div>
+          )}
         </div>
       </CardContent>
     </Card>

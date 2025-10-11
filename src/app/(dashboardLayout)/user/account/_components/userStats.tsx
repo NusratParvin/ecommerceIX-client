@@ -35,58 +35,52 @@ export function UserStats({ stats }: UserStatsProps) {
         <span className="absolute left-0 top-0 bottom-0 w-[4px] bg-deep-brown/80 rounded-none" />
 
         <div className="flex h-full items-center gap-6 ps-6 pe-5">
-          <div className="shrink-0">
+          <div className="shrink-0 border p-4 bg-deep-brown/20 rounded-full shadow-md ">
             <ShoppingBag
-              className="h-14 w-14 text-deep-brown/80"
+              className="h-8 w-8 text-deep-brown/80"
               strokeWidth={1.6}
             />
           </div>
 
           <div className="leading-tight">
-            <div className="text-3xl font-semibold font-sans">
+            <div className="text-2xl font-semibold font-sans">
               {stats.totalOrders}
             </div>
-            <div className="text-base text-slate-700 mt-1">Total Orders</div>
+            <div className="text-sm text-slate-700 mt-1">Total Orders</div>
           </div>
         </div>
       </Card>
       <Card className="relative overflow-hidden bg-white border border-dashed border-slate-300 rounded-none shadow-none h-[120px]">
         {/* left accent line */}
-        <span className="absolute left-0 top-1 bottom-1 w-[3px] bg-deep-brown/80 rounded-full" />
+        <span className="absolute left-0 top-1 bottom-1 w-[4px] bg-deep-brown/80 rounded-full" />
 
-        <div className="flex h-full items-center gap-6 ps-6 pe-5">
-          <div className="shrink-0">
-            <Wallet
-              className="h-14 w-14 text-deep-brown/80"
-              strokeWidth={1.6}
-            />
+        <div className="flex h-full items-center gap-6 ps-6 pe-2">
+          <div className="shrink-0 border p-4 bg-deep-brown/20 rounded-full shadow-md ">
+            <Wallet className="h-8 w-8 text-deep-brown/80" strokeWidth={1.6} />
           </div>
 
           <div className="leading-tight">
-            <div className="text-3xl font-semibold font-sans">
+            <div className="text-2xl font-semibold font-sans">
               ${stats.totalSpent.toFixed(2)}
             </div>
-            <div className="text-base text-slate-700 mt-1">Total Spent</div>
+            <div className="text-sm text-slate-700 mt-1">Total Spent</div>
           </div>
         </div>
       </Card>
       <Card className="relative overflow-hidden bg-white border border-dashed border-slate-300 rounded-none shadow-none h-[120px]">
         {/* left accent line */}
-        <span className="absolute left-0 top-1 bottom-1 w-[3px] bg-deep-brown/80 rounded-full" />
+        <span className="absolute left-0 top-1 bottom-1 w-[4px] bg-deep-brown/80 rounded-full" />
 
         <div className="flex h-full items-center gap-6 ps-6 pe-5">
-          <div className="shrink-0">
-            <Package
-              className="h-14 w-14 text-deep-brown/80"
-              strokeWidth={1.6}
-            />
+          <div className="shrink-0 border p-4 bg-deep-brown/20 rounded-full shadow-md ">
+            <Package className="h-8 w-8 text-deep-brown/80" strokeWidth={1.6} />
           </div>
 
           <div className="leading-tight">
-            <div className="text-3xl font-semibold font-sans">
+            <div className="text-2xl font-semibold font-sans">
               {stats.activeOrders}
             </div>
-            <div className="text-base text-slate-700 mt-1">Active Orders</div>
+            <div className="text-sm text-slate-700 mt-1">Active Orders</div>
           </div>
         </div>
       </Card>

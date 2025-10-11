@@ -34,12 +34,12 @@ const VendorDashboard = () => {
   return (
     <div className="flex-1 space-y-4 p-2 text-slate-700 mb-10">
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-2xl font-semibold tracking-tight">
+        <h2 className="text-xl font-semibold tracking-tight">
           Vendor Dashboard
         </h2>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
           <StatCard
             key={stat.title}

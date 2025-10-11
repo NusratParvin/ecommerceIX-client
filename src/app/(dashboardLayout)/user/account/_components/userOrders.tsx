@@ -51,7 +51,7 @@ export function UserOrders({
   return (
     <Card className="bg-white border border-dashed border-slate-300 rounded-none shadow-none text-slate-700">
       <CardHeader>
-        <CardTitle className="text-lg">Recent Orders</CardTitle>
+        <CardTitle className="text-base">Recent Orders</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>

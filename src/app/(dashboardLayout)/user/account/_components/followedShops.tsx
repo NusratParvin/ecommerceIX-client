@@ -37,7 +37,7 @@ export function FollowedShops() {
   return (
     <Card className="lg:col-span-3 bg-white border border-dashed border-slate-300 rounded-none shadow-none text-slate-700">
       <CardHeader>
-        <CardTitle className="text-lg">
+        <CardTitle className="text-base">
           Followed Shops{" "}
           <span className="font-sans">({followedShops?.length})</span>
         </CardTitle>

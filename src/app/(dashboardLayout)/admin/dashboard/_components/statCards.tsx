@@ -41,7 +41,7 @@ export function StatCard({
       {/* left accent line */}
       <span className="absolute left-0 top-0 bottom-0 w-[4px] bg-deep-brown/80 rounded-none" />
 
-      <div className="flex h-full items-center gap-4 ps-6 pe-2">
+      <div className="flex h-full items-center gap-4 ps-4 pe-2">
         {/* Icon */}
         <div className="shrink-0 border p-4 bg-deep-brown/20 rounded-full shadow-md  ">
           <Icon className="h-8 w-8 text-deep-brown" strokeWidth={1.6} />
@@ -51,12 +51,12 @@ export function StatCard({
 
         {/* Text content */}
         <div className="leading-tight   w-full">
-          <div className="text-3xl font-semibold font-sans">{value}</div>
-          <div className="text-base text-slate-700 mt-1">{title}</div>
+          <div className="text-2xl font-semibold font-sans">{value}</div>
+          <div className="text-sm text-slate-700 mt-1">{title}</div>
 
           {description && (
             <p
-              className={`mt-1 text-sm ${
+              className={`mt-1 text-xs ${
                 descriptionClassName ?? "text-muted-foreground"
               }`}
             >
