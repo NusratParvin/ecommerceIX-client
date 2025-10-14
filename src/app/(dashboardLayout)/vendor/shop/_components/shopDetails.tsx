@@ -101,7 +101,7 @@ const ShopDetails = ({
         isEditing ? "max-h-[800px]" : "max-h-auto"
       }`}
     >
-      <div className="flex items-center justify-between  p-4 ">
+      <div className="flex items-center justify-between p-4">
         <div className="flex items-center gap-4">
           <div className="relative h-12 w-12 rounded-full overflow-hidden">
             <Image

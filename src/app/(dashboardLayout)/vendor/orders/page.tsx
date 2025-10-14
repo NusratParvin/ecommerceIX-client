@@ -54,17 +54,25 @@ const AdminOrdersPage = () => {
   }, [searchTerm]);
 
   return (
-    <div className="flex flex-col min-h-screen p-2 space-y-4">
+    <div className="flex flex-col min-h-screen p-2 space-y-2">
       {/* Heading */}
-      <div className="flex items-center gap-2">
-        <ShoppingBag className="w-6 h-6 mb-1" />
-        <h1 className="text-2xl font-semibold text-charcoal">Orders</h1>
+      {/* Heading Row */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1">
+          <ShoppingBag className="w-4 h-4 mb-1" />
+          <h1 className="text-lg font-semibold text-charcoal">Orders</h1>
+        </div>
+
+        <p className="text-sm text-gray-600 pe-2">
+          Total Records:{" "}
+          <span className="font-medium">{totalRecords ?? 0}</span>
+        </p>
       </div>
 
       {/* Filters */}
-      <div className="flex  justify-around items-center gap-4 mb-6">
+      <div className="flex justify-between items-center gap-4 mb-6">
         {/* Search Input */}
-        <div className="relative w-full md:w-1/3">
+        <div className="relative w-full md:w-2/5 text-xs  ">
           <Input
             placeholder="Search by Order ID or Coupon"
             value={searchTerm}
@@ -77,116 +85,129 @@ const AdminOrdersPage = () => {
         </div>
 
         {/* Sort By Dropdown */}
-        <div className="flex items-center space-x-2">
-          <label className="text-sm font-medium text-gray-900">Sort By:</label>
-          <Select value={sortBy} onValueChange={(value) => setSortBy(value)}>
-            <SelectTrigger className="w-40">
-              <span>{sortBy}</span>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="createdAt">Date</SelectItem>
-              <SelectItem value="userId">User</SelectItem>
-              <SelectItem value="shopId">Shop</SelectItem>
-              <SelectItem value="totalPrice">Total Price</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <div className="flex flex-row  gap-4 justify-center items-center">
+          <div className="flex items-center space-x-2">
+            <label className="text-sm font-medium">Sort By:</label>
+            <Select value={sortBy} onValueChange={(value) => setSortBy(value)}>
+              <SelectTrigger className="w-40">
+                <span>{sortBy}</span>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="createdAt">Date</SelectItem>
+                <SelectItem value="userId">User</SelectItem>
+                <SelectItem value="orderId">Order ID</SelectItem>
+                <SelectItem value="totalPrice">Total Price</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-        {/* Order By Dropdown */}
-        <div className="flex items-center space-x-2">
-          <label className="text-sm font-medium text-gray-900">Order:</label>
-          <Select
-            value={sortOrder}
-            onValueChange={(value) => setSortOrder(value)}
-          >
-            <SelectTrigger className="w-32">
-              <span>{sortOrder === "asc" ? "Ascending" : "Descending"}</span>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="asc">Ascending</SelectItem>
-              <SelectItem value="desc">Descending</SelectItem>
-            </SelectContent>
-          </Select>
+          {/* Order By Dropdown */}
+          <div className="flex items-center space-x-2">
+            <label className="text-sm font-medium">Order:</label>
+            <Select
+              value={sortOrder}
+              onValueChange={(value) => setSortOrder(value)}
+            >
+              <SelectTrigger className="w-32">
+                <span>{sortOrder === "asc" ? "Ascending" : "Descending"}</span>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="asc">Ascending</SelectItem>
+                <SelectItem value="desc">Descending</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 
       {/* Orders Table */}
-      <div className="flex-grow border rounded-lg p-4 shadow-md min-h-screen">
+      <div className="min-h-screen">
         {isLoading ? (
           <Spinner />
-        ) : orders.length === 0 ? (
+        ) : orders?.length === 0 ? (
           <p className="text-center text-gray-500">No orders found.</p>
         ) : (
           <>
-            <p className="text-sm text-gray-600 mb-4">
+            {/* <p className="text-sm text-gray-600 mb-4 absolute top-10 right-10">
               Total Records: <span className="font-medium">{totalRecords}</span>
-            </p>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>#</TableHead>
-                  <TableHead>Order ID</TableHead>
-                  <TableHead>Buyer</TableHead>
-                  <TableHead>Shop</TableHead>
-                  <TableHead>Total Price</TableHead>
-                  <TableHead>#Items Bought</TableHead>
-                  <TableHead>Coupon Code</TableHead>
-                  <TableHead>Payment Status</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>View</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className="text-xs">
-                {orders.map((order: TOrder, index: number) => (
-                  <TableRow key={order.id}>
-                    <TableCell className="font-medium">
-                      {(page - 1) * limit + index + 1}
-                    </TableCell>
-                    <TableCell>{order.id}</TableCell>
-                    <TableCell>{order.user.name}</TableCell>
-                    <TableCell className="text-green-600">
-                      {order.shop.name}
-                    </TableCell>
-                    <TableCell>${order.totalPrice.toFixed(2)}</TableCell>
-                    <TableCell className="text-blue-600">
-                      {order.items.length}
-                    </TableCell>
-                    <TableCell>
-                      {order.coupon ? (
-                        <Badge className="bg-red-100 text-red-700">
-                          {order.coupon.code}
-                        </Badge>
-                      ) : (
-                        <Badge className="bg-gray-100 text-gray-500">
-                          No Coupon
-                        </Badge>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <span
-                        className={`px-2 py-1 rounded ${
-                          order.paymentStatus === "PAID"
-                            ? "bg-green-100 text-green-600"
-                            : "bg-red-100 text-red-600"
-                        }`}
-                      >
-                        {order.paymentStatus}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      {new Date(order.createdAt).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-warm-brown hover:underline flex items-center gap-2 cursor-pointer">
-                        <Link href={`/vendor/orders/${order.id}`}>
-                          <Eye className="h-4 w-4" />
-                        </Link>
-                      </div>
-                    </TableCell>
+            </p> */}
+            <div className="flex-grow border rounded-lg p-4 shadow-md min-h-screen">
+              <Table className="text-sm ">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className=" font-semibold">#</TableHead>
+                    <TableHead className=" font-semibold">Order ID</TableHead>
+                    <TableHead className=" font-semibold">Products</TableHead>
+                    <TableHead className=" font-semibold">#Items</TableHead>
+                    <TableHead className=" font-semibold">Price</TableHead>
+                    <TableHead className=" font-semibold">Coupon</TableHead>
+                    <TableHead className=" font-semibold">Status</TableHead>
+                    <TableHead className=" font-semibold">Buyer</TableHead>
+                    <TableHead className=" font-semibold">Date</TableHead>
+                    <TableHead className=" font-semibold">Action</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody className="text-sm">
+                  {orders.map((order: TOrder, index: number) => (
+                    <TableRow key={order.id}>
+                      <TableCell className="font-medium">
+                        {(page - 1) * limit + index + 1}
+                      </TableCell>
+                      <TableCell className="font-semibold">
+                        {order.id.slice(0, 8)}
+                      </TableCell>
+                      <TableCell className="text-green-600">
+                        {order.items
+                          .slice(0, 3)
+                          .map((item) => item.product?.name)
+                          .join(", ")}
+                        {order.items.length > 3 && " ..."}
+                      </TableCell>
+                      <TableCell className="text-blue-600">
+                        {order.items.length}
+                      </TableCell>
+                      <TableCell className="font-bold font-sans">
+                        ${order.totalPrice.toFixed(2)}
+                      </TableCell>
+                      <TableCell>
+                        {order.coupon ? (
+                          <Badge className="bg-red-100 text-red-700">
+                            {order.coupon.code}
+                          </Badge>
+                        ) : (
+                          <Badge className="bg-gray-100 text-gray-500">
+                            No Coupon
+                          </Badge>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <span
+                          className={`px-2 py-1 rounded ${
+                            order.paymentStatus === "PAID"
+                              ? "bg-green-100 text-green-600"
+                              : "bg-red-100 text-red-600"
+                          }`}
+                        >
+                          {order.paymentStatus}
+                        </span>
+                      </TableCell>
+                      <TableCell>{order.user.name}</TableCell>
+
+                      <TableCell>
+                        {new Date(order.createdAt).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-warm-brown hover:underline flex items-center gap-2 cursor-pointer">
+                          <Link href={`/vendor/orders/${order.id}`}>
+                            <Eye className="h-4 w-4" />
+                          </Link>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </>
         )}
       </div>

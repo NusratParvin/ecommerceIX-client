@@ -85,7 +85,7 @@ const CreateShop: React.FC<CreateShopProps> = ({ onShopCreated }) => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6 bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto"
     >
-      <h1 className="text-2xl font-bold">Set Up Your Shop</h1>
+      <h1 className="text-base font-semibold">Set Up Your Shop</h1>
 
       {/* Shop Name */}
       <div className="space-y-2">
