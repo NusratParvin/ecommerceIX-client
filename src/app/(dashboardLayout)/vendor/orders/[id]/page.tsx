@@ -1,9 +1,9 @@
 "use client";
 import { useGetOrderDetailsQuery } from "@/redux/features/orders/ordersApi";
 import { useParams } from "next/navigation";
-import OrderDetailsView from "./orderDetailsView";
 import { Spinner } from "@/components/ui/spinner";
 import { AlertCircle } from "lucide-react";
+import OrderDetailsView from "./_components/orderDetailsView";
 
 const OrderDetailsPage = () => {
   const { id } = useParams();

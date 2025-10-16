@@ -95,7 +95,7 @@ const AdminOrdersPage = () => {
               <SelectContent>
                 <SelectItem value="createdAt">Date</SelectItem>
                 <SelectItem value="userId">User</SelectItem>
-                <SelectItem value="orderId">Order ID</SelectItem>
+                {/* <SelectItem value="orderId">Order ID</SelectItem> */}
                 <SelectItem value="totalPrice">Total Price</SelectItem>
               </SelectContent>
             </Select>
@@ -131,11 +131,10 @@ const AdminOrdersPage = () => {
             {/* <p className="text-sm text-gray-600 mb-4 absolute top-10 right-10">
               Total Records: <span className="font-medium">{totalRecords}</span>
             </p> */}
-            <div className="flex-grow border rounded-lg p-4 shadow-md min-h-screen">
+            <div className="flex-grow border border-slate-200/60 rounded-none shadow-xl p-4 min-h-screen">
               <Table className="text-sm ">
                 <TableHeader>
                   <TableRow>
-                    <TableHead className=" font-semibold">#</TableHead>
                     <TableHead className=" font-semibold">Order ID</TableHead>
                     <TableHead className=" font-semibold">Products</TableHead>
                     <TableHead className=" font-semibold">#Items</TableHead>
@@ -148,13 +147,10 @@ const AdminOrdersPage = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="text-sm">
-                  {orders.map((order: TOrder, index: number) => (
+                  {orders.map((order: TOrder) => (
                     <TableRow key={order.id}>
                       <TableCell className="font-medium">
-                        {(page - 1) * limit + index + 1}
-                      </TableCell>
-                      <TableCell className="font-semibold">
-                        {order.id.slice(0, 8)}
+                        # {order.id.slice(0, 8)}
                       </TableCell>
                       <TableCell className="text-green-600">
                         {order.items
@@ -166,7 +162,7 @@ const AdminOrdersPage = () => {
                       <TableCell className="text-blue-600">
                         {order.items.length}
                       </TableCell>
-                      <TableCell className="font-bold font-sans">
+                      <TableCell className="font-semibold font-sans">
                         ${order.totalPrice.toFixed(2)}
                       </TableCell>
                       <TableCell>
@@ -197,7 +193,7 @@ const AdminOrdersPage = () => {
                         {new Date(order.createdAt).toLocaleDateString()}
                       </TableCell>
                       <TableCell>
-                        <div className="text-warm-brown hover:underline flex items-center gap-2 cursor-pointer">
+                        <div className="text-deep-brown hover:underline flex items-center gap-2 cursor-pointer">
                           <Link href={`/vendor/orders/${order.id}`}>
                             <Eye className="h-4 w-4" />
                           </Link>

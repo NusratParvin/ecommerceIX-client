@@ -103,7 +103,6 @@ const UserOrdersPage = () => {
           <Table>
             <TableHeader className="font-semibold">
               <TableRow>
-                <TableHead>#</TableHead>
                 <TableHead>Order ID</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Total Price</TableHead>
@@ -112,10 +111,9 @@ const UserOrdersPage = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {orders.map((order: TOrder, index: number) => (
+              {orders.map((order: TOrder) => (
                 <TableRow key={order?.id}>
-                  <TableCell>{(page - 1) * limit + index + 1}</TableCell>
-                  <TableCell>{order?.id}</TableCell>
+                  <TableCell># {order?.id}</TableCell>
                   <TableCell>
                     {new Date(order?.createdAt).toLocaleDateString()}
                   </TableCell>
