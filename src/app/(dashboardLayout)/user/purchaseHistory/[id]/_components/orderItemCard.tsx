@@ -15,7 +15,7 @@ interface OrderItemCardProps {
     product: {
       id: string;
       name: string;
-      imageUrl: string;
+      imageUrl?: string;
       price: number;
       discount: number;
       isFlashSale: boolean;
@@ -26,7 +26,7 @@ interface OrderItemCardProps {
 
 export const OrderItemCard = ({ item }: OrderItemCardProps) => {
   const [isReviewOpen, setIsReviewOpen] = useState(false);
-
+  console.log(item);
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -36,7 +36,7 @@ export const OrderItemCard = ({ item }: OrderItemCardProps) => {
       <Link href={`/products/${item?.product?.id}`} className="shrink-0">
         <div className="h-24 w-24 relative rounded-none overflow-hidden">
           <Image
-            src={item?.product?.imageUrl}
+            src={item?.product?.imageUrl || ""}
             alt={item?.product?.name}
             fill
             className="object-cover hover:scale-110 transition-transform duration-300"
