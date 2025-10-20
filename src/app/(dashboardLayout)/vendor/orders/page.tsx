@@ -60,7 +60,7 @@ const AdminOrdersPage = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
           <ShoppingBag className="w-4 h-4 mb-1" />
-          <h1 className="text-lg font-semibold text-charcoal">Orders</h1>
+          <h1 className="text-lg font-semibold text-slate-700">Orders</h1>
         </div>
 
         <p className="text-sm text-gray-600 pe-2">

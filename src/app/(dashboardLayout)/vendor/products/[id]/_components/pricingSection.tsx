@@ -10,7 +10,7 @@ interface PricingSectionProps {
 
 export const PricingSection = ({ product }: PricingSectionProps) => {
   return (
-    <Card>
+    <Card className="border border-dashed border-slate-300 rounded-none shadow-md">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Tag className="w-5 h-5" />
@@ -21,7 +21,7 @@ export const PricingSection = ({ product }: PricingSectionProps) => {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <p className="text-sm text-muted-foreground">Base Price</p>
-            <p className="text-2xl font-bold text-deep-brown">
+            <p className="text-2xl font-semibold text-slate-600 font-sans">
               ${product?.price}
             </p>
           </div>

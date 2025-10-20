@@ -8,7 +8,7 @@ interface ProductSearchProps {
 
 export const ProductSearch = ({ value, onChange }: ProductSearchProps) => {
   return (
-    <div className="relative">
+    <div className="relative w-full md:w-2/5 text-xs   ">
       <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
       <Input
         placeholder="Search products..."

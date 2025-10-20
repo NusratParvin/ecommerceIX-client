@@ -16,7 +16,7 @@ interface OrdersSectionProps {
 
 export const OrdersSection = ({ product }: OrdersSectionProps) => {
   return (
-    <Card>
+    <Card className="border border-dashed border-slate-300 rounded-none shadow-md">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Package className="w-5 h-5" />

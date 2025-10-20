@@ -1,43 +1,8 @@
-// "use client";
-// import { useGetProductByIdQuery } from "@/redux/features/products/productsApi";
-// import { useParams } from "next/navigation";
-// import Image from "next/image";
-// import { Star, Loader, MessageSquare } from "lucide-react";
-
-// const ProductDetails = () => {
-//   const { id } = useParams(); // Extract the product ID from the route
-//   const { data, isLoading, isError } = useGetProductByIdQuery(id);
-//   console.log(data?.data);
-//   if (isLoading) {
-//     return (
-//       <div className="flex justify-center items-center h-screen">
-//         <Loader className="w-8 h-8 animate-spin" />
-//       </div>
-//     );
-//   }
-
-//   if (isError || !data?.data) {
-//     return (
-//       <div className="text-center text-red-500 font-medium">
-//         Product not found!
-//       </div>
-//     );
-//   }
-
-//   const product = data.data;
-
-//   return (
-
-//   );
-// };
-
-// export default ProductDetails;
-
 "use client";
 
 import { useGetProductByIdQuery } from "@/redux/features/products/productsApi";
 import { useParams } from "next/navigation";
-import { Loader } from "lucide-react";
+import { Loader, Package } from "lucide-react";
 
 import { motion } from "framer-motion";
 import { ReviewsSection } from "./_components/reviewsSection";
@@ -68,7 +33,13 @@ const ProductDetails = () => {
   const product = data.data;
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="w-full p-2">
+      <div className="flex items-center gap-1 mb-6">
+        <Package className="w-4 h-4 mb-1" />
+        <h1 className="text-lg font-semibold text-slate-700">
+          Product Details
+        </h1>
+      </div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -76,7 +47,7 @@ const ProductDetails = () => {
       >
         <ProductHeader product={product} />
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid  grid-cols-1 md:grid-cols-2 gap-2">
           <PricingSection product={product} />
           <OrdersSection product={product} />
         </div>
