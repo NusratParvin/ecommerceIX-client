@@ -48,8 +48,12 @@ const ProductDetails = () => {
         <ProductHeader product={product} />
 
         <div className="grid  grid-cols-1 md:grid-cols-2 gap-2">
-          <PricingSection product={product} />
-          <OrdersSection product={product} />
+          <div className="h-[400px] md:h-[300px]  ">
+            <PricingSection product={product} />
+          </div>
+          <div className="h-[500px] md:h-[300px]">
+            <OrdersSection product={product} />
+          </div>
         </div>
 
         <ReviewsSection product={product} />

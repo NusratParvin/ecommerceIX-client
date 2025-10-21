@@ -10,7 +10,7 @@ interface PricingSectionProps {
 
 export const PricingSection = ({ product }: PricingSectionProps) => {
   return (
-    <Card className="border border-dashed border-slate-300 rounded-none shadow-md">
+    <Card className="border border-dashed border-slate-300 rounded-none shadow-lg h-full flex flex-col">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Tag className="w-5 h-5" />
@@ -21,7 +21,7 @@ export const PricingSection = ({ product }: PricingSectionProps) => {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <p className="text-sm text-muted-foreground">Base Price</p>
-            <p className="text-2xl font-semibold text-slate-600 font-sans">
+            <p className="text-2xl font-semibold text-slate-700 font-sans">
               ${product?.price}
             </p>
           </div>
@@ -35,12 +35,15 @@ export const PricingSection = ({ product }: PricingSectionProps) => {
         </div>
 
         {product?.discount > 0 && (
-          <div className="bg-green-50 p-4 rounded-lg">
+          <div className="bg-green-50 p-4 rounded-lg border border-green-200">
             <div className="flex items-center justify-between">
               <span className="font-medium text-green-700">
                 Discount Active
               </span>
-              <Badge variant="secondary" className="text-green-700">
+              <Badge
+                variant="secondary"
+                className="text-green-700 bg-green-100"
+              >
                 {product?.discount}% OFF
               </Badge>
             </div>
@@ -52,12 +55,15 @@ export const PricingSection = ({ product }: PricingSectionProps) => {
         )}
 
         {product?.isFlashSale && product?.flashSalePrice && (
-          <div className="bg-red-50 p-4 rounded-lg">
+          <div className="bg-red-50 p-4 rounded-lg border border-red-200">
             <div className="flex items-center justify-between">
               <span className="font-medium text-red-700">
                 Flash Sale Active
               </span>
-              <Badge variant="destructive">
+              <Badge
+                variant="destructive"
+                className="bg-red-100 text-red-700 border-red-200"
+              >
                 {Math.round(
                   ((product?.price - product?.flashSalePrice) /
                     product?.price) *
@@ -75,6 +81,19 @@ export const PricingSection = ({ product }: PricingSectionProps) => {
                 Ends: {format(new Date(product?.flashSaleEndDate), "PPP")}
               </div>
             )}
+          </div>
+        )}
+
+        {/* No Active Promotions Message */}
+        {!product?.discount && !product?.isFlashSale && (
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 text-center">
+            <Tag className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+            <p className="text-sm text-slate-600 font-medium">
+              No Active Promotions
+            </p>
+            <p className="text-xs text-slate-500 mt-1">
+              Consider adding a discount or flash sale to boost sales
+            </p>
           </div>
         )}
       </CardContent>
