@@ -110,13 +110,13 @@ const ProductManagement = () => {
   const totalRecords = data?.meta?.total || 0;
   const totalPages = Math.ceil(totalRecords / ITEMS_PER_PAGE);
 
-  console.log(products);
+  // console.log(products);
 
   // Handle delete product
   const handleDeleteProduct = async (id: string) => {
     try {
       const res = await deleteProduct(id).unwrap();
-      console.log(res);
+      // console.log(res);
       if (res.success) {
         toast.success("Product deleted successfully!");
         refetch();
@@ -131,7 +131,7 @@ const ProductManagement = () => {
   //   setIsDrawerOpen(true);
   // };
 
-  console.log(error);
+  // console.log(error);
 
   if (isLoading) return <Spinner />;
   if (error) return <p>Failed to load products.</p>;

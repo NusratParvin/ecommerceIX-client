@@ -16,7 +16,16 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import Image from "next/image";
-import { DollarSign, ImageIcon, Info, Loader2, Save, Zap } from "lucide-react";
+import {
+  CirclePlus,
+  DollarSign,
+  ImageIcon,
+  ImageUp,
+  Info,
+  Loader2,
+  Save,
+  Zap,
+} from "lucide-react";
 import { useCreateProductMutation } from "@/redux/features/products/productsApi";
 import { useGetCategoriesForAllQuery } from "@/redux/features/categories/categoriesApi";
 import { useGetShopByOwnerQuery } from "@/redux/features/shops/shopsApi";
@@ -150,75 +159,19 @@ const AddProduct = () => {
 
   return (
     <>
-      <div className="relative  mx-auto p-6 space-y-1 text-charcoal rounded-none shadow-lg transition-all duration-300 hover:shadow-xl">
-        <h1 className="text-xl font-bold text-deep-brown  ">Add New Product</h1>
+      <div className="relative  mx-auto p-2 space-y-1 text-charcoal rounded-none shadow-lg transition-all duration-300 hover:shadow-xl">
+        <div className="flex items-center gap-1">
+          <CirclePlus className="w-4 h-4 mb-1" />
+          <h1 className="text-lg font-semibold text-slate-700">New Product</h1>
+        </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="grid grid-cols-1 md:grid-cols-2 gap-2"
+          className="grid grid-cols-1 md:grid-cols-2 gap-3 "
         >
           {/* Basic Information */}
-          {/* <div className="space-y-4 md:col-span-2 p-6 shadow-sm">
-          <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
-            <Info className="w-5 h-5 text-charcoal" />
-            <span>Basic Information</span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="name">Product Name</Label>
-              <Input
-                id="name"
-                placeholder="Enter product name"
-                {...register("name", { required: "Product name is required" })}
-              />
-              {errors.name && (
-                <p className="text-red-600 text-sm">{errors.name.message}</p>
-              )}
-            </div>
-
-            <div>
-              <Label htmlFor="category">Category</Label>
-              <Controller
-                name="categoryId"
-                control={control}
-                rules={{ required: "Category is required" }}
-                render={({ field }) => (
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    disabled={isCategoriesLoading || categories.length === 0}
-                  >
-                    <SelectTrigger>
-                      <SelectValue
-                        placeholder={
-                          isCategoriesLoading
-                            ? "Loading categories..."
-                            : "Select category"
-                        }
-                      />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((category: any) => (
-                        <SelectItem key={category.id} value={category.id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-              {errors.categoryId && (
-                <p className="text-red-600 text-sm">
-                  {errors.categoryId.message}
-                </p>
-              )}
-            </div>
-          </div>
-        </div> */}
-
-          {/* Basic Information */}
-          <div className="space-y-4 md:col-span-2 p-6 shadow-sm">
+          <div className="space-y-4 md:col-span-2 p-6 shadow-sm bg-white">
             <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
-              <Info className="w-5 h-5 text-charcoal" />
+              <Info className="w-4 h-4 text-charcoal" />
               <span>Basic Information</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -284,17 +237,17 @@ const AddProduct = () => {
                 id="description"
                 placeholder="Enter product description (optional)"
                 {...register("description")}
-                className="w-full"
+                className="w-full h-28"
               />
             </div>
           </div>
 
           {/* Pricing & Inventory and Product Image */}
-          <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-2">
             {/* Pricing and Inventory */}
-            <div className="space-y-4 p-6 shadow-sm">
+            <div className="space-y-4 p-6 shadow-sm bg-white">
               <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
-                <DollarSign className="w-5 h-5 text-charcoal" />
+                <DollarSign className="w-4 h-4 text-charcoal" />
                 <span>Pricing & Inventory</span>
               </h2>
               <div className="space-y-4">
@@ -379,15 +332,15 @@ const AddProduct = () => {
             </div>
 
             {/* Product Image */}
-            <div className="space-y-4 p-6 shadow-sm">
+            <div className="space-y-4 p-6 shadow-sm bg-white">
               <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
-                <ImageIcon className="w-5 h-5 text-charcoal" />
+                <ImageIcon className="w-4 h-4 text-charcoal" />
                 <span>Product Image</span>
               </h2>
 
               <label
                 htmlFor="image-upload"
-                className="bg-white text-gray-500 font-semibold text-base rounded-lg max-w-full h-52 flex flex-col items-center justify-center cursor-pointer border border-dashed border-warm-brown/60 mx-auto transition-all duration-200 hover:border-deep-brown"
+                className="bg-white text-gray-500 font-medium text-base rounded-lg max-w-full h-52 flex flex-col items-center justify-center cursor-pointer border border-dashed border-slate-300 mx-auto transition-all duration-200 hover:border-slate-400"
                 onDrop={(e) => {
                   e.preventDefault();
                   if (e.dataTransfer.files?.[0])
@@ -406,24 +359,13 @@ const AddProduct = () => {
                   </div>
                 ) : (
                   <>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-12 mb-2 fill-gray-500"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 16v-4m0 0V8m0 4h4m-4 0H8m11 8H5a2 2 0 01-2-2V8a2 2 0 012-2h2.5a2 2 0 001.5-.65l1.5-1.7a2 2 0 011.5-.65h3a2 2 0 011.5.65l1.5 1.7a2 2 0 001.5.65H19a2 2 0 012 2v10a2 2 0 01-2 2z"
-                      />
-                    </svg>
-                    <p className="text-lg text-warm-brown">
+                    <ImageUp className="w-12 h-12 text-slate-300 mb-2" />
+
+                    <p className="text-base text-slate-500">
                       Drag and drop your image here
                     </p>
                     <p className="text-sm text-gray-400">or click to browse</p>
-                    <p className="text-sm text-red-700 font-medium">
+                    <p className="text-xs text-red-700 font-medium">
                       Please upload image below 4MB
                     </p>
                   </>
@@ -444,82 +386,11 @@ const AddProduct = () => {
             </div>
           </div>
 
-          {/* Flash Sale Section
-          <div className="space-y-4 p-6 shadow-sm">
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
-                <Zap className="w-5 h-5 text-charcoal" />
-                <span>Flash Sale</span>
-              </h2>
-              <Controller
-                name="isFlashSale"
-                control={control}
-                render={({ field }) => (
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                )}
-              />
-            </div>
-            {watch("isFlashSale") && (
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="flashSalePrice">Flash Sale Price ($)</Label>
-                  <Input
-                    id="flashSalePrice"
-                    type="number"
-                    {...register("flashSalePrice", {
-                      required: "Flash sale price is required",
-                    })}
-                  />
-                  {errors.flashSalePrice && (
-                    <p className="text-red-600 text-sm">
-                      {errors.flashSalePrice.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <Label htmlFor="flashSaleStartDate">Start Date</Label>
-                  <Input
-                    id="flashSaleStartDate"
-                    type="datetime-local"
-                    {...register("flashSaleStartDate", {
-                      required: "Flash sale start date is required",
-                    })}
-                  />
-                  {errors.flashSaleStartDate && (
-                    <p className="text-red-600 text-sm">
-                      {errors.flashSaleStartDate.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <Label htmlFor="flashSaleEndDate">End Date</Label>
-                  <Input
-                    id="flashSaleEndDate"
-                    type="datetime-local"
-                    {...register("flashSaleEndDate", {
-                      required: "Flash sale end date is required",
-                    })}
-                  />
-                  {errors.flashSaleEndDate && (
-                    <p className="text-red-600 text-sm">
-                      {errors.flashSaleEndDate.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-            )}
-          </div> */}
-
           {/* Flash Sale Section */}
-          <div className="space-y-4 p-6 shadow-sm">
-            <div className="flex items-center justify-between">
+          <div className="space-y-4 p-6 shadow-sm bg-white">
+            <div className="flex items-center justify-between ">
               <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
-                <Zap className="w-5 h-5 text-charcoal" />
+                <Zap className="w-4 h-4 text-charcoal" />
                 <span>Flash Sale</span>
               </h2>
               <Controller
@@ -593,7 +464,7 @@ const AddProduct = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="md:col-span-2 flex justify-end space-x-4">
+          <div className="md:col-span-2 flex justify-end space-x-4 mt-7 mb-12">
             <Button
               type="button"
               variant="outline"
@@ -611,20 +482,21 @@ const AddProduct = () => {
               className={`flex items-center justify-center gap-2 px-4 py-2 text-white font-semibold rounded-md transition-all duration-300 ${
                 !shopId || isShopLoading
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-deep-brown hover:bg-warm-brown"
+                  : // : "bg-deep-brown hover:bg-warm-brown"
+                    "bg-white text-deep-brown hover:bg-deep-brown hover:text-white"
               }`}
             >
               {" "}
               {isShopLoading ? (
                 <>
                   {" "}
-                  <Loader2 className="animate-spin w-5 h-5" />{" "}
+                  <Loader2 className="animate-spin w-4 h-4" />{" "}
                   {/* Loader Icon */} <span>Saving...</span>{" "}
                 </>
               ) : (
                 <>
                   {" "}
-                  <Save className="w-5 h-5" /> {/* Save Icon */}{" "}
+                  <Save className="w-4 h-4" /> {/* Save Icon */}{" "}
                   <span>Save Product</span>{" "}
                 </>
               )}{" "}

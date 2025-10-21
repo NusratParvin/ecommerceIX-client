@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 
-import { DollarSign, ImageIcon, Info, Zap } from "lucide-react";
+import { DollarSign, FilePenLine, ImageIcon, Info, Zap } from "lucide-react";
 import {
   useGetProductByIdQuery,
   useUpdateProductMutation,
@@ -171,14 +171,14 @@ const EditProductPage = () => {
     if (uploadedImage) {
       formData.append("file", uploadedImage);
     }
-    console.log(formData, id);
+    // console.log(formData, id);
     try {
       await updateProduct({ id, formData }).unwrap();
       toast.success("Product updated successfully!");
       router.push("/vendor/products");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.message || "Failed to update product.");
     }
   };
@@ -186,14 +186,18 @@ const EditProductPage = () => {
   if (isProductLoading) return <Spinner />;
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
-      <h1 className="text-3xl font-bold text-deep-brown">Edit Product</h1>
+    <div className="w-full mx-auto p-2 space-y-4">
+      <div className="flex items-center gap-1">
+        <FilePenLine className="w-4 h-4 mb-1" />
+        <h1 className="text-lg font-semibold text-slate-700">Edit Product</h1>
+      </div>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 gap-3"
       >
         {/* Basic Information */}
-        <div className="space-y-4 md:col-span-2 p-6 shadow-sm">
+        <div className="space-y-4 md:col-span-2 p-6 shadow-sm bg-white">
           <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
             <Info className="w-5 h-5 text-charcoal" />
             <span>Basic Information</span>
@@ -253,9 +257,9 @@ const EditProductPage = () => {
         </div>
 
         {/* Pricing & Inventory and Product Image */}
-        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3">
           {/* Pricing */}
-          <div className="space-y-4 p-6 shadow-sm">
+          <div className="space-y-4 p-6 shadow-sm bg-white">
             <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
               <DollarSign className="w-5 h-5 text-charcoal" />
               <span>Pricing & Inventory</span>
@@ -309,7 +313,7 @@ const EditProductPage = () => {
           </div>
 
           {/* Image Upload */}
-          <div className="space-y-4 p-6 shadow-sm">
+          <div className="space-y-4 p-6 shadow-sm bg-white">
             <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
               <ImageIcon className="w-5 h-5 text-charcoal" />
               <span>Product Image</span>
@@ -320,7 +324,7 @@ const EditProductPage = () => {
 
             <label
               htmlFor="image-upload"
-              className="bg-white text-gray-500 font-semibold text-base rounded-lg max-w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-warm-brown mx-auto transition-all duration-200 hover:border-deep-brown relative"
+              className="bg-white text-gray-500 font-semibold text-base rounded-lg max-w-full h-52 flex flex-col items-center justify-center cursor-pointer border border-dashed border-slate-300 mx-auto transition-all duration-200 hover:border-slate-400 relative"
             >
               {imagePreview ? (
                 <div className="relative w-full h-full">
@@ -351,56 +355,8 @@ const EditProductPage = () => {
           </div>
         </div>
 
-        {/* Flash Sale
-        <div className="space-y-4 p-6 shadow-sm">
-          <div className="flex items-center justify-between">
-            <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
-              <Zap className="w-5 h-5 text-charcoal" />
-              <span>Flash Sale</span>
-            </h2>
-            <Controller
-              name="isFlashSale"
-              control={control}
-              render={({ field }) => (
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              )}
-            />
-          </div>
-          {watch("isFlashSale") && (
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="flashSalePrice">Flash Sale Price</Label>
-                <Input
-                  id="flashSalePrice"
-                  type="number"
-                  {...register("flashSalePrice")}
-                />
-              </div>
-              <div>
-                <Label htmlFor="flashSaleStartDate">Start Date</Label>
-                <Input
-                  id="flashSaleStartDate"
-                  type="datetime-local"
-                  {...register("flashSaleStartDate")}
-                />
-              </div>
-              <div>
-                <Label htmlFor="flashSaleEndDate">End Date</Label>
-                <Input
-                  id="flashSaleEndDate"
-                  type="datetime-local"
-                  {...register("flashSaleEndDate")}
-                />
-              </div>
-            </div>
-          )}
-        </div> */}
-
         {/* Flash Sale Section */}
-        <div className="space-y-4 p-6 shadow-sm">
+        <div className="space-y-4 p-6 shadow-sm bg-white">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-semibold text-charcoal flex items-center space-x-2">
               <Zap className="w-5 h-5 text-charcoal" />
@@ -477,10 +433,10 @@ const EditProductPage = () => {
         </div>
 
         {/* Submit Button */}
-        <div className="md:col-span-2 flex justify-end">
+        <div className="md:col-span-2 flex justify-end  mt-7 mb-12">
           <Button
             type="submit"
-            className="bg-deep-brown hover:bg-warm-brown text-white"
+            className="bg-deep-brown hover:bg-slate-500 text-white"
           >
             Save Changes
           </Button>

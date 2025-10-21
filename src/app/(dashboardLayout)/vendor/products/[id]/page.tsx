@@ -56,7 +56,9 @@ const ProductDetails = () => {
           </div>
         </div>
 
-        <ReviewsSection product={product} />
+        <div className="h-[600px]">
+          <ReviewsSection product={product} />
+        </div>
       </motion.div>
     </div>
   );
