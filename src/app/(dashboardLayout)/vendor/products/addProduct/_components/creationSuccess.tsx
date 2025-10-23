@@ -60,20 +60,20 @@ export const ProductSuccessModal = ({
                 </p>
                 <div className="grid grid-cols-2 gap-4 bg-white p-4 rounded-lg shadow-sm">
                   <div>
-                    <p className="text-sm font-medium text-warm-brown">Name</p>
+                    <p className="text-sm font-medium text-slate-600">Name</p>
                     <p className="text-charcoal">{product.name}</p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-warm-brown">Price</p>
+                    <p className="text-sm font-medium text-slate-600">Price</p>
                     <p className="text-charcoal">${product.price.toFixed(2)}</p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-warm-brown">Stock</p>
+                    <p className="text-sm font-medium text-slate-600">Stock</p>
                     <p className="text-charcoal">{product.stock}</p>
                   </div>
                   {product.discount && (
                     <div>
-                      <p className="text-sm font-medium text-warm-brown">
+                      <p className="text-sm font-medium text-slate-600">
                         Discount
                       </p>
                       <p className="text-charcoal">{product.discount}%</p>
@@ -82,7 +82,7 @@ export const ProductSuccessModal = ({
                   {product.isFlashSale && (
                     <>
                       <div>
-                        <p className="text-sm font-medium text-warm-brown">
+                        <p className="text-sm font-medium text-slate-600">
                           Flash Sale Price
                         </p>
                         <p className="text-charcoal">
@@ -90,7 +90,7 @@ export const ProductSuccessModal = ({
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-warm-brown">
+                        <p className="text-sm font-medium text-slate-600">
                           Flash Sale Start
                         </p>
                         <p className="text-charcoal">
@@ -98,7 +98,7 @@ export const ProductSuccessModal = ({
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-warm-brown">
+                        <p className="text-sm font-medium text-slate-600">
                           Flash Sale End
                         </p>
                         <p className="text-charcoal">

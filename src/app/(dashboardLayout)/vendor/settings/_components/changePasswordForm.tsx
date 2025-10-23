@@ -57,7 +57,7 @@ export function ChangePasswordForm() {
     <div className="">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-8 max-w-lg shadow-xl bg-gray-100 p-10"
+        className="space-y-4 max-w-lg shadow-xl bg-slate-100 p-6"
       >
         {/* Current Password */}
         <div>
@@ -141,7 +141,7 @@ export function ChangePasswordForm() {
         <div>
           <label
             htmlFor="confirmNewPassword"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-gray-700 "
           >
             Confirm New Password
           </label>
@@ -176,13 +176,15 @@ export function ChangePasswordForm() {
         </div>
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-warm-brown hover:bg-deep-brown  disabled:opacity-50"
-        >
-          {isLoading ? "Changing Password..." : "Change Password"}
-        </button>
+        <div className="py-4">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-1/2 mx-auto flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-500 hover:bg-deep-brown/70  disabled:opacity-50"
+          >
+            {isLoading ? "Changing Password..." : "Change Password"}
+          </button>
+        </div>
       </form>
     </div>
   );

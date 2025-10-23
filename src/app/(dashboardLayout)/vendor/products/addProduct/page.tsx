@@ -76,7 +76,7 @@ const AddProduct = () => {
 
   const handleImageUpload = (file: File) => {
     if (file) {
-      console.log(file.size);
+      // console.log(file.size);
       if (file.size > 4 * 1024 * 1024) {
         toast.error("File size must be less than 4MB.");
         return;
@@ -134,7 +134,7 @@ const AddProduct = () => {
       formData.append("file", uploadedImage);
     }
 
-    console.log("FormData for submission:", Object.fromEntries(formData));
+    // console.log("FormData for submission:", Object.fromEntries(formData));
 
     try {
       const response = await createProduct(formData).unwrap();

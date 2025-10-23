@@ -14,6 +14,7 @@ import {
   ShoppingBag,
   UserRoundPlus,
   Home,
+  Settings,
 } from "lucide-react";
 
 export type MenuType = {
@@ -57,9 +58,9 @@ export const vendorMenuItems: MenuType[] = [
   //   url: "/vendor/customerFeedback",
   // },
   {
-    title: "Manage Password",
-    icon: Key,
-    url: "/vendor/managePassword",
+    title: "Settings",
+    icon: Settings,
+    url: "/vendor/settings",
   },
   {
     title: "Home",
