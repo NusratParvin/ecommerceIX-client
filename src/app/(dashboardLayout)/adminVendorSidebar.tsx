@@ -111,7 +111,7 @@ export function AdminVendorSidebar({
         </div>
 
         {/* Sidebar Menu */}
-        <div className="flex-1 overflow-y-auto pt-4 bg-slate-600 text-white">
+        <div className="flex-1 overflow-y-auto scroll-m-1 pt-4 bg-slate-600 text-white">
           <nav className="ps-0 space-y-2">
             {menuItems.map((item) => (
               <Link

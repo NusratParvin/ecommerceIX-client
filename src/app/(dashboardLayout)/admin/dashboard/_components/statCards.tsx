@@ -37,7 +37,7 @@ export function StatCard({
     //   </CardContent>
     // </Card>
 
-    <Card className="relative overflow-hidden bg-white border border-dashed border-slate-300 border-l-0 rounded-none shadow-none h-[120px]">
+    <Card className="relative overflow-hidden bg-white border border-dashed border-slate-300 border-l-0 rounded-none shadow-none h-[100px]">
       {/* left accent line */}
       <span className="absolute left-0 top-0 bottom-0 w-[4px] bg-deep-brown/80 rounded-none" />
 

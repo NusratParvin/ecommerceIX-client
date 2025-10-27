@@ -128,9 +128,6 @@ const AdminOrdersPage = () => {
           <p className="text-center text-gray-500">No orders found.</p>
         ) : (
           <>
-            {/* <p className="text-sm text-gray-600 mb-4 absolute top-10 right-10">
-              Total Records: <span className="font-medium">{totalRecords}</span>
-            </p> */}
             <div className="flex-grow border border-slate-200/60 rounded-none shadow-xl p-4 min-h-screen">
               <Table className="text-sm ">
                 <TableHeader>

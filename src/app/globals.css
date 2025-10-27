@@ -18,10 +18,31 @@ body {
   font-family: var(--font-josefin-sans), sans-serif;
 }
 
-/* body {
-  font-family: var(--font-josefin-sans), sans-serif;
- 
-} */
+/* globals.css */
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(181, 181, 181);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(140, 140, 140);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin; /* thin scrollbar */
+  scrollbar-color: rgb(181, 181, 181) transparent;
+}
 
 @layer utilities {
   .text-balance {
