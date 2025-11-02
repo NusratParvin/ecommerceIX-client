@@ -6,8 +6,6 @@
   font-family: Arial, Helvetica, sans-serif;
 } */
 
-/* Prevent content shift */
-/* Prevent unwanted horizontal scroll */
 html,
 body {
   width: 100%;
@@ -15,7 +13,8 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  font-family: var(--font-josefin-sans), sans-serif;
+  font-family: var(--font-play), sans-serif;
+  /* font-family: var(--font-josefin-sans), sans-serif; */
 }
 
 /* globals.css */

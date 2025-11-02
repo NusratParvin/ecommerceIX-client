@@ -15,6 +15,7 @@ import {
   UserRoundPlus,
   Home,
   Settings,
+  Folders,
 } from "lucide-react";
 
 export type MenuType = {
@@ -26,7 +27,7 @@ export type MenuType = {
 // Admin Menu Items
 export const adminMenuItems: MenuType[] = [
   { title: "Dashboard", icon: LayoutDashboard, url: "/admin/dashboard" },
-  { title: "Categories", icon: Package, url: "/admin/categories" },
+  { title: "Categories", icon: Folders, url: "/admin/categories" },
   { title: "Products", icon: Tags, url: "/admin/products" },
   { title: "Users", icon: Users, url: "/admin/users" },
   { title: "Shops", icon: ShoppingCart, url: "/admin/shops" },

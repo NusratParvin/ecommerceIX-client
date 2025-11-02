@@ -62,8 +62,8 @@ const FlashSaleProducts = () => {
   }
   // console.log(flashSaleProducts);
   return (
-    <section className="py-12 px-4">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-16 px-4">
+      <div className="w-full md:w-11/12 mx-auto">
         {/* Flash Sale Banner */}
 
         <div className="grid grid-cols-3   items-center text-charcoal mb-0">
