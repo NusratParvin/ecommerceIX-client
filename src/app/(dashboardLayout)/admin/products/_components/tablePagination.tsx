@@ -55,19 +55,25 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
 
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center gap-4 p-4 border-t">
-      <div className="text-sm text-gray-600">
+      <div className="text-sm text-gray-600  ">
         Showing <span className="font-medium">{currentItems}</span> of{" "}
         <span className="font-medium">{totalRecords}</span> products
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4   ">
         <div className="flex items-center gap-2">
           <span className="text-sm">Status:</span>
           <Badge variant="outline" className="bg-green-50 text-green-700">
-            {activeCount} Active
+            <span className="flex gap-1">
+              <span>{activeCount}</span>
+              <span> Active</span>
+            </span>
           </Badge>
           <Badge variant="outline" className="bg-orange-50 text-orange-700">
-            {hiddenCount} Hidden
+            <span className="flex gap-1">
+              <span>{hiddenCount}</span>
+              <span>Hidden</span>
+            </span>
           </Badge>
         </div>
 
