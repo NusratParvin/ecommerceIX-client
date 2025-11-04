@@ -91,6 +91,7 @@ export interface Product {
     ownerId: string;
     createdAt: string;
     updatedAt: string;
+    status?: string;
   };
   imageUrl?: string;
   isFlashSale: boolean;
@@ -192,8 +193,8 @@ export interface TShopInputProp {
   ownerId: string;
   owner: TShopOwner;
   status: "ACTIVE" | "BLACKLISTED" | "RESTRICTED" | "DELETED";
-  productCount: number;
-  followerCount: number;
+  productCount?: number;
+  followerCount?: number;
   createdAt: string;
   updatedAt: string;
 }
