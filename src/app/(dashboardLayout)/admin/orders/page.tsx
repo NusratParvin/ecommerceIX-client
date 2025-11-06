@@ -1,205 +1,342 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-
-import { useState, useEffect } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import React, { useState, useMemo } from "react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
+  Package,
+  Search,
+  Filter,
+  RefreshCw,
+  DollarSign,
+  CheckCircle,
+  Clock,
+} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Select,
-  SelectTrigger,
   SelectContent,
   SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
-import { Spinner } from "@/components/ui/spinner";
-import { Search, ShoppingBag } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { useGetOrdersQuery } from "@/redux/features/orders/ordersApi";
+import { Spinner } from "@/components/ui/spinner";
 import { TOrder } from "@/types";
-import { Badge } from "@/components/ui/badge";
+import ViewOrderDialog from "./_components/viewOrder";
+import OrdersPagination from "./_components/ordersPagination";
+import OrdersTable from "./_components/ordersTable";
+
+const ITEMS_PER_PAGE = 10;
 
 const AdminOrdersPage = () => {
-  // Filters and sorting states
-  const [userId, setUserId] = useState<string | null>(null);
-  const [shopId, setShopId] = useState<string | null>(null);
+  const [viewOrder, setViewOrder] = useState<TOrder | null>(null);
+  const [viewDialogOpen, setViewDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [page, setPage] = useState(1);
-  const [limit] = useState(10);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
+  const [statusFilter, setStatusFilter] = useState<"all" | "PAID" | "UNPAID">(
+    "all"
+  );
+  const [paymentFilter, setPaymentFilter] = useState<
+    "all" | "card" | "cash" | "bank_transfer"
+  >("all");
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, isLoading, error } = useGetOrdersQuery({
-    page,
-    limit,
-    userId,
-    shopId,
+  const { data, isLoading, isError, refetch } = useGetOrdersQuery({
+    page: currentPage,
+    limit: ITEMS_PER_PAGE,
     searchTerm,
     sortBy,
     sortOrder,
   });
-  console.log(data);
+
   const orders = data?.data || [];
   const totalRecords = data?.meta?.total || 0;
+  const totalPages = Math.ceil(totalRecords / ITEMS_PER_PAGE);
 
-  useEffect(() => {
-    setPage(1);
-  }, [searchTerm]);
+  // Calculate statistics
+  const { paidOrders, pendingOrders, totalRevenue } = useMemo(() => {
+    const paid = orders.filter(
+      (order: TOrder) => order.paymentStatus === "PAID"
+    ).length;
+    const pending = orders.filter(
+      (order: TOrder) => order.paymentStatus === "UNPAID"
+    ).length;
+    const revenue = orders
+      .filter((order: TOrder) => order.paymentStatus === "PAID")
+      .reduce((sum: number, order: TOrder) => sum + order.totalPrice, 0);
+
+    return {
+      paidOrders: paid,
+      pendingOrders: pending,
+      totalRevenue: revenue,
+    };
+  }, [orders]);
+
+  // Filter orders based on status and payment method
+  const filteredOrders = useMemo(() => {
+    return orders.filter((order: TOrder) => {
+      const matchesStatus =
+        statusFilter === "all" || order.paymentStatus === statusFilter;
+      const matchesPayment =
+        paymentFilter === "all" || order.paymentMethod === paymentFilter;
+      return matchesStatus && matchesPayment;
+    });
+  }, [orders, statusFilter, paymentFilter]);
+
+  const handleViewOrder = (order: TOrder) => {
+    setViewOrder(order);
+    setViewDialogOpen(true);
+  };
+
+  const handlePageChange = (page: number) => setCurrentPage(page);
+
+  // Loading and Error States
+  if (isLoading)
+    return (
+      <div className="flex flex-col justify-center items-center min-h-screen">
+        <Spinner />
+        <p className="text-sm text-gray-600">Loading Orders...</p>
+      </div>
+    );
+
+  if (isError)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Card className="w-full max-w-md">
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <p className="text-red-600 font-semibold">
+                Failed to load orders.
+              </p>
+              <p className="text-sm text-gray-600 mt-2">
+                Please try again later.
+              </p>
+              <Button
+                onClick={() => refetch()}
+                className="mt-4"
+                variant="outline"
+              >
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Retry
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
 
   return (
-    <div className="flex flex-col min-h-screen p-2 space-y-4">
-      {/* Heading */}
-      <div className="flex items-center gap-2">
-        <ShoppingBag className="w-6 h-6" />
-        <h1 className="text-2xl font-semibold text-charcoal">Orders</h1>
-      </div>
-
-      {/* Filters */}
-      <div className="flex flex-wrap justify-around items-center gap-4 mb-6">
-        {/* Search Input */}
-        <div className="relative w-full max-w-md">
-          <Input
-            placeholder="Search by Order ID or Coupon"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
-          />
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <Search className="h-5 w-5 text-gray-400" />
+    <TooltipProvider>
+      <div className="min-h-screen bg-slate-50 p-2 space-y-4">
+        {/* Header */}
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+          <div>
+            <div className="flex items-center gap-1 text-slate-700">
+              <Package className="w-4 h-4" />
+              <h1 className="text-lg font-semibold tracking-tight">
+                Order Management
+              </h1>
+            </div>
+            <p className="text-sm text-muted-foreground ps-5">
+              Manage and monitor all customer orders
+            </p>
           </div>
         </div>
 
-        {/* Sort By Dropdown */}
-        <div className="flex items-center space-x-2">
-          <label className="text-sm font-medium text-gray-900">Sort By:</label>
-          <Select value={sortBy} onValueChange={(value) => setSortBy(value)}>
-            <SelectTrigger className="w-40">
-              <span>{sortBy}</span>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="createdAt">Date</SelectItem>
-              <SelectItem value="userId">User</SelectItem>
-              <SelectItem value="shopId">Shop</SelectItem>
-              <SelectItem value="totalPrice">Total Price</SelectItem>
-            </SelectContent>
-          </Select>
+        {/* Statistics */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+          <Card className="h-16">
+            <CardContent className="px-3 py-3">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-50 rounded-lg">
+                  <Package className="w-5 h-5 text-blue-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-600">
+                  Total Orders
+                </p>
+                <p className="text-lg font-bold text-blue-600">
+                  {totalRecords}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="h-16">
+            <CardContent className="px-3 py-3">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-green-50 rounded-lg">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-600">Paid Orders</p>
+                <p className="text-lg font-bold text-green-600">{paidOrders}</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="h-16">
+            <CardContent className="px-3 py-3">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-yellow-50 rounded-lg">
+                  <Clock className="w-5 h-5 text-yellow-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-600">
+                  Pending Orders
+                </p>
+                <p className="text-lg font-bold text-yellow-600">
+                  {pendingOrders}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="h-16">
+            <CardContent className="px-3 py-3">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-purple-50 rounded-lg">
+                  <DollarSign className="w-5 h-5 text-purple-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-600">
+                  Total Revenue
+                </p>
+                <p className="text-lg font-bold text-purple-600">
+                  ${totalRevenue.toFixed(2)}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Order By Dropdown */}
-        <div className="flex items-center space-x-2">
-          <label className="text-sm font-medium text-gray-900">Order:</label>
-          <Select
-            value={sortOrder}
-            onValueChange={(value) => setSortOrder(value)}
-          >
-            <SelectTrigger className="w-32">
-              <span>{sortOrder === "asc" ? "Ascending" : "Descending"}</span>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="asc">Ascending</SelectItem>
-              <SelectItem value="desc">Descending</SelectItem>
-            </SelectContent>
-          </Select>
+        {/* Search and Filters */}
+        <div className="flex flex-col lg:flex-row gap-4 pt-4">
+          {/* Search Input */}
+          <div className="flex-1">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+              <Input
+                placeholder="Search orders by ID, user, or shop..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+          </div>
+
+          {/* Filters */}
+          <div className="flex flex-col sm:flex-row gap-2">
+            {/* Status Filter */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="gap-2 h-9">
+                  <Filter className="h-4 w-4" />
+                  Status: {statusFilter === "all" ? "All" : statusFilter}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => setStatusFilter("all")}>
+                  All Orders
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setStatusFilter("PAID")}>
+                  Paid Only
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setStatusFilter("UNPAID")}>
+                  Pending Only
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Payment Method Filter */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="gap-2 h-9">
+                  <Filter className="h-4 w-4" />
+                  Payment: {paymentFilter === "all" ? "All" : paymentFilter}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => setPaymentFilter("all")}>
+                  All Methods
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setPaymentFilter("card")}>
+                  Card Only
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setPaymentFilter("cash")}>
+                  Cash Only
+                </DropdownMenuItem>
+
+                <DropdownMenuItem
+                  onClick={() => setPaymentFilter("bank_transfer")}
+                >
+                  Bank Transfer Only
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Sort By */}
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-32 h-9">
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="createdAt">Date</SelectItem>
+                <SelectItem value="totalPrice">Amount</SelectItem>
+                <SelectItem value="user.name">Customer</SelectItem>
+                <SelectItem value="shop.name">Shop</SelectItem>
+              </SelectContent>
+            </Select>
+
+            {/* Sort Order */}
+            <Select value={sortOrder} onValueChange={setSortOrder}>
+              <SelectTrigger className="w-32 h-9">
+                <SelectValue placeholder="Order" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="desc">Recent First</SelectItem>
+                <SelectItem value="asc">Oldest First</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-      </div>
 
-      {/* Orders Table */}
-      <div className="flex-grow border rounded-lg p-4 shadow-md">
-        {isLoading ? (
-          <Spinner />
-        ) : orders.length === 0 ? (
-          <p className="text-center text-gray-500">No orders found.</p>
-        ) : (
-          <>
-            <p className="text-sm text-gray-600 mb-4">
-              Total Records: <span className="font-medium">{totalRecords}</span>
-            </p>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>#</TableHead>
-                  <TableHead>Order ID</TableHead>
-                  <TableHead>User</TableHead>
-                  <TableHead>Shop</TableHead>
-                  <TableHead>Total Price</TableHead>
-                  <TableHead>#Items Ordered</TableHead>
-                  <TableHead>Coupon Code</TableHead>
-                  <TableHead>Payment Status</TableHead>
-                  <TableHead>Date</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {orders.map((order: TOrder, index: number) => (
-                  <TableRow key={order.id}>
-                    <TableCell className="font-medium">
-                      {(page - 1) * limit + index + 1}
-                    </TableCell>
-                    <TableCell>{order.id}</TableCell>
-                    <TableCell>{order.user.name}</TableCell>
-                    <TableCell className="text-green-600">
-                      {order.shop.name}
-                    </TableCell>
-                    <TableCell>${order.totalPrice.toFixed(2)}</TableCell>
-                    <TableCell className="text-blue-600">
-                      {order.items.length}
-                    </TableCell>
-                    <TableCell>
-                      {order.coupon ? (
-                        <Badge className="bg-red-100 text-red-700">
-                          {order.coupon.code}
-                        </Badge>
-                      ) : (
-                        <Badge className="bg-gray-100 text-gray-500">
-                          No Coupon
-                        </Badge>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <span
-                        className={`px-2 py-1 rounded ${
-                          order.paymentStatus === "PAID"
-                            ? "bg-green-100 text-green-600"
-                            : "bg-red-100 text-red-600"
-                        }`}
-                      >
-                        {order.paymentStatus}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      {new Date(order.createdAt).toLocaleDateString()}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </>
-        )}
-      </div>
+        {/* Orders Table */}
+        <div className="flex-grow border border-slate-200/60 rounded-none shadow-xl p-4 min-h-screen flex flex-col">
+          <div className="flex-grow">
+            {" "}
+            <OrdersTable
+              orders={filteredOrders}
+              currentPage={currentPage}
+              itemsPerPage={ITEMS_PER_PAGE}
+              searchTerm={searchTerm}
+              onViewOrder={handleViewOrder}
+            />
+          </div>
+          {/* Pagination */}
+          {totalRecords > 0 && (
+            <OrdersPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              currentItemsCount={filteredOrders.length}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </div>
 
-      {/* Pagination */}
-      <div className="mt-auto flex justify-between items-center bg-transparent p-4">
-        <Button
-          variant="outline"
-          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-          disabled={page === 1}
-        >
-          Previous
-        </Button>
-        <span>Page {page}</span>
-        <Button
-          variant="outline"
-          onClick={() => setPage((prev) => prev + 1)}
-          disabled={page * limit >= totalRecords}
-        >
-          Next
-        </Button>
+        {/* View Order Dialog */}
+        <ViewOrderDialog
+          open={viewDialogOpen}
+          onOpenChange={setViewDialogOpen}
+          order={viewOrder}
+        />
       </div>
-    </div>
+    </TooltipProvider>
   );
 };
 
