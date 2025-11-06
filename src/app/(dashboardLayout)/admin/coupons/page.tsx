@@ -1,56 +1,139 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { toast } from "sonner";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@/components/ui/table";
+  Ticket,
+  Plus,
+  Search,
+  Filter,
+  RefreshCw,
+  Calendar,
+  Percent,
+} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import {
   useCreateCouponMutation,
   useDeleteCouponMutation,
   useGetAllCouponsQuery,
   useUpdateCouponMutation,
 } from "@/redux/features/coupons/couponsApi";
-import { format } from "date-fns";
 import { Spinner } from "@/components/ui/spinner";
-import { Input } from "@/components/ui/input";
-import { Ticket } from "lucide-react";
-import { Trash2, Edit3 } from "lucide-react";
+import { TCoupon } from "@/types";
+import CouponsTable from "./_components/couponTable";
+import PaginationComponent from "./_components/couponPagination";
+import CreateCouponDialog from "./_components/createCoupon";
+import EditCouponDialog from "./_components/editCoupon";
+import ViewCouponDialog from "./_components/viewCoupon";
 
-interface TCoupon {
-  id: string;
-  code: string;
-  discountAmount: number;
-  expirationDate: string;
-}
+const ITEMS_PER_PAGE = 10;
 
 const AdminCouponsPage = () => {
+  // State
   const [newCoupon, setNewCoupon] = useState({
     code: "",
     discountAmount: "",
     expirationDate: "",
+    // minOrderAmount: "",
+    // maxUsage: "",
+    // description: "",
   });
   const [editCoupon, setEditCoupon] = useState<TCoupon | null>(null);
+  const [viewCoupon, setViewCoupon] = useState<TCoupon | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [viewDialogOpen, setViewDialogOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortOrder, setSortOrder] = useState("desc");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "active" | "expired"
+  >("all");
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, isLoading, isError } = useGetAllCouponsQuery(undefined);
+  // API Calls
+  const { data, isLoading, isError, refetch } =
+    useGetAllCouponsQuery(undefined);
   const [createCoupon] = useCreateCouponMutation();
   const [updateCoupon] = useUpdateCouponMutation();
   const [deleteCoupon] = useDeleteCouponMutation();
 
-  const handleInputChange = (field: keyof TCoupon, value: string) => {
+  const coupons = data?.data || [];
+  const totalCoupons = coupons.length;
+
+  // Filter and sort coupons
+  const { filteredCoupons, activeCoupons, expiredCoupons } = useMemo(() => {
+    const filtered = coupons.filter((coupon: TCoupon) => {
+      const matchesSearch = coupon.code
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const isActive = new Date(coupon.expirationDate) > new Date();
+      const matchesStatus =
+        statusFilter === "all" ||
+        (statusFilter === "active" && isActive) ||
+        (statusFilter === "expired" && !isActive);
+      return matchesSearch && matchesStatus;
+    });
+
+    const sorted = filtered.sort((a: TCoupon, b: TCoupon) => {
+      let aValue: any = a[sortBy as keyof TCoupon];
+      let bValue: any = b[sortBy as keyof TCoupon];
+
+      if (sortBy === "createdAt" || sortBy === "expirationDate") {
+        aValue = new Date(aValue).getTime();
+        bValue = new Date(bValue).getTime();
+      }
+
+      return sortOrder === "asc"
+        ? aValue > bValue
+          ? 1
+          : -1
+        : aValue < bValue
+        ? 1
+        : -1;
+    });
+
+    const active = coupons.filter(
+      (coupon: TCoupon) => new Date(coupon.expirationDate) > new Date()
+    ).length;
+    const expired = coupons.filter(
+      (coupon: TCoupon) => new Date(coupon.expirationDate) <= new Date()
+    ).length;
+
+    return {
+      filteredCoupons: sorted,
+      activeCoupons: active,
+      expiredCoupons: expired,
+    };
+  }, [coupons, searchTerm, statusFilter, sortBy, sortOrder]);
+
+  // Pagination
+  const totalPages = Math.ceil(filteredCoupons.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedCoupons = filteredCoupons.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
+
+  // Handlers
+  const handleInputChange = (field: keyof typeof newCoupon, value: string) => {
     setNewCoupon((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -59,265 +142,328 @@ const AdminCouponsPage = () => {
   };
 
   const handleDialogClose = () => {
-    setNewCoupon({ code: "", discountAmount: "", expirationDate: "" });
+    setNewCoupon({
+      code: "",
+      discountAmount: "",
+      expirationDate: "",
+    });
     setDialogOpen(false);
   };
 
   const handleCreate = async () => {
     if (
       !newCoupon.code ||
-      newCoupon.discountAmount === "" ||
+      !newCoupon.discountAmount ||
       !newCoupon.expirationDate
     ) {
-      toast.error("Please fill all fields correctly.");
+      toast.error("Please fill all required fields.");
       return;
     }
+
     const discount = parseFloat(newCoupon.discountAmount);
     if (isNaN(discount) || discount <= 0) {
       toast.error("Discount amount must be a positive number.");
       return;
     }
 
-    // Prepare data for submission
     const formattedData = {
       code: newCoupon.code.trim(),
       discountAmount: discount,
       expirationDate: new Date(newCoupon.expirationDate).toISOString(),
     };
 
+    const toastId = toast.loading("Creating coupon...");
+
     try {
       await createCoupon(formattedData).unwrap();
-
-      toast.success("Coupon created successfully!");
-      setDialogOpen(false);
-      setNewCoupon({ code: "", discountAmount: "", expirationDate: "" });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      toast.success("Coupon created successfully!", { id: toastId });
+      handleDialogClose();
+      setCurrentPage(1);
     } catch (error: any) {
-      console.log(error);
-      toast.error("Failed to create coupon.");
+      toast.error("Failed to create coupon.", { id: toastId });
     }
   };
 
   const handleUpdate = async () => {
     if (!editCoupon) return;
 
-    // Parse float for discountAmount to ensure it's correctly formatted as a number.
     const updatedDiscount = parseFloat(editCoupon.discountAmount.toString());
-
     if (isNaN(updatedDiscount)) {
       toast.error("Invalid discount amount.");
       return;
     }
 
-    // Ensure the expiration date is formatted as 'yyyy-MM-dd' for the HTML input compatibility
-    const formattedExpirationDate = editCoupon.expirationDate
-      ? new Date(editCoupon.expirationDate).toISOString().split("T")[0]
-      : "";
+    const toastId = toast.loading("Updating coupon...");
 
     try {
       await updateCoupon({
         ...editCoupon,
         discountAmount: updatedDiscount,
-        expirationDate: formattedExpirationDate,
       }).unwrap();
-
-      toast.success("Coupon updated successfully!");
+      toast.success("Coupon updated successfully!", { id: toastId });
       setEditDialogOpen(false);
       setEditCoupon(null);
-    } catch (error) {
-      console.error("Error updating coupon:", error);
-      toast.error("Failed to update coupon.");
+    } catch (error: any) {
+      toast.error("Failed to update coupon.", { id: toastId });
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string, code: string) => {
+    const toastId = toast.loading("Deleting coupon...");
     try {
       await deleteCoupon(id).unwrap();
-      toast.success("Coupon deleted successfully!");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      toast.success(`Coupon ${code} deleted successfully!`, { id: toastId });
+      if (paginatedCoupons.length === 1 && currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
     } catch (error: any) {
-      console.log(error);
-      toast.error("Failed to delete coupon.");
+      toast.error("Failed to delete coupon.", { id: toastId });
     }
   };
 
-  if (isLoading) return <Spinner />;
-  if (isError) return <p>Failed to load coupons.</p>;
-  //   console.log(data?.data);
+  const handleViewCoupon = (coupon: TCoupon) => {
+    setViewCoupon(coupon);
+    setViewDialogOpen(true);
+  };
 
-  const coupons = data?.data;
+  const handlePageChange = (page: number) => setCurrentPage(page);
+
+  // Loading and Error States
+  if (isLoading)
+    return (
+      <div className="flex flex-col justify-center items-center min-h-screen">
+        <Spinner />
+        <p className="text-sm text-gray-600">Loading Coupons...</p>
+      </div>
+    );
+
+  if (isError)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Card className="w-full max-w-md">
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <p className="text-red-600 font-semibold">
+                Failed to load coupons.
+              </p>
+              <p className="text-sm text-gray-600 mt-2">
+                Please try again later.
+              </p>
+              <Button
+                onClick={() => refetch()}
+                className="mt-4"
+                variant="outline"
+              >
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Retry
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+
   return (
-    <>
-      <div className="p-2 space-y-2">
-        {/* Heading */}
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Ticket className="h-6 w-6 text-primary" />
-            <h1 className="text-2xl font-semibold text-charcoal">Coupons</h1>
+    <TooltipProvider>
+      <div className="min-h-screen bg-slate-50 p-2 space-y-4">
+        {/* Header */}
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+          <div>
+            <div className="flex items-center gap-1 text-slate-700">
+              <Ticket className="w-4 h-4" />
+              <h1 className="text-lg font-semibold tracking-tight">
+                Coupon Management
+              </h1>
+            </div>
+            <p className="text-sm text-muted-foreground ps-5">
+              Manage and monitor all discount coupons
+            </p>
           </div>
-          <Button onClick={() => setDialogOpen(true)} className="bg-warm-brown">
-            {" "}
-            + Create New Coupon
+          <Button
+            onClick={() => setDialogOpen(true)}
+            className="gap-2 bg-white text-deep-brown hover:bg-slate-600 hover:text-white"
+          >
+            <Plus className="w-4 h-4" />
+            Create Coupon
           </Button>
         </div>
 
-        <div>
-          {/* Table to display existing coupons */}
-          <div className="border rounded-lg p-4 shadow-md">
-            {isLoading ? (
-              <Spinner />
-            ) : coupons.length === 0 ? (
-              <p className="text-center text-gray-500">No data found.</p>
-            ) : (
-              <>
-                <p className="text-sm text-gray-600 mb-4">
-                  Total Records:{" "}
-                  <span className="font-medium">{coupons.length}</span>
+        {/* Statistics */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <Card className="h-16">
+            <CardContent className="px-6 py-3">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-50 rounded-lg">
+                  <Ticket className="w-5 h-5 text-blue-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-600">
+                  Total Coupons
                 </p>
-                <Table>
-                  <TableHead>
-                    <TableRow className="flex w-full">
-                      <TableCell className="flex-1 text-left px-4 py-2">
-                        Code
-                      </TableCell>
-                      <TableCell className="flex-1 text-left px-4 py-2">
-                        Discount
-                      </TableCell>
-                      <TableCell className="flex-1 text-left px-4 py-2">
-                        Expiration Date
-                      </TableCell>
-                      <TableCell className="flex-1 text-right px-4 py-2">
-                        Actions
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {coupons?.map((coupon: TCoupon) => (
-                      <TableRow key={coupon.id} className="flex w-full">
-                        <TableCell className="flex-1 px-4 py-2">
-                          {coupon.code}
-                        </TableCell>
-                        <TableCell className="flex-1 px-4 py-2">{`${coupon.discountAmount}%`}</TableCell>
-                        <TableCell className="flex-1 px-4 py-2">
-                          {format(new Date(coupon.expirationDate), "PPP")}
-                        </TableCell>
-                        <TableCell className="flex-1 px-4 py-2 text-right">
-                          <Button
-                            onClick={() => {
-                              setEditCoupon(coupon);
-                              setEditDialogOpen(true);
-                            }}
-                            className="inline-flex justify-center bg-white border-white  items-center p-2 text-blue-500 hover:text-blue-600 mr-2"
-                          >
-                            <Edit3 size={16} />
-                          </Button>
-                          <Button
-                            onClick={() => handleDelete(coupon.id)}
-                            className="inline-flex justify-center bg-white border-white items-center p-2 text-red-500 hover:text-red-600"
-                            variant="destructive"
-                          >
-                            <Trash2 size={16} />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </>
-            )}
+                <p className="text-2xl font-bold text-blue-600">
+                  {totalCoupons}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="h-16">
+            <CardContent className="px-6 py-3">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-green-50 rounded-lg">
+                  <Percent className="w-5 h-5 text-green-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-600">
+                  Active Coupons
+                </p>
+                <p className="text-2xl font-bold text-green-600">
+                  {activeCoupons}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="h-16">
+            <CardContent className="px-6 py-3">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-red-50 rounded-lg">
+                  <Calendar className="w-5 h-5 text-red-600" />
+                </div>
+                <p className="text-sm font-medium text-gray-600">
+                  Expired Coupons
+                </p>
+                <p className="text-2xl font-bold text-red-600">
+                  {expiredCoupons}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        {/* Search and Filters */}
+        <div className="flex flex-col lg:flex-row gap-4 pt-4">
+          <div className="flex-1">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+              <Input
+                placeholder="Search coupons by code..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
           </div>
 
-          {/* Dialogs for Creating and Editing Coupons */}
-          {dialogOpen && (
-            <Dialog open={dialogOpen} onOpenChange={handleDialogClose}>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Create Coupon</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Coupon Code
-                    <Input
-                      placeholder="Enter code"
-                      value={newCoupon.code}
-                      onChange={(e) =>
-                        handleInputChange("code", e.target.value)
-                      }
-                      className="mt-1"
-                    />
-                  </label>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Discount Amount ($)
-                    <Input
-                      type="number"
-                      placeholder="Enter discount"
-                      value={newCoupon.discountAmount}
-                      onChange={(e) =>
-                        handleInputChange("discountAmount", e.target.value)
-                      }
-                      className="mt-1"
-                    />
-                  </label>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Expiration Date
-                    <Input
-                      type="date"
-                      placeholder="Select date"
-                      value={newCoupon.expirationDate}
-                      onChange={(e) =>
-                        handleInputChange("expirationDate", e.target.value)
-                      }
-                      className="mt-1"
-                    />
-                  </label>
-                </div>
-                <DialogFooter>
-                  <Button onClick={handleCreate}>Create</Button>
-                  <Button onClick={handleDialogClose}>Cancel</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          )}
+          <div className="flex flex-col sm:flex-row gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="gap-2 h-9">
+                  <Filter className="h-4 w-4" />
+                  Status:{" "}
+                  {statusFilter === "all"
+                    ? "All"
+                    : statusFilter === "active"
+                    ? "Active"
+                    : "Expired"}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => setStatusFilter("all")}>
+                  All Coupons
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setStatusFilter("active")}>
+                  Active Only
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setStatusFilter("expired")}>
+                  Expired Only
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-          {editDialogOpen && editCoupon && (
-            <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Edit Coupon</DialogTitle>
-                </DialogHeader>
-                <Input
-                  placeholder="Coupon Code"
-                  value={editCoupon.code}
-                  onChange={(e) => handleEditChange("code", e.target.value)}
-                />
-                <Input
-                  type="number"
-                  placeholder="Discount Amount ($)"
-                  value={editCoupon.discountAmount.toString()}
-                  onChange={(e) =>
-                    handleEditChange("discountAmount", e.target.value)
-                  }
-                />
-                <Input
-                  type="date"
-                  placeholder="Expiration Date"
-                  value={editCoupon.expirationDate}
-                  onChange={(e) =>
-                    handleEditChange("expirationDate", e.target.value)
-                  }
-                />
-                <DialogFooter>
-                  <Button onClick={handleUpdate}>Save Changes</Button>
-                  <Button onClick={() => setEditDialogOpen(false)}>
-                    Cancel
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-32 h-9">
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="createdAt">Created Date</SelectItem>
+                <SelectItem value="expirationDate">Expiration</SelectItem>
+                <SelectItem value="code">Code</SelectItem>
+                <SelectItem value="discountAmount">Discount</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select value={sortOrder} onValueChange={setSortOrder}>
+              <SelectTrigger className="w-32 h-9">
+                <SelectValue placeholder="Order" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="desc">Recent First</SelectItem>
+                <SelectItem value="asc">Oldest First</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {/* Table with Pagination */}
+        <div className="flex-grow border border-slate-200/60 rounded-none shadow-xl p-4 min-h-screen flex flex-col">
+          <div className="flex-grow">
+            <CouponsTable
+              coupons={paginatedCoupons}
+              searchTerm={searchTerm}
+              onEditCoupon={(coupon) => {
+                setEditCoupon(coupon);
+                setEditDialogOpen(true);
+              }}
+              onDeleteCoupon={handleDelete}
+              onViewCoupon={handleViewCoupon}
+            />
+          </div>
+
+          {/* Pagination at the bottom of the container */}
+          {filteredCoupons.length > 0 && (
+            <div className="mt-auto pt-4">
+              <PaginationComponent
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalCoupons={totalCoupons}
+                activeCoupons={activeCoupons}
+                expiredCoupons={expiredCoupons}
+                totalRecords={filteredCoupons.length}
+                currentItemsCount={paginatedCoupons.length}
+                onPageChange={handlePageChange}
+              />
+            </div>
           )}
         </div>
+        {/* Dialogs */}
+        <CreateCouponDialog
+          open={dialogOpen}
+          onOpenChange={handleDialogClose}
+          newCoupon={newCoupon}
+          onInputChange={handleInputChange}
+          onCreate={handleCreate}
+        />
+
+        <EditCouponDialog
+          open={editDialogOpen}
+          onOpenChange={setEditDialogOpen}
+          editCoupon={editCoupon}
+          onEditChange={handleEditChange}
+          onUpdate={handleUpdate}
+        />
+
+        <ViewCouponDialog
+          open={viewDialogOpen}
+          onOpenChange={setViewDialogOpen}
+          viewCoupon={viewCoupon}
+          onEditClick={() => {
+            setViewDialogOpen(false);
+            if (viewCoupon) {
+              setEditCoupon(viewCoupon);
+              setEditDialogOpen(true);
+            }
+          }}
+        />
       </div>
-    </>
+    </TooltipProvider>
   );
 };
 

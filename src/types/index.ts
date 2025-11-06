@@ -172,12 +172,20 @@ export interface TCoupon {
   id: string;
   code: string;
   discountAmount: number;
-  expirationDate: Date;
-  createdAt: Date;
-
-  // Relations
+  expirationDate: string;
+  createdAt: string;
   orders?: TOrder[];
 }
+// export interface TCoupon {
+//   id: string;
+//   code: string;
+//   discountAmount: number;
+//   expirationDate: Date;
+//   createdAt: Date;
+
+//   // Relations
+//   orders?: TOrder[];
+// }
 
 export interface TShopOwner {
   id: string;
