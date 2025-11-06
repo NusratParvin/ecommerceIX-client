@@ -85,13 +85,14 @@ export const FeedbackTable = ({
                 {/* Product Image */}
                 <TableCell>
                   {review.product?.imageUrl ? (
-                    <Image
-                      src={review.product.imageUrl}
-                      alt={review.product.name}
-                      width={40}
-                      height={40}
-                      className="object-cover rounded"
-                    />
+                    <div className="h-8 w-10 object-cover  relative">
+                      <Image
+                        src={review.product.imageUrl}
+                        alt={review.product.name}
+                        fill
+                        className=" rounded"
+                      />
+                    </div>
                   ) : (
                     <div className="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
                       <span className="text-xs text-gray-500">No Image</span>
