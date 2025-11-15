@@ -4,11 +4,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Package, User, Store, DollarSign, MapPin } from "lucide-react";
 import { TOrder } from "@/types";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ViewOrderDialogProps {
   open: boolean;
@@ -27,20 +31,14 @@ const ViewOrderDialog = ({
     switch (status) {
       case "PAID":
         return "bg-green-100 text-green-800";
-      case "PENDING":
+      case "UNPAID":
         return "bg-yellow-100 text-yellow-800";
-      case "FAILED":
-        return "bg-red-100 text-red-800";
-      case "REFUNDED":
-        return "bg-gray-100 text-gray-800";
-      default:
-        return "bg-gray-100 text-gray-800";
     }
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-scroll">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Package className="w-5 h-5" />
@@ -48,7 +46,7 @@ const ViewOrderDialog = ({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6">
+        <div className="space-y-2">
           {/* Order Overview */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card>
@@ -61,7 +59,7 @@ const ViewOrderDialog = ({
                     <p className="text-sm font-medium text-gray-600">
                       Order ID
                     </p>
-                    <p className="text-lg font-bold text-gray-900 font-mono">
+                    <p className="text-base font-bold text-gray-900 font-mono">
                       {order.id}
                     </p>
                   </div>
@@ -79,7 +77,7 @@ const ViewOrderDialog = ({
                     <p className="text-sm font-medium text-gray-600">
                       Total Amount
                     </p>
-                    <p className="text-lg font-bold text-purple-700">
+                    <p className="text-base font-bold text-purple-700">
                       ${order.totalPrice.toFixed(2)}
                     </p>
                   </div>
@@ -90,7 +88,7 @@ const ViewOrderDialog = ({
 
           {/* Customer and Shop Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
+            <div className="space-y-2">
               <h3 className="font-semibold text-gray-900 mb-3">
                 Customer Information
               </h3>
@@ -111,7 +109,7 @@ const ViewOrderDialog = ({
               </Card>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-2">
               <h3 className="font-semibold text-gray-900 mb-3">
                 Shop Information
               </h3>
@@ -132,44 +130,59 @@ const ViewOrderDialog = ({
 
           {/* Order Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
+            <div className="space-y-2">
               <h3 className="font-semibold text-gray-900 mb-3">
                 Order Information
               </h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Payment Status</span>
-                  <Badge className={getPaymentStatusColor(order.paymentStatus)}>
-                    {order.paymentStatus}
-                  </Badge>
-                </div>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Payment Status
+                      </span>
+                      <Badge
+                        className={getPaymentStatusColor(order.paymentStatus)}
+                      >
+                        {order.paymentStatus}
+                      </Badge>
+                    </div>
 
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Payment Method</span>
-                  <span className="text-sm text-gray-900 capitalize">
-                    {order.paymentMethod.replace("_", " ")}
-                  </span>
-                </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">
+                        Payment Method
+                      </span>
+                      <span className="text-sm text-gray-900 capitalize">
+                        {order.paymentMethod.replace("_", " ")}
+                      </span>
+                    </div>
 
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Order Date</span>
-                  <span className="text-sm text-gray-900">
-                    {new Date(order.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Order Date</span>
+                      <span className="text-sm text-gray-900">
+                        {new Date(order.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
 
-                {order.coupon && (
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Coupon Used</span>
-                    <Badge variant="outline" className="bg-red-50 text-red-700">
-                      {order.coupon.code} (-{order.coupon.discountAmount}%)
-                    </Badge>
+                    {order.coupon && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">
+                          Coupon Used
+                        </span>
+                        <Badge
+                          variant="outline"
+                          className="bg-red-50 text-red-700"
+                        >
+                          {order.coupon.code} (-{order.coupon.discountAmount}%)
+                        </Badge>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                </CardContent>
+              </Card>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-2">
               <h3 className="font-semibold text-gray-900 mb-3">
                 Shipping Information
               </h3>
@@ -204,7 +217,7 @@ const ViewOrderDialog = ({
             </h3>
             <Card>
               <CardContent className="p-4">
-                <div className="space-y-3">
+                <div className="space-y-1">
                   {order.items.map((item, index) => (
                     <div
                       key={item.id}
@@ -214,9 +227,16 @@ const ViewOrderDialog = ({
                         <p className="font-medium text-gray-900">
                           Item {index + 1}
                         </p>
-                        <p className="text-sm text-gray-600">
-                          Product ID: {item.productId.slice(0, 8)}...
-                        </p>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <p className="text-sm text-gray-600 cursor-help">
+                              Product ID: {item.productId.slice(0, 8)}...
+                            </p>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{item.productId}</p>
+                          </TooltipContent>
+                        </Tooltip>
                       </div>
                       <div className="text-right">
                         <p className="font-medium text-gray-900">
@@ -232,10 +252,6 @@ const ViewOrderDialog = ({
               </CardContent>
             </Card>
           </div>
-        </div>
-
-        <div className="flex justify-end pt-4">
-          <Button onClick={() => onOpenChange(false)}>Close</Button>
         </div>
       </DialogContent>
     </Dialog>

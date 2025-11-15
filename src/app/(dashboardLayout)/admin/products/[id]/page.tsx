@@ -448,8 +448,7 @@ import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 
-import { Edit, ArrowLeft, Copy } from "lucide-react";
-import { Product } from "@/types";
+import { ArrowLeft, Copy } from "lucide-react";
 import { OverviewTab } from "./_components/overviewTab";
 import { OrdersTab } from "./_components/ordersTab";
 import { ReviewsTab } from "./_components/reviewsTab";
