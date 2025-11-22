@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// components/vendor-charts/CategoryPerformanceChart.tsx
 "use client";
 import { Bar } from "react-chartjs-2";
 import {
