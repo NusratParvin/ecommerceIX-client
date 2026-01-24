@@ -163,30 +163,38 @@ import {
   processUserRoleData,
   processUserStatusData,
 } from "@/lib/adminChartDataHelpers";
+import { useGetAdminDashboardAnalyticsInfoQuery } from "@/redux/features/analytics/analyticsApi";
+import { SalesTrend } from "./_components/salesTrend";
 
 const AdminDashboard = () => {
   const { data: ordersData } = useGetOrdersQuery({});
   const { data: productsData } = useGetProductsForAdminQuery({});
   const { data: usersData } = useGetUsersQuery({});
+  const { data: adminAnalyticsData } = useGetAdminDashboardAnalyticsInfoQuery(
+    {},
+  );
 
   const orders = ordersData?.data || [];
   const products = productsData?.data || [];
   const users = usersData?.data || [];
+  const { userStats, shopStats, orderStats, revenueStats } =
+    adminAnalyticsData?.data || [];
 
-  console.log(orders, products, users, "----");
+  // console.log(salesTrend);
+  // console.log(userStats, shopStats, orderStats, revenueStats);
 
   // Process user data for polar charts
   const userRoleData = processUserRoleData(users);
   const userStatusData = processUserStatusData(users);
   const userRegistrationData = processUserRegistrationData(users);
 
-  // Process shop data for bar chart
+  // Process shop data for bar chartafcg
   // const shopChartData = processShopData(orders);
 
   // Calculate admin-specific platform-wide stats
   const totalRevenue = orders.reduce(
     (total: number, order: any) => total + (order.totalAmount || 0),
-    0
+    0,
   );
   const totalOrders = orders.length;
   const totalProducts = products.length;
@@ -196,50 +204,51 @@ const AdminDashboard = () => {
   const activeShops = new Set(products.map((product: any) => product.shop?._id))
     .size;
   const pendingOrders = orders.filter(
-    (order: any) => order.status === "pending"
+    (order: any) => order.status === "pending",
   ).length;
   const completedOrders = orders.filter(
-    (order: any) => order.status === "completed"
+    (order: any) => order.status === "completed",
   ).length;
   const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
 
-  // This week's growth (mock data - you'd calculate from actual data)
-  const revenueGrowth = 12.5;
-  const userGrowth = 8.2;
-  const orderGrowth = 15.7;
+  const getGrowthVariables = (value = 0) =>
+    value > 0
+      ? `+${value}% increase from prev 30d`
+      : value < 0
+        ? `${value}% decrease from prev 30d`
+        : `No change from prev 30d`;
+
+  const getGrowthTextColor = (value = 0) =>
+    value > 0
+      ? "text-green-600"
+      : value < 0
+        ? "text-red-600"
+        : "text-orange-600";
 
   const stats = [
     {
       title: "Total Users",
-      value: totalUsers.toString(),
-      description: `+${userGrowth}% growth`,
-      descriptionClassName: "text-green-600",
+      value: userStats?.totalUser || 0,
+      description: getGrowthVariables(userStats?.userGrowth),
+      descriptionClassName: getGrowthTextColor(userStats?.userGrowth),
     },
     {
       title: "Active Shops",
-      value: activeShops.toString(),
-      description: "Active vendors on platform",
-      descriptionClassName: "text-blue-600",
+      value: shopStats?.activeShops || 0,
+      description: getGrowthVariables(shopStats?.shopGrowth),
+      descriptionClassName: getGrowthTextColor(shopStats?.shopGrowth),
     },
     {
-      title: "Order Volume",
-      value: totalOrders.toString(),
-      description: `+${orderGrowth}% increase`,
-      descriptionClassName: "text-green-600",
+      title: "Order (Last 30 Days)",
+      value: orderStats?.ordersLast30 || 0,
+      description: getGrowthVariables(orderStats?.orderGrowth ?? 0),
+      descriptionClassName: getGrowthTextColor(orderStats?.orderGrowth),
     },
     {
-      title: "Avg Order Value",
-      value: `$${avgOrderValue.toFixed(2)}`,
-      description: "Across all shops",
-      descriptionClassName: "text-purple-600",
-    },
-    {
-      title: "Completion Rate",
-      value: `${
-        totalOrders > 0 ? Math.round((completedOrders / totalOrders) * 100) : 0
-      }%`,
-      description: "Successful orders",
-      descriptionClassName: "text-green-600",
+      title: "Revenue (Last 30 Days)",
+      value: `$${(revenueStats?.revenueLast30 || 0).toLocaleString()}`,
+      description: getGrowthVariables(revenueStats?.changePercent),
+      descriptionClassName: getGrowthTextColor(revenueStats?.changePercent),
     },
   ];
 
@@ -257,30 +266,27 @@ const AdminDashboard = () => {
   const sortedOrders = orders
     ? [...orders].sort(
         (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       )
     : [];
 
   const recentOrders = sortedOrders.slice(0, 6);
 
   return (
-    <div className="flex-1 space-y-6 p-6">
+    <div className="  flex-1 space-y-4 p-2 text-slate-700 mb-10">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between  space-y-2">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">
+          <h2 className="text-xl font-semibold tracking-tight">
             Platform Overview
           </h2>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Complete analytics and insights across your entire marketplace
           </p>
         </div>
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-muted-foreground">Real-time data</span>
-        </div>
       </div>
 
-      {/* Main Platform Stats */}
+      {/*  Stats */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.slice(0, 4).map((stat, index) => (
           <StatCard
@@ -294,21 +300,9 @@ const AdminDashboard = () => {
         ))}
       </div>
 
-      {/* Secondary Platform Stats */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.slice(4, 8).map((stat, index) => (
-          <StatCard
-            key={stat.title}
-            title={stat.title}
-            value={stat.value}
-            icon={icons[index + 4]}
-            description={stat.description}
-            descriptionClassName={stat.descriptionClassName}
-          />
-        ))}
-      </div>
+      {/* Admin-Specific Charts */}
+      <SalesTrend />
 
-      {/* Admin-Specific Charts - Platform Wide Analytics */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Platform Revenue vs Orders */}
 

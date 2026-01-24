@@ -21,38 +21,26 @@ export function StatCard({
   descriptionClassName,
 }: StatCardProps) {
   return (
-    // <Card className="relative overflow-hidden bg-white border border-dashed border-slate-300 border-l-0 rounded-none shadow-none h-[120px]">
-    //   {/* left accent line */}
-    //   <span className="absolute left-0 top-0 bottom-0 w-[4px] bg-deep-brown/80 rounded-none" />
-
-    //   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-    //     <CardTitle className="text-sm font-medium">{title}</CardTitle>
-    //     <Icon className="h-4 w-4 text-muted-foreground" />
-    //   </CardHeader>
-    //   <CardContent>
-    //     <div className="text-2xl font-bold">{value}</div>
-    //     {description && (
-    //       <p className="text-xs text-muted-foreground">{description}</p>
-    //     )}
-    //   </CardContent>
-    // </Card>
-
-    <Card className="relative overflow-hidden bg-white border border-dashed border-slate-300 border-l-0 rounded-none shadow-none h-[100px]">
+    <Card className="relative overflow-hidden bg-white border border-dashed border-slate-300 border-l-0 rounded-none shadow-none min-h-[100px] h-auto">
       {/* left accent line */}
       <span className="absolute left-0 top-0 bottom-0 w-[4px] bg-deep-brown/80 rounded-none" />
 
-      <div className="flex h-full items-center gap-4 ps-4 pe-2">
+      <div className="flex h-full items-center gap-2 ps-4 pe-2">
         {/* Icon */}
-        <div className="shrink-0 border p-4 bg-deep-brown/20 rounded-full shadow-md  ">
-          <Icon className="h-8 w-8 text-deep-brown" strokeWidth={1.6} />
+        <div className="shrink-0 border p-3 bg-deep-brown/20 rounded-full shadow-md  ">
+          <Icon className="h-6 w-6 text-deep-brown" strokeWidth={1.6} />
           {/* <Icon className="h-14 w-14 text-deep-brown/80" strokeWidth={1.6} /> */}
           {/* {icon} */}
         </div>
 
         {/* Text content */}
-        <div className="leading-tight   w-full">
-          <div className="text-2xl font-semibold font-sans">{value}</div>
-          <div className="text-sm text-slate-700 mt-1">{title}</div>
+        <div className="leading-tighter w-full text-center">
+          <div className="text-xl font-semibold font-sans  text-center ">
+            {value}
+          </div>
+          <div className="text-sm font-semibold text-slate-700 mt-0  text-center ">
+            {title}
+          </div>
 
           {description && (
             <p

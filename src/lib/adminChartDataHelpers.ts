@@ -1,6 +1,6 @@
 import moment from "moment";
 
-// User data processing functions for polar chart
+// User data processing functions for  chart
 export const processUserRoleData = (users: any[]) => {
   if (!users || !Array.isArray(users)) {
     return { labels: [], values: [] };
