@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/select";
 import moment from "moment";
 import { useEffect, useMemo, useState } from "react";
+import { FilterProps } from "../../salesTrend";
 
 interface SelectSalesTrendProps {
   setFilters?: (filters: FilterProps) => void;
@@ -64,12 +65,15 @@ const SelectSalesTrend = ({ setFilters }: SelectSalesTrendProps) => {
   return (
     <div className="flex gap-2 text-xs ">
       <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue className="text-slate-300" placeholder="Select month" />
+        <SelectTrigger className="w-[120px]  focus:ring-0 h-7 text-xs">
+          <SelectValue
+            className="text-slate-300 text-xs"
+            placeholder="Select month"
+          />
         </SelectTrigger>
         <SelectContent>
           {availableMonths.map((m) => (
-            <SelectItem key={m.value} value={m.value}>
+            <SelectItem key={m.value} value={m.value} className="text-xs">
               {m.label}
             </SelectItem>
           ))}
@@ -77,12 +81,12 @@ const SelectSalesTrend = ({ setFilters }: SelectSalesTrendProps) => {
       </Select>
 
       <Select value={selectedYear} onValueChange={setSelectedYear}>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue className="text-slate-300" placeholder="Select year" />
+        <SelectTrigger className="w-[100px] focus:ring-0 h-7 text-xs">
+          <SelectValue className="text-slate-300 " placeholder="Select year" />
         </SelectTrigger>
         <SelectContent>
           {years.map((y) => (
-            <SelectItem key={y} value={y}>
+            <SelectItem key={y} value={y} className="text-xs">
               {y}
             </SelectItem>
           ))}
