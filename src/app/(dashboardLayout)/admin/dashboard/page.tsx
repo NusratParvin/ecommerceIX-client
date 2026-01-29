@@ -156,15 +156,15 @@ import { useGetUsersQuery } from "@/redux/features/users/usersApi";
 import { RecentOrders } from "./_components/recentOrders";
 import { StatCard } from "./_components/statCards";
 import UserGrowthChart from "./_components/charts/userGrowthChart";
-import ShopPerformanceChart from "./_components/charts/shopPerformanceChart";
 import CategoryDistributionChart from "./_components/charts/categoryDistributionChart";
-import {
-  processUserRegistrationData,
-  processUserRoleData,
-  processUserStatusData,
-} from "@/lib/adminChartDataHelpers";
+// import {
+//   processUserRegistrationData,
+//   processUserRoleData,
+//   processUserStatusData,
+// } from "@/lib/adminChartDataHelpers";
 import { useGetAdminDashboardAnalyticsInfoQuery } from "@/redux/features/analytics/analyticsApi";
 import { SalesTrend } from "./_components/salesTrend";
+import ShopPerformance from "./_components/shopPerformance";
 
 const AdminDashboard = () => {
   const { data: ordersData } = useGetOrdersQuery({});
@@ -184,32 +184,32 @@ const AdminDashboard = () => {
   // console.log(userStats, shopStats, orderStats, revenueStats);
 
   // Process user data for polar charts
-  const userRoleData = processUserRoleData(users);
-  const userStatusData = processUserStatusData(users);
-  const userRegistrationData = processUserRegistrationData(users);
+  // const userRoleData = processUserRoleData(users);
+  // const userStatusData = processUserStatusData(users);
+  // const userRegistrationData = processUserRegistrationData(users);
 
   // Process shop data for bar chartafcg
   // const shopChartData = processShopData(orders);
 
   // Calculate admin-specific platform-wide stats
-  const totalRevenue = orders.reduce(
-    (total: number, order: any) => total + (order.totalAmount || 0),
-    0,
-  );
-  const totalOrders = orders.length;
-  const totalProducts = products.length;
-  const totalUsers = users.length;
+  // const totalRevenue = orders.reduce(
+  //   (total: number, order: any) => total + (order.totalAmount || 0),
+  //   0,
+  // );
+  // const totalOrders = orders.length;
+  // const totalProducts = products.length;
+  // const totalUsers = users.length;
 
-  // Platform-wide metrics
-  const activeShops = new Set(products.map((product: any) => product.shop?._id))
-    .size;
-  const pendingOrders = orders.filter(
-    (order: any) => order.status === "pending",
-  ).length;
-  const completedOrders = orders.filter(
-    (order: any) => order.status === "completed",
-  ).length;
-  const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+  // // Platform-wide metrics
+  // const activeShops = new Set(products.map((product: any) => product.shop?._id))
+  //   .size;
+  // const pendingOrders = orders.filter(
+  //   (order: any) => order.status === "pending",
+  // ).length;
+  // const completedOrders = orders.filter(
+  //   (order: any) => order.status === "completed",
+  // ).length;
+  // const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
 
   const getGrowthVariables = (value = 0) =>
     value > 0
@@ -317,11 +317,7 @@ const AdminDashboard = () => {
         {/* Shop Performance Comparison */}
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <h3 className="font-semibold text-lg mb-4">Top Performing Shops</h3>
-          <ShopPerformanceChart
-            products={products}
-            orders={orders}
-            height={280}
-          />
+          <ShopPerformance />
         </div>
 
         {/* Category Distribution */}

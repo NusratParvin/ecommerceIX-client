@@ -1,12 +1,36 @@
-const ShopPerformanceChart = ({ products, orders, height = 300 }) => {
-  // Compare performance across different shops
-  return (
-    <div className="w-full" style={{ height: `${height}px` }}>
-      <div className="flex items-center justify-center h-full bg-gray-50 rounded border">
-        <p className="text-muted-foreground">Shop Performance Comparison</p>
-      </div>
-    </div>
-  );
-};
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Radar } from "react-chartjs-2";
 
-export default ShopPerformanceChart;
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+);
+
+// export const data = {
+//   labels: ["Thing 1", "Thing 2", "Thing 3", "Thing 4", "Thing 5", "Thing 6"],
+//   datasets: [
+//     {
+//       label: "# of Votes",
+//       data: [2, 9, 3, 5, 2, 3],
+//       backgroundColor: "rgba(255, 99, 132, 0.2)",
+//       borderColor: "rgba(255, 99, 132, 1)",
+//       borderWidth: 1,
+//     },
+//   ],
+// };
+
+export const ShopPerformanceChart = (data) => {
+  return <Radar data={data} />;
+};

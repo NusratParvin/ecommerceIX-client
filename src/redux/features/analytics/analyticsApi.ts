@@ -16,11 +16,19 @@ const analyticsApi = baseApi.injectEndpoints({
         params: { month, year },
       }),
     }),
+
+    getAdminDashboardShopPerformanceChartInfo: builder.query({
+      query: () => ({
+        url: "/analytics/dashboard/shop-performance",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
 export const {
   useGetAdminDashboardAnalyticsInfoQuery,
   useGetAdminDashboardSalesTrendChartInfoQuery,
+  useGetAdminDashboardShopPerformanceChartInfoQuery,
 } = analyticsApi;
 export default analyticsApi;
