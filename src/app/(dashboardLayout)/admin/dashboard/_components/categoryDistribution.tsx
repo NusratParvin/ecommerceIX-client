@@ -1,26 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useGetAdminDashboardShopPerformanceChartInfoQuery } from "@/redux/features/analytics/analyticsApi";
 import React from "react";
-import { ShopPerformanceChart } from "./charts/shopPerformanceChart";
 import ChartSkeleton from "./charts/chartSkeleton";
 import ErrorComponent from "@/components/ui/error";
+import { useGetAdminDashboardCategoryDistributionChartInfoQuery } from "@/redux/features/analytics/analyticsApi";
+import { CategoryDistributionChart } from "./charts/categoryDistributionChart";
 const emptyChartData = {
   labels: [],
   datasets: [],
 };
 
-const ShopPerformance = () => {
+const CategoryDistribution = () => {
   const {
-    data: shopPerformanceData,
+    data: categoryDistributionData,
     isLoading,
     error,
-  } = useGetAdminDashboardShopPerformanceChartInfoQuery(undefined);
+  } = useGetAdminDashboardCategoryDistributionChartInfoQuery(undefined);
 
-  const shopPerformance = shopPerformanceData?.data || emptyChartData;
-  // console.log(shopPerformance);
+  const categoryDistribution = categoryDistributionData?.data || emptyChartData;
+  //   console.log(categoryDistribution);
 
   return (
-    <div className="w-full h-full ">
+    <div className="w-full h-72">
       {isLoading ? (
         <ChartSkeleton />
       ) : error ? (
@@ -32,10 +32,10 @@ const ShopPerformance = () => {
           }
         />
       ) : (
-        <ShopPerformanceChart data={shopPerformance} />
+        <CategoryDistributionChart data={categoryDistribution} />
       )}
     </div>
   );
 };
 
-export default ShopPerformance;
+export default CategoryDistribution;

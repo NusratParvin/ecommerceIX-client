@@ -23,6 +23,13 @@ const analyticsApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    getAdminDashboardCategoryDistributionChartInfo: builder.query({
+      query: () => ({
+        url: "/analytics/dashboard/category-distribution",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -30,5 +37,6 @@ export const {
   useGetAdminDashboardAnalyticsInfoQuery,
   useGetAdminDashboardSalesTrendChartInfoQuery,
   useGetAdminDashboardShopPerformanceChartInfoQuery,
+  useGetAdminDashboardCategoryDistributionChartInfoQuery,
 } = analyticsApi;
 export default analyticsApi;

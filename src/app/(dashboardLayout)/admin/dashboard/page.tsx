@@ -156,7 +156,6 @@ import { useGetUsersQuery } from "@/redux/features/users/usersApi";
 import { RecentOrders } from "./_components/recentOrders";
 import { StatCard } from "./_components/statCards";
 import UserGrowthChart from "./_components/charts/userGrowthChart";
-import CategoryDistributionChart from "./_components/charts/categoryDistributionChart";
 // import {
 //   processUserRegistrationData,
 //   processUserRoleData,
@@ -165,6 +164,7 @@ import CategoryDistributionChart from "./_components/charts/categoryDistribution
 import { useGetAdminDashboardAnalyticsInfoQuery } from "@/redux/features/analytics/analyticsApi";
 import { SalesTrend } from "./_components/salesTrend";
 import ShopPerformance from "./_components/shopPerformance";
+import CategoryDistribution from "./_components/categoryDistribution";
 
 const AdminDashboard = () => {
   const { data: ordersData } = useGetOrdersQuery({});
@@ -303,29 +303,32 @@ const AdminDashboard = () => {
       {/* Admin-Specific Charts */}
       <SalesTrend />
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-3 md:grid-cols-2">
         {/* Platform Revenue vs Orders */}
 
-        {/* User Growth Analytics */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h3 className="font-semibold text-lg mb-4">
-            User Growth & Acquisition
-          </h3>
-          <UserGrowthChart users={users} height={280} />
+        <div className="flex flex-col gap-3">
+          {/* User Growth Analytics */}
+          <div className="bg-white    border border-dashed border-slate-300  rounded-none p-6">
+            <h3 className="font-semibold text-lg mb-4">User Growth</h3>
+            <UserGrowthChart users={users} />
+          </div>{" "}
+          {/* Category Distribution */}
+          <div className="bg-white    border border-dashed border-slate-300  rounded-none p-6">
+            <h3 className="font-semibold text-lg mb-4">
+              Product Category Distribution
+            </h3>
+            <CategoryDistribution />
+          </div>
         </div>
 
         {/* Shop Performance Comparison */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h3 className="font-semibold text-lg mb-4">Top Performing Shops</h3>
-          <ShopPerformance />
-        </div>
-
-        {/* Category Distribution */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
+        <div className="bg-white  border border-dashed border-slate-300  rounded-none p-6 h-[480px]">
           <h3 className="font-semibold text-lg mb-4">
-            Product Category Distribution
+            Top 5 Shops Performance Comparison
           </h3>
-          <CategoryDistributionChart products={products} height={280} />
+          <div>
+            <ShopPerformance />
+          </div>
         </div>
       </div>
 
