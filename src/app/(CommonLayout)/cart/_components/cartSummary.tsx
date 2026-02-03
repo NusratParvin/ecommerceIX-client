@@ -97,7 +97,7 @@ export function CartSummary() {
                   code={coupon.code}
                   discount={coupon.discountAmount}
                   expirationDate={new Date(
-                    coupon.expirationDate
+                    coupon.expirationDate,
                   ).toLocaleDateString()}
                 />
               ))
@@ -163,7 +163,7 @@ export function CartSummary() {
           <div className="mt-8 space-y-2">
             <Link
               href={{
-                pathname: "/checkout",
+                pathname: !user ? "/login" : "/checkout",
                 query: {
                   cart: JSON.stringify(cart.items),
                   totalPrice: FinalTotalPrice,
@@ -174,14 +174,11 @@ export function CartSummary() {
               }}
             >
               <button
-                disabled={!user} // Disable the button if there's no user
                 className={` px-4 py-2.5 w-full font-semibold tracking-tight text-lg mb-4 ${
                   user
                     ? "bg-slate-500 hover:bg-slate-700 text-white"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-gray-300 text-gray-500 "
                 }`}
-
-                // className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-slate-500 hover:bg-deep-brown text-white rounded-md mb-4"
               >
                 Checkout
               </button>
