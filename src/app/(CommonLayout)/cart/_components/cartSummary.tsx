@@ -45,7 +45,8 @@ export function CartSummary() {
     }
 
     if (isFlashSale) {
-      itemPrice = price - (flashSalePrice ?? 0);
+      // itemPrice = price - (flashSalePrice ?? 0);
+      itemPrice = flashSalePrice ?? 0;
     }
 
     return total + itemPrice * item.quantity;

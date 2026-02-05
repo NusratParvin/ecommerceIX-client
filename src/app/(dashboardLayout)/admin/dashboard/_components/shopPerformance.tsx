@@ -20,7 +20,8 @@ const ShopPerformance = () => {
   // console.log(shopPerformance);
 
   return (
-    <div className="w-full h-full ">
+    // <div className="w-full h-full  ">
+    <div className="w-full h-full flex items-center justify-center">
       {isLoading ? (
         <ChartSkeleton />
       ) : error ? (
@@ -32,7 +33,9 @@ const ShopPerformance = () => {
           }
         />
       ) : (
-        <ShopPerformanceChart data={shopPerformance} />
+        <div className="w-full h-full max-w-[400px] max-h-[400px]">
+          <ShopPerformanceChart data={shopPerformance} />
+        </div>
       )}
     </div>
   );

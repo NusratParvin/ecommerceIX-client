@@ -66,10 +66,12 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ items }) => {
                             // If it's a flash sale, show the flash sale price
                             <>
                               $
-                              {(
-                                item.productInfo.price -
-                                (item?.productInfo?.flashSalePrice ?? 0)
-                              ).toFixed(2)}
+                              {
+                                // item.productInfo.price -
+                                (
+                                  item?.productInfo?.flashSalePrice ?? 0
+                                ).toFixed(2)
+                              }
                             </>
                           ) : (
                             // If neither, show the regular price
@@ -97,10 +99,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ items }) => {
                         // If it's a flash sale, show the flash sale price
                         <>
                           $
-                          {(
-                            item.productInfo.price -
-                            (item?.productInfo?.flashSalePrice ?? 0)
-                          ).toFixed(2)}
+                          {// item.productInfo.price -
+                          (item?.productInfo?.flashSalePrice ?? 0).toFixed(2)}
                         </>
                       ) : (
                         // If neither, show the regular price

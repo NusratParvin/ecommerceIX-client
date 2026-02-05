@@ -55,15 +55,26 @@ export const ShopPerformanceChart = ({ data }: { data: RadarChartData }) => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: true,
+    aspectRatio: 1,
+    layout: {
+      padding: {
+        bottom: 10,
+      },
+    },
     plugins: {
       legend: {
+        position: "bottom" as const,
         labels: {
           font: {
             size: 12,
             weight: 600 as number,
           },
           padding: 20,
+          boxWidth: 10,
         },
+        maxHeight: 30,
+        fullSize: false,
       },
       tooltip: {
         titleFont: {
@@ -71,7 +82,6 @@ export const ShopPerformanceChart = ({ data }: { data: RadarChartData }) => {
           weight: 500 as number,
         },
         padding: 15,
-
         bodyFont: {
           size: 12,
         },
@@ -98,7 +108,7 @@ export const ShopPerformanceChart = ({ data }: { data: RadarChartData }) => {
           callback: function (value: any) {
             return value + "%";
           },
-          backdropColor: "transparent", // Remove background
+          backdropColor: "transparent",
         },
         angleLines: {
           color: "rgba(0, 0, 0, 0.08)",

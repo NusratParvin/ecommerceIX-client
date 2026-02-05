@@ -30,6 +30,14 @@ const analyticsApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    getAdminDashboardPlatformInsightsInfo: builder.query({
+      query: (period) => ({
+        url: "analytics/dashboard/platform-insights",
+        method: "GET",
+        params: { period },
+      }),
+    }),
   }),
 });
 
@@ -38,5 +46,6 @@ export const {
   useGetAdminDashboardSalesTrendChartInfoQuery,
   useGetAdminDashboardShopPerformanceChartInfoQuery,
   useGetAdminDashboardCategoryDistributionChartInfoQuery,
+  useGetAdminDashboardPlatformInsightsInfoQuery,
 } = analyticsApi;
 export default analyticsApi;

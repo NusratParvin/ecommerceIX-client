@@ -20,7 +20,7 @@ import BillingSummary from "./_components/billingSummary";
 export default function CheckoutPage() {
   const [step, setStep] = useState(1);
   const [shippingInfo, setShippingInfo] = useState<ShippingInfoProps | null>(
-    null
+    null,
   );
 
   const [clientSecret, setClientSecret] = useState<string | null>(null);
@@ -59,6 +59,8 @@ export default function CheckoutPage() {
     throw new Error("User is not logged in.");
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+  // console.log(cartItems);
   const handleShippingSubmit = async (data: ShippingInfoProps) => {
     try {
       console.log("Shipping Info Submitted:", data);
@@ -99,6 +101,42 @@ export default function CheckoutPage() {
         shopId: shopId,
       }));
 
+      // const transformedCartItems = cartItems.map((item) => {
+      //   let finalPrice = item.productInfo.price;
+      //   const now = new Date();
+
+      //   //   discount percentage if exists
+      //   if (item.productInfo.discount > 0) {
+      //     finalPrice =
+      //       item.productInfo.price * (1 - item.productInfo.discount / 100);
+      //   }
+
+      //   //   flash sale price if exists and is currently active
+      //   if (
+      //     item.productInfo.isFlashSale &&
+      //     item.productInfo.flashSalePrice &&
+      //     item.productInfo.flashSaleStartDate &&
+      //     item.productInfo.flashSaleEndDate
+      //   ) {
+      //     const startDate = new Date(item.productInfo.flashSaleStartDate);
+      //     const endDate = new Date(item.productInfo.flashSaleEndDate);
+
+      //     // Check if current time is within flash sale period
+      //     if (now >= startDate && now <= endDate) {
+      //       finalPrice = item.productInfo.flashSalePrice;
+      //     }
+      //   }
+
+      //   finalPrice = Math.round(finalPrice * 100) / 100;
+
+      //   return {
+      //     productId: item.productInfo.id,
+      //     quantity: item.quantity,
+      //     price: finalPrice,
+      //     shopId: shopId,
+      //   };
+      // });
+
       const payload: ProcessOrderAndPaymentProps = {
         userId: user.data.id,
         shopId,
@@ -109,7 +147,7 @@ export default function CheckoutPage() {
         paymentIntentId,
       };
       // console.log(paymentIntentId, "page");
-      // console.log(payload.userId);
+      console.log(transformedCartItems);
       await processOrderAndPayment(payload).unwrap();
       // if (response) {
       // console.log(response);

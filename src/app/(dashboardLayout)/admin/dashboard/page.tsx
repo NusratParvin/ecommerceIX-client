@@ -11,7 +11,6 @@ import {
   PieChart,
 } from "lucide-react";
 import { useGetOrdersQuery } from "@/redux/features/orders/ordersApi";
-import { useGetProductsForAdminQuery } from "@/redux/features/products/productsApi";
 import { useGetUsersQuery } from "@/redux/features/users/usersApi";
 import { RecentOrders } from "./_components/recentOrders";
 import { StatCard } from "./_components/statCards";
@@ -25,51 +24,19 @@ import { useGetAdminDashboardAnalyticsInfoQuery } from "@/redux/features/analyti
 import { SalesTrend } from "./_components/salesTrend";
 import ShopPerformance from "./_components/shopPerformance";
 import CategoryDistribution from "./_components/categoryDistribution";
+import PlatformInsights from "./_components/platformInsights";
 
 const AdminDashboard = () => {
   const { data: ordersData } = useGetOrdersQuery({});
-  const { data: productsData } = useGetProductsForAdminQuery({});
   const { data: usersData } = useGetUsersQuery({});
   const { data: adminAnalyticsData } = useGetAdminDashboardAnalyticsInfoQuery(
     {},
   );
 
   const orders = ordersData?.data || [];
-  const products = productsData?.data || [];
   const users = usersData?.data || [];
   const { userStats, shopStats, orderStats, revenueStats } =
     adminAnalyticsData?.data || [];
-
-  // console.log(salesTrend);
-  // console.log(userStats, shopStats, orderStats, revenueStats);
-
-  // Process user data for polar charts
-  // const userRoleData = processUserRoleData(users);
-  // const userStatusData = processUserStatusData(users);
-  // const userRegistrationData = processUserRegistrationData(users);
-
-  // Process shop data for bar chartafcg
-  // const shopChartData = processShopData(orders);
-
-  // Calculate admin-specific platform-wide stats
-  // const totalRevenue = orders.reduce(
-  //   (total: number, order: any) => total + (order.totalAmount || 0),
-  //   0,
-  // );
-  // const totalOrders = orders.length;
-  // const totalProducts = products.length;
-  // const totalUsers = users.length;
-
-  // // Platform-wide metrics
-  // const activeShops = new Set(products.map((product: any) => product.shop?._id))
-  //   .size;
-  // const pendingOrders = orders.filter(
-  //   (order: any) => order.status === "pending",
-  // ).length;
-  // const completedOrders = orders.filter(
-  //   (order: any) => order.status === "completed",
-  // ).length;
-  // const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
 
   const getGrowthVariables = (value = 0) =>
     value > 0
@@ -163,31 +130,35 @@ const AdminDashboard = () => {
       {/* Admin-Specific Charts */}
       <SalesTrend />
 
-      <div className="grid gap-3 md:grid-cols-2">
+      <div className="grid gap-3 md:grid-cols-2 h-[740px]">
         {/* Platform Revenue vs Orders */}
 
         <div className="flex flex-col gap-3">
           {/* User Growth Analytics */}
-          <div className="bg-white    border border-dashed border-slate-300  rounded-none p-6">
+          <div className="bg-white    border border-dashed border-slate-300  rounded-none p-6 h-[364px] ">
             <h3 className="font-semibold text-lg mb-4">User Growth</h3>
             <UserGrowthChart users={users} />
           </div>{" "}
           {/* Category Distribution */}
-          <div className="bg-white    border border-dashed border-slate-300  rounded-none p-6">
+          <div className="bg-white    border border-dashed border-slate-300  rounded-none p-6 h-[364px] ">
             <h3 className="font-semibold text-lg mb-4">
               Product Category Distribution
             </h3>
             <CategoryDistribution />
           </div>
         </div>
-
-        {/* Shop Performance Comparison */}
-        <div className="bg-white  border border-dashed border-slate-300  rounded-none p-6 h-[480px]">
-          <h3 className="font-semibold text-lg mb-4">
-            Top 5 Shops Performance Comparison
-          </h3>
-          <div>
-            <ShopPerformance />
+        <div className="flex flex-col gap-3">
+          {/* Shop Performance Comparison */}
+          <div className="bg-white border border-dashed border-slate-300 rounded-none p-6 h-[490px] flex flex-col">
+            <h3 className="font-semibold text-lg mb-4">
+              Top 5 Shops Performance Comparison
+            </h3>
+            <div className="flex-1 flex items-center justify-center">
+              <ShopPerformance />
+            </div>
+          </div>
+          <div className="h-[250px]">
+            <PlatformInsights />
           </div>
         </div>
       </div>
@@ -204,38 +175,6 @@ const AdminDashboard = () => {
               </button>
             </div>
             <RecentOrders orders={recentOrders} showShop={true} />
-          </div>
-        </div>
-
-        {/* Platform Insights */}
-        <div className="lg:col-span-3">
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-lg">Platform Insights</h3>
-              <button className="text-sm text-blue-600 hover:text-blue-800">
-                Generate Report
-              </button>
-            </div>
-            <div className="space-y-4">
-              <div className="p-3 bg-blue-50 border border-blue-200 rounded">
-                <p className="text-sm font-medium text-blue-800">Peak Hours</p>
-                <p className="text-xs text-blue-600">2:00 PM - 5:00 PM</p>
-              </div>
-              <div className="p-3 bg-green-50 border border-green-200 rounded">
-                <p className="text-sm font-medium text-green-800">
-                  Top Category
-                </p>
-                <p className="text-xs text-green-600">
-                  Electronics (32% of sales)
-                </p>
-              </div>
-              <div className="p-3 bg-purple-50 border border-purple-200 rounded">
-                <p className="text-sm font-medium text-purple-800">New Shops</p>
-                <p className="text-xs text-purple-600">
-                  3 shops joined this week
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </div>

@@ -68,13 +68,17 @@ const Cart = () => {
                       <div className="text-xs text-gray-500 font-medium font-sans">
                         {cartItem.productInfo.discount > 0 && (
                           <span className="text-red-500 text-xs">
-                            **{cartItem.productInfo.discount}% off
+                            **{cartItem.productInfo.discount}% discounted
                           </span>
                         )}
                         {cartItem.productInfo.isFlashSale && (
                           <span className="text-red-500 text-xs">
                             **Flash Sale! $
-                            {cartItem.productInfo.flashSalePrice ?? 0} off
+                            {(
+                              cartItem.productInfo.price -
+                              (cartItem.productInfo.flashSalePrice ?? 0)
+                            ).toFixed(2)}{" "}
+                            off
                           </span>
                         )}
                       </div>
@@ -91,7 +95,7 @@ const Cart = () => {
                         onClick={() =>
                           handleQuantityChange(
                             cartItem.productInfo.id,
-                            cartItem.quantity - 1
+                            cartItem.quantity - 1,
                           )
                         }
                       >
@@ -107,7 +111,7 @@ const Cart = () => {
                         onClick={() =>
                           handleQuantityChange(
                             cartItem.productInfo.id,
-                            cartItem.quantity + 1
+                            cartItem.quantity + 1,
                           )
                         }
                       >
@@ -141,10 +145,12 @@ const Cart = () => {
                         // If it's a flash sale, show the flash sale price
                         <>
                           $
-                          {(
-                            cartItem.productInfo.price -
-                            (cartItem?.productInfo?.flashSalePrice ?? 0)
-                          ).toFixed(2)}
+                          {
+                            // cartItem.productInfo.price -
+                            (
+                              cartItem?.productInfo?.flashSalePrice ?? 0
+                            ).toFixed(2)
+                          }
                         </>
                       ) : (
                         // If neither, show the regular price
