@@ -50,13 +50,13 @@ const PlatformInsights = () => {
       </div>
 
       <div className="space-y-1">
-        <div className="p-3 bg-blue-50 border border-blue-200 rounded flex justify-between">
-          <p className="text-sm font-medium text-blue-800">Peak Hours</p>
-          <p className="text-xs text-blue-600">2:00 PM - 5:00 PM</p>
+        <div className="p-2.5 bg-blue-50 border border-blue-200 rounded flex justify-between">
+          <p className="text-base font-medium text-blue-800">Peak Hours</p>
+          <p className="text-sm text-blue-600">2:00 PM - 5:00 PM</p>
         </div>
-        <div className="p-3 bg-green-50 border border-green-200 rounded flex justify-between">
-          <p className="text-sm font-medium text-green-800">Top Category</p>
-          <p className="text-xs text-green-600">
+        <div className="p-2.5 bg-green-50 border border-green-200 rounded flex justify-between">
+          <p className="text-base font-medium text-green-800">Top Category</p>
+          <p className="text-sm text-green-600">
             {isLoading ? (
               <span className="inline-flex items-center h-1">
                 <span className="text-gray-600">Loading...</span>
@@ -71,15 +71,18 @@ const PlatformInsights = () => {
             )}
           </p>
         </div>
-        <div className="p-3 bg-purple-50 border border-purple-200 rounded flex justify-between">
-          <p className="text-sm font-medium text-purple-800">New Shops</p>
-          <p className="text-xs text-purple-600">
+        <div className="p-2.5 bg-purple-50 border border-purple-200 rounded flex justify-between">
+          <p className="text-base font-medium text-purple-800">New Shops</p>
+          <p className="text-sm text-purple-600">
             {isLoading ? (
               <span className="text-gray-600">Loading...</span>
             ) : error ? (
               <span className="text-red-600">Failed to load</span>
             ) : (
-              <>{platformInsight?.shops} shops joined this week</>
+              <>
+                {platformInsight?.shops} shops joined{" "}
+                {selectedTime === "1" ? "day" : `${selectedTime} days`}
+              </>
             )}
           </p>
         </div>

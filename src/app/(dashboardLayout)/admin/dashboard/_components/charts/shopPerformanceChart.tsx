@@ -59,7 +59,7 @@ export const ShopPerformanceChart = ({ data }: { data: RadarChartData }) => {
     aspectRatio: 1,
     layout: {
       padding: {
-        bottom: 10,
+        bottom: 6,
       },
     },
     plugins: {
@@ -70,8 +70,8 @@ export const ShopPerformanceChart = ({ data }: { data: RadarChartData }) => {
             size: 12,
             weight: 600 as number,
           },
-          padding: 20,
-          boxWidth: 10,
+          padding: 18,
+          boxWidth: 30,
         },
         maxHeight: 30,
         fullSize: false,

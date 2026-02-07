@@ -38,6 +38,13 @@ const analyticsApi = baseApi.injectEndpoints({
         params: { period },
       }),
     }),
+
+    getAdminDashboardRecentOrdersInfo: builder.query({
+      query: () => ({
+        url: "/analytics/dashboard/recent-orders",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -47,5 +54,6 @@ export const {
   useGetAdminDashboardShopPerformanceChartInfoQuery,
   useGetAdminDashboardCategoryDistributionChartInfoQuery,
   useGetAdminDashboardPlatformInsightsInfoQuery,
+  useGetAdminDashboardRecentOrdersInfoQuery,
 } = analyticsApi;
 export default analyticsApi;

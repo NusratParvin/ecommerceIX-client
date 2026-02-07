@@ -10,7 +10,6 @@ import {
   BarChart3,
   PieChart,
 } from "lucide-react";
-import { useGetOrdersQuery } from "@/redux/features/orders/ordersApi";
 import { useGetUsersQuery } from "@/redux/features/users/usersApi";
 import { RecentOrders } from "./_components/recentOrders";
 import { StatCard } from "./_components/statCards";
@@ -27,13 +26,11 @@ import CategoryDistribution from "./_components/categoryDistribution";
 import PlatformInsights from "./_components/platformInsights";
 
 const AdminDashboard = () => {
-  const { data: ordersData } = useGetOrdersQuery({});
   const { data: usersData } = useGetUsersQuery({});
   const { data: adminAnalyticsData } = useGetAdminDashboardAnalyticsInfoQuery(
     {},
   );
 
-  const orders = ordersData?.data || [];
   const users = usersData?.data || [];
   const { userStats, shopStats, orderStats, revenueStats } =
     adminAnalyticsData?.data || [];
@@ -89,15 +86,6 @@ const AdminDashboard = () => {
     MessageSquare,
     BarChart3,
   ];
-
-  const sortedOrders = orders
-    ? [...orders].sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-      )
-    : [];
-
-  const recentOrders = sortedOrders.slice(0, 6);
 
   return (
     <div className="  flex-1 space-y-4 p-2 text-slate-700 mb-10">
@@ -164,19 +152,15 @@ const AdminDashboard = () => {
       </div>
 
       {/* Platform Activity Section */}
-      <div className="grid gap-6 lg:grid-cols-7">
-        {/* Recent Platform Orders */}
-        <div className="lg:col-span-4">
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-lg">Recent Platform Orders</h3>
-              <button className="text-sm text-blue-600 hover:text-blue-800">
-                View All Orders
-              </button>
-            </div>
-            <RecentOrders orders={recentOrders} showShop={true} />
-          </div>
+      {/* Recent Platform Orders */}
+      <div className="bg-white border border-dashed border-slate-300  rounded-none p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-semibold text-lg">Recent Platform Orders</h3>
+          <button className="text-sm text-blue-600 hover:text-blue-800">
+            View All Orders
+          </button>
         </div>
+        <RecentOrders />
       </div>
 
       {/* Quick Platform Management */}

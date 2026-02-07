@@ -46,7 +46,15 @@ export const CategoryDistributionChart = ({
   const options: ChartOptions<"doughnut"> = {
     responsive: true,
     maintainAspectRatio: false,
-    cutout: "40%",
+    cutout: "45%",
+    layout: {
+      padding: {
+        top: 20,
+        bottom: 20,
+        left: 20,
+        right: 20,
+      },
+    },
     plugins: {
       legend: {
         position: "right" as const,
