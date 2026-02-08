@@ -1,72 +1,3 @@
-// // "use client";
-// // import {
-// //   Table,
-// //   TableBody,
-// //   TableCell,
-// //   TableHead,
-// //   TableHeader,
-// //   TableRow,
-// // } from "@/components/ui/table";
-// // import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-// // const recentOrders = [
-// //   {
-// //     id: "1",
-// //     customer: "John Doe",
-// //     status: "Paid",
-// //     amount: "$250.00",
-// //     date: "2024-02-20",
-// //   },
-// //   {
-// //     id: "2",
-// //     customer: "Jane Smith",
-// //     status: "Pending",
-// //     amount: "$150.00",
-// //     date: "2024-02-19",
-// //   },
-// //   {
-// //     id: "3",
-// //     customer: "Bob Johnson",
-// //     status: "Paid",
-// //     amount: "$350.00",
-// //     date: "2024-02-18",
-// //   },
-// // ];
-
-// // export function RecentOrders() {
-// //   return (
-// //     <Card className="col-span-4">
-// //       <CardHeader>
-// //         <CardTitle>Recent Orders</CardTitle>
-// //       </CardHeader>
-// //       <CardContent>
-// //         <Table>
-// //           <TableHeader>
-// //             <TableRow>
-// //               <TableHead>Order ID</TableHead>
-// //               <TableHead>Customer</TableHead>
-// //               <TableHead>Status</TableHead>
-// //               <TableHead>Amount</TableHead>
-// //               <TableHead>Date</TableHead>
-// //             </TableRow>
-// //           </TableHeader>
-// //           <TableBody>
-// //             {recentOrders.map((order) => (
-// //               <TableRow key={order.id}>
-// //                 <TableCell>#{order.id}</TableCell>
-// //                 <TableCell>{order.customer}</TableCell>
-// //                 <TableCell>{order.status}</TableCell>
-// //                 <TableCell>{order.amount}</TableCell>
-// //                 <TableCell>{order.date}</TableCell>
-// //               </TableRow>
-// //             ))}
-// //           </TableBody>
-// //         </Table>
-// //       </CardContent>
-// //     </Card>
-// //   );
-// // }
-
 "use client";
 import {
   Table,
@@ -76,125 +7,137 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 import { TOrder } from "@/types";
 import moment from "moment";
 import { useGetAdminDashboardRecentOrdersInfoQuery } from "@/redux/features/analytics/analyticsApi";
-
-// const recentOrders = [
-//   {
-//     id: "1",
-//     customer: "John Doe",
-//     status: "Paid",
-//     amount: "$250.00",
-//     date: "2024-02-20",
-//   },
-//   {
-//     id: "2",
-//     customer: "Jane Smith",
-//     status: "Pending",
-//     amount: "$150.00",
-//     date: "2024-02-19",
-//   },
-//   {
-//     id: "3",
-//     customer: "Bob Johnson",
-//     status: "Paid",
-//     amount: "$350.00",
-//     date: "2024-02-18",
-//   },
-// ];
+import { Spinner } from "@/components/ui/spinner";
 
 export const RecentOrders = () => {
-  const { data: recentOrdersData } =
-    useGetAdminDashboardRecentOrdersInfoQuery(undefined);
+  const {
+    data: recentOrdersData,
+    isLoading,
+    error,
+  } = useGetAdminDashboardRecentOrdersInfoQuery(undefined);
 
   const orders = recentOrdersData?.data || [];
+
+  const getStatusBadge = (status: string) => {
+    const statusConfig = {
+      PAID: {
+        variant: "default" as const,
+        className: "bg-green-100 text-green-700 hover:bg-green-100",
+      },
+      PENDING: {
+        variant: "secondary" as const,
+        className: "bg-yellow-100 text-yellow-700 hover:bg-yellow-100",
+      },
+      FAILED: {
+        variant: "destructive" as const,
+        className: "bg-red-100 text-red-700 hover:bg-red-100",
+      },
+    };
+
+    const config =
+      statusConfig[status as keyof typeof statusConfig] || statusConfig.PENDING;
+
+    return (
+      <Badge variant={config.variant} className={config.className}>
+        {status}
+      </Badge>
+    );
+  };
+
   return (
-    <Card className="col-span-4 border border-dashed border-slate-300 rounded-none shadow-none">
-      <CardHeader className="border-b border-dashed border-slate-300">
-        <CardTitle className="text-lg">Recent Orders</CardTitle>
-      </CardHeader>
-      <CardContent className="p-0">
-        <Table>
-          <TableHeader>
-            <TableRow className="border-b border-dashed border-slate-300">
-              <TableHead className="font-semibold">Order ID</TableHead>
-              <TableHead className="font-semibold">Customer ID</TableHead>
-              <TableHead className="font-semibold">Status</TableHead>
-              <TableHead className="font-semibold">Amount</TableHead>
-              <TableHead className="font-semibold">Date</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {orders.map((order: TOrder) => (
-              <TableRow
-                key={order.id}
-                className="border-b border-dashed border-slate-300"
-              >
-                <TableCell>#{order.id}</TableCell>
-                <TableCell>{order.userId}</TableCell>
-                <TableCell>{order.paymentStatus}</TableCell>
-                <TableCell>{order.totalPrice}</TableCell>
-                <TableCell>
-                  {moment(order.createdAt).format("MMM DD , YYYY")}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+    <div>
+      {isLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <Spinner />
+        </div>
+      ) : error ? (
+        <div className="p-6 text-center text-sm text-red-600">
+          Failed to load recent orders
+        </div>
+      ) : orders.length === 0 ? (
+        <div className="p-6 text-center text-sm text-gray-500">
+          No recent orders found
+        </div>
+      ) : (
+        <TooltipProvider>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="font-semibold text-gray-700">
+                    Order ID
+                  </TableHead>
+                  <TableHead className="font-semibold text-gray-700">
+                    Status
+                  </TableHead>
+                  <TableHead className="font-semibold text-gray-700 text-right">
+                    Amount
+                  </TableHead>
+                  <TableHead className="font-semibold text-gray-700">
+                    Date
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {orders.slice(0, 8).map((order: TOrder) => (
+                  <TableRow key={order.id}>
+                    <TableCell className="font-medium text-gray-900 font-mono  text-sm">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span className="cursor-help">
+                            #{order.id.slice(0, 8)}
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p className="text-xs">{order.id}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TableCell>
+
+                    {/* <TableCell>
+                      <div className="flex items-center gap-3 font-medium text-sm">
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-gray-900 font-mono text-sm">
+                            {order.id.slice(0, 8)}...
+                          </div>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <div className="text-xs text-gray-500 font-mono truncate cursor-help">
+                                ID: {order.id}
+                              </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>{order.id}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                      </div>
+                    </TableCell> */}
+
+                    <TableCell>{getStatusBadge(order.paymentStatus)}</TableCell>
+                    <TableCell className="text-right font-semibold text-green-600">
+                      ${order.totalPrice.toFixed(2)}
+                    </TableCell>
+                    <TableCell className="text-sm text-gray-600">
+                      {moment(order.createdAt).format("MMM DD, YYYY")}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </TooltipProvider>
+      )}
+    </div>
   );
 };
-
-// // _components/recentOrders.tsx
-// interface RecentOrdersProps {
-//   orders: any[];
-//   showShop?: boolean;
-// }
-
-// export const RecentOrders = ({
-//   orders,
-//   showShop = false,
-// }: RecentOrdersProps) => {
-//   const getStatusColor = (status: string) => {
-//     switch (status) {
-//       case "completed":
-//         return "text-green-600";
-//       case "pending":
-//         return "text-yellow-600";
-//       case "cancelled":
-//         return "text-red-600";
-//       default:
-//         return "text-gray-600";
-//     }
-//   };
-
-//   return (
-//     <div className="space-y-4">
-//       {orders.map((order) => (
-//         <div
-//           key={order._id}
-//           className="flex items-center justify-between border-b pb-4 last:border-b-0"
-//         >
-//           <div className="space-y-1 flex-1">
-//             <div className="flex justify-between items-start">
-//               <p className="text-sm font-medium">Order #{order.orderNumber}</p>
-//               <p className="text-sm font-medium">${order.totalAmount}</p>
-//             </div>
-//             <p className="text-xs text-muted-foreground">
-//               {new Date(order.createdAt).toLocaleDateString()} •
-//               <span className={`ml-1 ${getStatusColor(order.status)}`}>
-//                 {order.status}
-//               </span>
-//               {showShop && order.shop && (
-//                 <span className="ml-2">• {order.shop.name}</span>
-//               )}
-//             </p>
-//           </div>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };

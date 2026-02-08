@@ -24,6 +24,7 @@ import { SalesTrend } from "./_components/salesTrend";
 import ShopPerformance from "./_components/shopPerformance";
 import CategoryDistribution from "./_components/categoryDistribution";
 import PlatformInsights from "./_components/platformInsights";
+import { RecentReviews } from "./_components/recentReiews";
 
 const AdminDashboard = () => {
   const { data: usersData } = useGetUsersQuery({});
@@ -152,15 +153,20 @@ const AdminDashboard = () => {
       </div>
 
       {/* Platform Activity Section */}
-      {/* Recent Platform Orders */}
-      <div className="bg-white border border-dashed border-slate-300  rounded-none p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-lg">Recent Platform Orders</h3>
-          <button className="text-sm text-blue-600 hover:text-blue-800">
-            View All Orders
-          </button>
+      <div className="grid grid-cols-5 gap-3 items-start">
+        {/* Recent Platform Orders */}
+        <div className="bg-white border border-dashed border-slate-300 rounded-none p-6 col-span-3">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-lg">Recent Platform Orders</h3>
+            <button className="text-sm text-blue-600 hover:text-blue-800">
+              View All Orders
+            </button>
+          </div>
+          <RecentOrders />
         </div>
-        <RecentOrders />
+        <div className="bg-white border border-dashed border-slate-300  rounded-none p-6 col-span-2">
+          <RecentReviews />
+        </div>
       </div>
 
       {/* Quick Platform Management */}

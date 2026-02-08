@@ -45,6 +45,13 @@ const analyticsApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    getAdminDashboardRecentReviewsInfo: builder.query({
+      query: () => ({
+        url: "/analytics/dashboard/recent-reviews",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -55,5 +62,6 @@ export const {
   useGetAdminDashboardCategoryDistributionChartInfoQuery,
   useGetAdminDashboardPlatformInsightsInfoQuery,
   useGetAdminDashboardRecentOrdersInfoQuery,
+  useGetAdminDashboardRecentReviewsInfoQuery,
 } = analyticsApi;
 export default analyticsApi;
