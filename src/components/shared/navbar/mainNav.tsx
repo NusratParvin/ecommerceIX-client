@@ -12,21 +12,32 @@ import {
   NavigationMenuTrigger,
   // navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import Image from "next/image";
 
-const components: { title: string; href: string; description: string }[] = [
+const components: {
+  title: string;
+  href: string;
+  image: string;
+  description: string;
+}[] = [
   {
     title: "All Collections",
     href: "/allProducts",
+    image: "/assets/menu/all.jpg",
     description: "Browse through our extensive range of products.",
   },
   {
     title: "Flash Sale",
     href: "/flashSale",
+    image: "/assets/menu/sale.jpeg",
+
     description: "Grab exclusive deals before they're gone!",
   },
   {
     title: "By Shop",
     href: "/allShops",
+    image: "/assets/menu/shop.jpg",
+
     description: "Find your favorite shop.",
   },
   // {
@@ -62,27 +73,40 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
         <NavigationMenuItem>
           <NavigationMenuTrigger
             className={`${
-              isScrolled ? "text-ivory hover:text-ivory" : "text-gray-500"
+              isScrolled
+                ? "text-ivory hover:text-ivory  focus:text-ivory"
+                : "text-gray-500"
             } text-sm hover:bg-none transition-colors duration-200 bg-transparent hover:underline `}
           >
             SHOP
           </NavigationMenuTrigger>
-          <NavigationMenuContent className="absolute left-0 w-[400px] p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+          <NavigationMenuContent className="absolute left-0 w-[500px] p-1 md:w-[600px] md:grid-cols-2 lg:w-[700px] rounded-none">
             {/* <NavigationMenuContent className="absolute left-0 top-full w-[300px] md:w-[400px] transform translate-y-2 transition-transform duration-200 z-50"> */}
-            <ul className="grid gap-3 p-4 md:grid-cols-2">
+            <ul className="grid gap-3 p-1 md:grid-cols-2">
               {components.map((component) => (
                 <li key={component.title}>
                   <NavigationMenuLink asChild>
                     <Link
                       href={component.href}
-                      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                      className="block select-none space-y-1 rounded-none p-4 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                     >
-                      <div className="text-sm font-medium leading-none">
-                        {component.title}
+                      <div className="flex flex-row gap-2">
+                        <Image
+                          src={component.image}
+                          alt={component.title}
+                          width={80}
+                          height={80}
+                          className="rounded-none object-cover"
+                        />
+                        <div>
+                          <div className="text-sm font-medium leading-none">
+                            {component.title}
+                          </div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            {component.description}
+                          </p>
+                        </div>
                       </div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        {component.description}
-                      </p>
                     </Link>
                   </NavigationMenuLink>
                 </li>

@@ -4,35 +4,37 @@ import {
   Users,
   ShoppingCart,
   Store,
-  Ticket,
   MessageSquare,
   CreditCard,
   BarChart3,
   PieChart,
 } from "lucide-react";
-import { useGetUsersQuery } from "@/redux/features/users/usersApi";
 import { RecentOrders } from "./_components/recentOrders";
 import { StatCard } from "./_components/statCards";
-import UserGrowthChart from "./_components/charts/userGrowthChart";
-// import {
-//   processUserRegistrationData,
-//   processUserRoleData,
-//   processUserStatusData,
-// } from "@/lib/adminChartDataHelpers";
+
 import { useGetAdminDashboardAnalyticsInfoQuery } from "@/redux/features/analytics/analyticsApi";
 import { SalesTrend } from "./_components/salesTrend";
 import ShopPerformance from "./_components/shopPerformance";
 import CategoryDistribution from "./_components/categoryDistribution";
 import PlatformInsights from "./_components/platformInsights";
-import { RecentReviews } from "./_components/recentReiews";
+import { RecentReviews } from "./_components/recentReviews";
+import Link from "next/link";
+import { useAppSelector } from "@/redux/hooks";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import QuickLinks from "./_components/quickLinks";
+import { UserGrowth } from "./_components/userGrowth";
 
 const AdminDashboard = () => {
-  const { data: usersData } = useGetUsersQuery({});
+  // const { data: usersData } = useGetUsersQuery({});
+  // console.log(usersData?.data);
   const { data: adminAnalyticsData } = useGetAdminDashboardAnalyticsInfoQuery(
     {},
   );
 
-  const users = usersData?.data || [];
+  const currentUser = useAppSelector(useCurrentUser);
+  // console.log(currentUser);
+
+  // const users = usersData?.data || [];
   const { userStats, shopStats, orderStats, revenueStats } =
     adminAnalyticsData?.data || [];
 
@@ -124,10 +126,8 @@ const AdminDashboard = () => {
 
         <div className="flex flex-col gap-3">
           {/* User Growth Analytics */}
-          <div className="bg-white    border border-dashed border-slate-300  rounded-none p-6 h-[364px] ">
-            <h3 className="font-semibold text-lg mb-4">User Growth</h3>
-            <UserGrowthChart users={users} />
-          </div>{" "}
+
+          <UserGrowth />
           {/* Category Distribution */}
           <div className="bg-white    border border-dashed border-slate-300  rounded-none p-6 h-[364px] ">
             <h3 className="font-semibold text-lg mb-4">
@@ -153,43 +153,46 @@ const AdminDashboard = () => {
       </div>
 
       {/* Platform Activity Section */}
-      <div className="grid grid-cols-5 gap-3 items-start">
+      <div className="grid grid-cols-2 gap-3 items-start">
         {/* Recent Platform Orders */}
-        <div className="bg-white border border-dashed border-slate-300 rounded-none p-6 col-span-3">
+        <div className="bg-white border border-dashed border-slate-300 rounded-none p-6 col-span-1">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-lg">Recent Platform Orders</h3>
-            <button className="text-sm text-blue-600 hover:text-blue-800">
-              View All Orders
-            </button>
+            <h3 className="font-semibold text-lg">
+              Recent Orders
+              <span className="text-xs font-normal"> (Last 15 days)</span>
+            </h3>
+            {currentUser?.role === "ADMIN" && (
+              <Link
+                href="/admin/orders"
+                className="text-sm text-blue-600 hover:text-blue-800"
+              >
+                View All
+              </Link>
+            )}
           </div>
           <RecentOrders />
         </div>
-        <div className="bg-white border border-dashed border-slate-300  rounded-none p-6 col-span-2">
+        <div className="bg-white border border-dashed border-slate-300  rounded-none p-6 col-span-1">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-lg">
+              Recent Reviews{" "}
+              <span className="text-xs font-normal"> (Last 30 days)</span>
+            </h3>
+            {currentUser?.role === "ADMIN" && (
+              <Link
+                href="/admin/customerFeedback"
+                className="text-sm text-blue-600 hover:text-blue-800"
+              >
+                View All
+              </Link>
+            )}
+          </div>
           <RecentReviews />
         </div>
       </div>
 
       {/* Quick Platform Management */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center hover:bg-blue-100 cursor-pointer transition-colors">
-          <Store className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-          <div className="text-sm font-medium text-blue-800">Manage Shops</div>
-        </div>
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center hover:bg-green-100 cursor-pointer transition-colors">
-          <Users className="h-8 w-8 text-green-600 mx-auto mb-2" />
-          <div className="text-sm font-medium text-green-800">
-            User Management
-          </div>
-        </div>
-        <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center hover:bg-purple-100 cursor-pointer transition-colors">
-          <BarChart3 className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-          <div className="text-sm font-medium text-purple-800">Analytics</div>
-        </div>
-        <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center hover:bg-orange-100 cursor-pointer transition-colors">
-          <Ticket className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-          <div className="text-sm font-medium text-orange-800">Coupons</div>
-        </div>
-      </div>
+      <QuickLinks />
     </div>
   );
 };

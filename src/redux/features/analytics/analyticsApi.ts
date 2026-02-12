@@ -9,6 +9,14 @@ const analyticsApi = baseApi.injectEndpoints({
       }),
     }),
 
+    getAdminDashboardUserGrowthChartInfo: builder.query({
+      query: (year) => ({
+        url: "/analytics/dashboard/user-growth",
+        method: "GET",
+        params: { year },
+      }),
+    }),
+
     getAdminDashboardSalesTrendChartInfo: builder.query({
       query: ({ month, year }) => ({
         url: "/analytics/dashboard/sales-trend",
@@ -57,6 +65,7 @@ const analyticsApi = baseApi.injectEndpoints({
 
 export const {
   useGetAdminDashboardAnalyticsInfoQuery,
+  useGetAdminDashboardUserGrowthChartInfoQuery,
   useGetAdminDashboardSalesTrendChartInfoQuery,
   useGetAdminDashboardShopPerformanceChartInfoQuery,
   useGetAdminDashboardCategoryDistributionChartInfoQuery,
@@ -64,4 +73,5 @@ export const {
   useGetAdminDashboardRecentOrdersInfoQuery,
   useGetAdminDashboardRecentReviewsInfoQuery,
 } = analyticsApi;
+
 export default analyticsApi;

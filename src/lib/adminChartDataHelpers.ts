@@ -1,4 +1,4 @@
-import moment from "moment";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 // User data processing functions for  chart
 export const processUserRoleData = (users: any[]) => {

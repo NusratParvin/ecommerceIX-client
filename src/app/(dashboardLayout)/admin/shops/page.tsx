@@ -71,19 +71,19 @@ const AdminShopsPage = () => {
   const { activeShops, restrictedShops, totalProducts, totalFollowers } =
     useMemo(() => {
       const active = shops.filter(
-        (shop: TShopInputProp) => shop.status === "ACTIVE"
+        (shop: TShopInputProp) => shop.status === "ACTIVE",
       ).length;
       const restricted = shops.filter(
         (shop: TShopInputProp) =>
-          shop.status === "RESTRICTED" || shop.status === "BLACKLISTED"
+          shop.status === "RESTRICTED" || shop.status === "BLACKLISTED",
       ).length;
       const products = shops.reduce(
         (sum: number, shop: TShopInputProp) => sum + (shop.productCount ?? 0),
-        0
+        0,
       );
       const followers = shops.reduce(
         (sum: number, shop: TShopInputProp) => sum + (shop.followerCount ?? 0),
-        0
+        0,
       );
 
       return {
@@ -271,7 +271,7 @@ const AdminShopsPage = () => {
             {/* Status Filter */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2 h-9">
+                <Button variant="outline" size="default" className="gap-2 h-9">
                   <Filter className="h-4 w-4" />
                   Status: {statusFilter === "all" ? "All" : statusFilter}
                 </Button>

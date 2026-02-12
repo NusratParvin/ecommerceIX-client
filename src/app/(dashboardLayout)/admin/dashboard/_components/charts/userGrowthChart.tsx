@@ -1,4 +1,4 @@
-import { Line } from "react-chartjs-2";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -7,8 +7,10 @@ import {
   LineElement,
   Title,
   Tooltip,
+  Legend,
+  Filler,
 } from "chart.js";
-import moment from "moment";
+import { Line } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -16,59 +18,36 @@ ChartJS.register(
   PointElement,
   LineElement,
   Title,
-  Tooltip
+  Tooltip,
+  Legend,
+  Filler,
 );
 
-interface SimpleUserChartProps {
-  users: any[];
-  height?: number;
-}
+type UserGrowthData = {
+  labels: string[];
+  data: number[];
+};
 
-const SimpleUserChart = ({ users, height = 250 }: SimpleUserChartProps) => {
-  // Super simple - just show total users growing over months
-  const processData = () => {
-    if (users.length === 0) return { labels: [], data: [] };
-
-    const monthlyTotals: { [key: string]: number } = {};
-    let runningTotal = 0;
-
-    // Get all months with users, sorted
-    const allMonths = [
-      ...new Set(
-        users.map((user) => moment(user.createdAt).format("MMM YYYY"))
-      ),
-    ].sort(
-      (a, b) =>
-        moment(a, "MMM YYYY").valueOf() - moment(b, "MMM YYYY").valueOf()
-    );
-
-    // Calculate cumulative totals
-    allMonths.forEach((month) => {
-      const monthUsers = users.filter(
-        (user) => moment(user.createdAt).format("MMM YYYY") === month
-      );
-      runningTotal += monthUsers.length;
-      monthlyTotals[month] = runningTotal;
-    });
-
-    return {
-      labels: allMonths,
-      data: allMonths.map((month) => monthlyTotals[month]),
-    };
-  };
-
-  const { labels, data } = processData();
-
+export const UserGrowthChart = ({ data }: { data: UserGrowthData }) => {
   const chartData = {
-    labels,
+    labels: data.labels,
     datasets: [
       {
-        label: "Total Users",
-        data: data,
-        borderColor: "#3b82f6",
+        label: "New Users",
+        data: data.data,
+        borderColor: "#3B82F6",
         backgroundColor: "rgba(59, 130, 246, 0.1)",
+        borderWidth: 2,
         fill: true,
-        tension: 0.4,
+        tension: 0.4, // Smooth curve
+        pointRadius: 4,
+        pointBackgroundColor: "#3B82F6",
+        pointBorderColor: "#ffffff",
+        pointBorderWidth: 2,
+        pointHoverRadius: 6,
+        pointHoverBackgroundColor: "#3B82F6",
+        pointHoverBorderColor: "#ffffff",
+        pointHoverBorderWidth: 2,
       },
     ],
   };
@@ -80,48 +59,63 @@ const SimpleUserChart = ({ users, height = 250 }: SimpleUserChartProps) => {
       legend: {
         display: false,
       },
-      title: {
-        display: true,
-        text: "Total Users Growth",
-      },
       tooltip: {
+        backgroundColor: "#1F2937",
+        titleColor: "#F9FAFB",
+        bodyColor: "#F9FAFB",
+        padding: 12,
+        displayColors: false,
         callbacks: {
           label: function (context: any) {
-            return `Total Users: ${context.parsed.y}`;
+            return `${context.parsed.y} new users`;
           },
         },
       },
     },
     scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Months of the year",
+          color: "#6b7280",
+        },
+        grid: {
+          display: true,
+        },
+        ticks: {
+          font: {
+            size: 11,
+          },
+          color: "#6B7280",
+        },
+      },
       y: {
         beginAtZero: true,
         title: {
           display: true,
-          text: "Total Users",
+          text: "Number of Users",
+          color: "#6b7280",
         },
-      },
-      x: {
-        title: {
-          display: true,
-          text: "Months",
+        grid: {
+          color: "rgba(0, 0, 0, 0.05)",
+        },
+        ticks: {
+          font: {
+            size: 11,
+          },
+          color: "#6B7280",
+          stepSize: 1,
+          callback: function (value: any) {
+            return Math.floor(value);
+          },
         },
       },
     },
   };
 
   return (
-    <div style={{ height: `${height}px` }} className="w-full">
-      {users.length > 0 ? (
-        <Line data={chartData} options={options} />
-      ) : (
-        <div className="flex items-center justify-center h-full bg-gray-50 rounded-lg">
-          <div className="text-center text-gray-500">
-            <p>No user data yet</p>
-          </div>
-        </div>
-      )}
+    <div className="h-full">
+      <Line data={chartData} options={options} />
     </div>
   );
 };
-
-export default SimpleUserChart;

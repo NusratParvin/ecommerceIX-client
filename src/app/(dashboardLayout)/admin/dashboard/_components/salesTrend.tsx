@@ -21,7 +21,7 @@ export const SalesTrend = () => {
   } = useGetAdminDashboardSalesTrendChartInfoQuery(selectedFilters);
 
   const salesTrend = salesTrendChartData?.data || [];
-  // console.log(selectedFilters, salesTrend);
+
   return (
     // <div className="bg-white border border-gray-200 rounded-none p-6">
     <div className="bg-white    border border-dashed border-slate-300  rounded-none p-6">

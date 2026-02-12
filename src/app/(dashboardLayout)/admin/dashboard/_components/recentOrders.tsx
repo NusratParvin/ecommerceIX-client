@@ -28,32 +28,6 @@ export const RecentOrders = () => {
 
   const orders = recentOrdersData?.data || [];
 
-  const getStatusBadge = (status: string) => {
-    const statusConfig = {
-      PAID: {
-        variant: "default" as const,
-        className: "bg-green-100 text-green-700 hover:bg-green-100",
-      },
-      PENDING: {
-        variant: "secondary" as const,
-        className: "bg-yellow-100 text-yellow-700 hover:bg-yellow-100",
-      },
-      FAILED: {
-        variant: "destructive" as const,
-        className: "bg-red-100 text-red-700 hover:bg-red-100",
-      },
-    };
-
-    const config =
-      statusConfig[status as keyof typeof statusConfig] || statusConfig.PENDING;
-
-    return (
-      <Badge variant={config.variant} className={config.className}>
-        {status}
-      </Badge>
-    );
-  };
-
   return (
     <div>
       {isLoading ? (
@@ -73,7 +47,7 @@ export const RecentOrders = () => {
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow>
+                <TableRow className="bg-gray-100">
                   <TableHead className="font-semibold text-gray-700">
                     Order ID
                   </TableHead>
@@ -103,7 +77,6 @@ export const RecentOrders = () => {
                         </TooltipContent>
                       </Tooltip>
                     </TableCell>
-
                     {/* <TableCell>
                       <div className="flex items-center gap-3 font-medium text-sm">
                         <div className="flex-1 min-w-0">
@@ -123,8 +96,23 @@ export const RecentOrders = () => {
                         </div>
                       </div>
                     </TableCell> */}
-
-                    <TableCell>{getStatusBadge(order.paymentStatus)}</TableCell>
+                    <TableCell>
+                      {order.paymentStatus === "PAID" ? (
+                        <Badge
+                          variant="default"
+                          className="bg-green-100 text-green-700 hover:bg-green-100"
+                        >
+                          {order.paymentStatus}
+                        </Badge>
+                      ) : (
+                        <Badge
+                          variant="destructive"
+                          className="bg-red-100 text-red-700 hover:bg-red-100"
+                        >
+                          {order.paymentStatus}
+                        </Badge>
+                      )}
+                    </TableCell>
                     <TableCell className="text-right font-semibold text-green-600">
                       ${order.totalPrice.toFixed(2)}
                     </TableCell>
