@@ -2,9 +2,9 @@ import Link from "next/link";
 
 const Heading = () => {
   return (
-    <div className="flex flex-row  justify-between gap-5  px-4 w-full md:w-11/12 mx-auto  mb-3  ">
+    <div className="flex sm:flex-row flex-col justify-between md:gap-5 gap-2 px-4 w-full md:w-11/12 mx-auto  mb-1  ">
       <div className="flex flex-col items-start">
-        <h2 className="text-left text-3xl text-deep-brown tracking-tight font-semibold ">
+        <h2 className="text-left text-2xl md:text-3xl text-deep-brown tracking-tight font-semibold ">
           {/* New Arrivals Await */}
           New Arrivals
         </h2>{" "}

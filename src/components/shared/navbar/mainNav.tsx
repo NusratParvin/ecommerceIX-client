@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import * as React from "react";
@@ -13,13 +14,17 @@ import {
   // navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import Image from "next/image";
+import { TCategory } from "@/types";
+import { useGetCategoriesForAllQuery } from "@/redux/features/categories/categoriesApi";
 
-const components: {
+type componentsProps = {
   title: string;
   href: string;
   image: string;
-  description: string;
-}[] = [
+  description?: string;
+};
+
+const shopComponents: componentsProps[] = [
   {
     title: "All Collections",
     href: "/allProducts",
@@ -45,17 +50,53 @@ const components: {
   //   href: "/shop/best-sellers",
   //   description: "Discover our most popular items.",
   // },
-  // {
-  //   title: "Sale",
-  //   href: "/shop/sale",
-  //   description: "Great deals on selected items.",
-  // },
 ];
 
+const MenuSkeleton = () => (
+  <ul className="grid gap-3 p-1 md:grid-cols-2">
+    {[1, 2, 3, 4, 5, 6].map((i) => (
+      <li key={i}>
+        <div className="flex flex-row gap-2 p-2">
+          <div className="min-w-[80px] min-h-[80px] w-[80px] h-[80px] bg-gray-200 animate-pulse" />
+          <div className="flex flex-col gap-2 flex-1 justify-center">
+            <div className="h-4 w-24 bg-gray-200 animate-pulse rounded" />
+            <div className="h-3 w-full bg-gray-200 animate-pulse rounded" />
+            <div className="h-3 w-3/4 bg-gray-200 animate-pulse rounded" />
+          </div>
+        </div>
+      </li>
+    ))}
+  </ul>
+);
+
+// Error Component
+const MenuError = () => (
+  <div className="p-6 flex flex-col items-center justify-center gap-2 text-center">
+    <p className="text-sm font-medium text-red-600">
+      Failed to load categories
+    </p>
+    <p className="text-xs text-gray-500">Please try again later</p>
+  </div>
+);
+
 export function MainNav({ isScrolled }: { isScrolled: boolean }) {
+  const {
+    data: categoriesData,
+    isLoading,
+    error,
+  } = useGetCategoriesForAllQuery(undefined);
+  const categories = categoriesData?.data || [];
+
+  const categoryComponents = categories.map((category: TCategory) => ({
+    title: category.name,
+    href: `/allProducts/${category.id}`,
+    image: category.imageUrl,
+    description: category.desc,
+  }));
+  // console.log(categoryComponents);
   return (
     <NavigationMenu>
-      <NavigationMenuList className="flex space-x-6 text-sm ">
+      <NavigationMenuList className="flex space-x-6 text-sm  ">
         <NavigationMenuItem>
           <Link href="/" legacyBehavior passHref>
             <NavigationMenuLink
@@ -76,14 +117,14 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
               isScrolled
                 ? "text-ivory hover:text-ivory  focus:text-ivory"
                 : "text-gray-500"
-            } text-sm hover:bg-none transition-colors duration-200 bg-transparent hover:underline `}
+            } text-sm hover:bg-none transition-colors duration-200 bg-transparent hover:underline p-0 `}
           >
             SHOP
           </NavigationMenuTrigger>
-          <NavigationMenuContent className="absolute left-0 w-[500px] p-1 md:w-[600px] md:grid-cols-2 lg:w-[700px] rounded-none">
+          <NavigationMenuContent className="absolute left-0 w-[500px] p-3 md:w-[600px] md:grid-cols-2 lg:w-[700px] rounded-none z-50">
             {/* <NavigationMenuContent className="absolute left-0 top-full w-[300px] md:w-[400px] transform translate-y-2 transition-transform duration-200 z-50"> */}
             <ul className="grid gap-3 p-1 md:grid-cols-2">
-              {components.map((component) => (
+              {shopComponents.map((component) => (
                 <li key={component.title}>
                   <NavigationMenuLink asChild>
                     <Link
@@ -91,18 +132,20 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
                       className="block select-none space-y-1 rounded-none p-4 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                     >
                       <div className="flex flex-row gap-2">
-                        <Image
-                          src={component.image}
-                          alt={component.title}
-                          width={80}
-                          height={80}
-                          className="rounded-none object-cover"
-                        />
+                        <div className="min-w-[80px] min-h-[80px] w-[80px] h-[80px]">
+                          <Image
+                            src={component.image}
+                            alt={component.title}
+                            width={80}
+                            height={80}
+                            className="rounded-none object-cover w-full h-full"
+                          />
+                        </div>
                         <div>
-                          <div className="text-sm font-medium leading-none">
+                          <div className="text-base leading-none font-semibold">
                             {component.title}
                           </div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-xs leading-snug text-muted-foreground mt-1">
                             {component.description}
                           </p>
                         </div>
@@ -116,18 +159,71 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
+          <NavigationMenuTrigger
+            className={`${
+              isScrolled
+                ? "text-ivory hover:text-ivory  focus:text-ivory"
+                : "text-gray-500"
+            } text-sm hover:bg-none transition-colors duration-200 bg-transparent hover:underline p-0`}
+          >
+            CATEGORY
+          </NavigationMenuTrigger>
+          <NavigationMenuContent className="absolute left-0 w-[500px] p-3 md:w-[600px] md:grid-cols-2 lg:w-[700px] rounded-none z-50">
+            {isLoading ? (
+              <MenuSkeleton />
+            ) : error ? (
+              <MenuError />
+            ) : (
+              <ul className="grid gap-3 p-1 md:grid-cols-2">
+                {categoryComponents.map((component: any) => (
+                  <li key={component.title}>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href={component.href}
+                        className="block select-none space-y-1 rounded-none p-4 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                      >
+                        <div className="flex flex-row gap-2">
+                          <div className="min-w-[80px] min-h-[80px] w-[80px] h-[80px]">
+                            <Image
+                              src={component.image}
+                              alt={component.title}
+                              width={80}
+                              height={80}
+                              className="rounded-none object-cover w-full h-full"
+                            />
+                          </div>
+                          <div>
+                            <div className="text-base leading-none font-semibold">
+                              {component.title}
+                            </div>
+                            <p className="line-clamp-2 text-xs leading-snug text-muted-foreground mt-1">
+                              {component.description}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
           <Link href="/about" legacyBehavior passHref>
             <NavigationMenuLink
               className={`${
                 isScrolled
                   ? "text-ivory hover:text-white"
                   : "text-gray-500 hover:text-deep-brown"
-              } hover:underline transition-colors duration-200`}
+              } hover:underline transition-colors duration-200 p-0`}
             >
               ABOUT
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
           <Link href="/contact" legacyBehavior passHref>
             <NavigationMenuLink
@@ -135,55 +231,12 @@ export function MainNav({ isScrolled }: { isScrolled: boolean }) {
                 isScrolled
                   ? "text-ivory hover:text-white"
                   : "text-gray-500 hover:text-deep-brown"
-              } hover:underline transition-colors duration-200`}
+              } hover:underline transition-colors duration-200 p-0`}
             >
               CONTACT
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-        {/* <NavigationMenuItem>
-          <NavigationMenuTrigger
-            className={`${
-              isScrolled ? "text-deep-brown" : "text-ivory"
-            } text-lg transition-colors duration-200 bg-transparent`}
-          >
-            PAGES
-          </NavigationMenuTrigger>
-          <NavigationMenuContent className="absolute left-0 w-[400px] p-4 md:w-[500px]">
-            <ul className="grid gap-3 p-4">
-              <li>
-                <NavigationMenuLink asChild>
-                  <Link
-                    href="/about"
-                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                  >
-                    <div className="text-sm font-medium leading-none">
-                      About Us
-                    </div>
-                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                      Learn more about our story and mission.
-                    </p>
-                  </Link>
-                </NavigationMenuLink>
-              </li>
-              <li>
-                <NavigationMenuLink asChild>
-                  <Link
-                    href="/contact"
-                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                  >
-                    <div className="text-sm font-medium leading-none">
-                      Contact
-                    </div>
-                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                      Get in touch with our team.
-                    </p>
-                  </Link>
-                </NavigationMenuLink>
-              </li>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem> */}
       </NavigationMenuList>
     </NavigationMenu>
   );

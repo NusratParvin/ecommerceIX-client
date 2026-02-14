@@ -18,6 +18,7 @@ export type TCategory = {
   isDeleted?: boolean;
   createdAt: Date;
   updatedAt: Date;
+  desc?: string;
   productCount?: number;
   products?: Product[];
 };

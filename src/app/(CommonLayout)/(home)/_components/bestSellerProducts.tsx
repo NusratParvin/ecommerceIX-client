@@ -29,35 +29,37 @@ const BestSellerProducts = () => {
 
   return (
     <div className="w-full md:w-11/12 mx-auto h-auto mb-12 px-4">
-      <div className="flex flex-row justify-between items-center text-charcoal mb-1">
+      <div className="flex sm:flex-row flex-col justify-between  md:gap-5 gap-2 text-charcoal mb-1">
         <div className="flex flex-col items-start">
-          <h1 className="text-3xl font-bold text-left mb-0 tracking-tight text-deep-brown">
+          <h2 className="text-left text-2xl md:text-3xl text-deep-brown tracking-tight font-semibold ">
             Best Sellers
-          </h1>
+          </h2>
           <p className="font-medium text-xs tracking-tight pb-1 ps-1 uppercase text-charcoal/60">
             Enjoy the best quality products
           </p>
         </div>
 
-        <Link
-          href="/allProducts"
-          className="text-base hover:underline text-gray-600 px-6 py-1.5 bg-muted/70 tracking-tighter"
-        >
-          Explore More
-        </Link>
+        <div className="flex items-center mt-0   ">
+          <Link
+            href="/allProducts"
+            className="text-base hover:underline text-gray-600 px-6 py-1.5 bg-muted/70 tracking-tighter"
+          >
+            Explore More
+          </Link>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+      <div className="grid grid-cols-1  md:grid-cols-4 lg:grid-cols-5 gap-2">
         {bestsellerProducts
           ?.slice(0, 9)
           .map((product: Product, index: number) =>
             index === 0 ? (
-              <div key={product.id} className="col-span-2 row-span-2">
+              <div key={product.id} className="sm:col-span-2 col-span-1 ">
                 <FirstCard product={product} />
               </div>
             ) : (
               <RegularCard key={product.id} product={product} />
-            )
+            ),
           )}
       </div>
     </div>

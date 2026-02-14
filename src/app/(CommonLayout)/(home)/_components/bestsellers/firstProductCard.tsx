@@ -19,7 +19,7 @@ import { Product } from "@/types";
 const FirstCard = ({ product }: { product: Product }) => {
   const dispatch = useAppDispatch();
   const { products: comparedProducts } = useAppSelector(
-    (state) => state.compare
+    (state) => state.compare,
   );
   // const [isModalOpen, setModalOpen] = useState(false);
 
@@ -56,7 +56,18 @@ const FirstCard = ({ product }: { product: Product }) => {
   // };
 
   return (
-    <div className="  rounded-none flex flex-col items-center  col-span-2 h-[500px]">
+    // <div className="  rounded-none flex flex-col items-center  col-span-2 h-[500px]">
+    //   {/* Image Container with Icons */}
+    //   <div className="relative group w-full">
+    //     <Image
+    //       src={product.imageUrl as string}
+    //       alt={product.name}
+    //       width={300}
+    //       height={300}
+    //       className="w-full h-[412px] object-cover"
+    //     />
+
+    <div className="rounded-none flex flex-col items-center col-span-2 h-[320px]  md:h-[500px] ">
       {/* Image Container with Icons */}
       <div className="relative group w-full">
         <Image
@@ -64,7 +75,7 @@ const FirstCard = ({ product }: { product: Product }) => {
           alt={product.name}
           width={300}
           height={300}
-          className="w-full h-[412px] object-cover"
+          className="w-full h-[220px]  md:h-[412px] object-cover"
         />
         {/* Icons (Appear on Hover) */}
         <div className="absolute top-8 right-8 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

@@ -10,6 +10,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useGetCategoriesForAllQuery } from "@/redux/features/categories/categoriesApi";
+import { TCategory } from "@/types";
+import { Spinner } from "@/components/ui/spinner";
 
 export function MobileNav() {
   //   const [openItem, setOpenItem] = useState<string | null>(null)
@@ -19,12 +22,16 @@ export function MobileNav() {
     setOpenItem(openItem === value ? undefined : value);
   };
 
+  const { data: categoriesData, isLoading } =
+    useGetCategoriesForAllQuery(undefined);
+  const categories = categoriesData?.data || [];
+  console.log(categories);
   return (
     <div className=" flex h-full flex-col py-4 ">
       <nav className="grid gap-2">
         <Link
           href="/"
-          className="flex items-center justify-between px-4 py-2 text-sm font-medium"
+          className="flex items-center justify-between px-4 py-2 text-base font-semibold"
         >
           Home
         </Link>
@@ -38,12 +45,12 @@ export function MobileNav() {
           <AccordionItem value="shop" className="border-none">
             <AccordionTrigger
               onClick={() => handleItemClick("shop")}
-              className="px-4 py-2 text-sm"
+              className="px-4 py-2 text-base font-semibold"
             >
               Shop
             </AccordionTrigger>
             <AccordionContent>
-              <div className="grid gap-2 px-4">
+              <div className="grid gap-2 px-4 ml-2">
                 <Link
                   href="/allProducts"
                   className="flex items-center justify-between py-2 text-sm"
@@ -58,54 +65,56 @@ export function MobileNav() {
                   Flash Sale
                   <ChevronRight className="h-4 w-4" />
                 </Link>
-                {/* <Link
-                  href="/shop/sale"
+                <Link
+                  href="/allShops"
                   className="flex items-center justify-between py-2 text-sm"
                 >
-                  Sale
+                  By Shop
                   <ChevronRight className="h-4 w-4" />
-                </Link> */}
+                </Link>
               </div>
             </AccordionContent>
           </AccordionItem>
+
+          <AccordionItem value="category" className="border-none">
+            <AccordionTrigger
+              onClick={() => handleItemClick("shop")}
+              className="px-4 py-2 text-base font-semibold"
+            >
+              Category
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="grid gap-2 px-4 ml-2">
+                {isLoading ? (
+                  <Spinner />
+                ) : (
+                  categories.map((category: TCategory) => (
+                    <Link
+                      key={category.id}
+                      href={`/allProducts/${category.id}`}
+                      className="flex items-center justify-between py-2 text-sm"
+                    >
+                      {category.name}
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                  ))
+                )}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
           <Link
             href="/about"
-            className="flex items-center justify-between px-4 py-2 text-sm font-medium"
+            className="flex items-center justify-between px-4 py-2 text-base font-semibold"
           >
             About
           </Link>
           <Link
             href="/contact"
-            className="flex items-center justify-between px-4 py-2 text-sm font-medium"
+            className="flex items-center justify-between px-4 py-2 text-base font-semibold"
           >
             Contact
           </Link>
-          {/* <AccordionItem value="pages" className="border-none">
-            <AccordionTrigger
-              onClick={() => handleItemClick("pages")}
-              className="px-4 py-2 text-sm"
-            >
-              Pages
-            </AccordionTrigger>
-            <AccordionContent>
-              <div className="grid gap-2 px-4">
-                <Link
-                  href="/about"
-                  className="flex items-center justify-between py-2 text-sm"
-                >
-                  About Us
-                  <ChevronRight className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="flex items-center justify-between py-2 text-sm"
-                >
-                  Contact
-                  <ChevronRight className="h-4 w-4" />
-                </Link>
-              </div>
-            </AccordionContent>
-          </AccordionItem> */}
         </Accordion>
       </nav>
     </div>

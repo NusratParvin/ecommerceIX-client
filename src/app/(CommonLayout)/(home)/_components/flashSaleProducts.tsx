@@ -54,7 +54,7 @@ const FlashSaleProducts = () => {
       (product: Product) =>
         product.isFlashSale &&
         product.flashSalePrice !== null &&
-        product.flashSaleEndDate !== null
+        product.flashSaleEndDate !== null,
     );
 
   if (flashSaleProducts.length === 0) {
@@ -63,14 +63,14 @@ const FlashSaleProducts = () => {
   // console.log(flashSaleProducts);
   return (
     <section className="py-16 px-4">
-      <div className="w-full md:w-11/12 mx-auto">
+      <div className="w-full md:w-11/12 mx-auto ">
         {/* Flash Sale Banner */}
 
-        <div className="grid grid-cols-3   items-center text-charcoal mb-0">
-          <div className="col-span-2   flex justify-between items-center">
+        <div className="flex sm:flex-row flex-col justify-between md:gap-5 gap-2  text-charcoal mb-1">
+          <div className="flex flex-col items-start">
             {/* Left Content */}
             <div className="flex flex-col items-start">
-              <h1 className="text-3xl font-bold text-left mb-0 tracking-tight text-deep-brown">
+              <h1 className="text-left text-2xl md:text-3xl text-deep-brown tracking-tight font-semibold ">
                 Dont Miss These
               </h1>
               <p className="font-medium text-xs tracking-tight py-1 uppercase text-charcoal/60">
@@ -79,21 +79,26 @@ const FlashSaleProducts = () => {
             </div>
 
             {/* Right Content */}
-            <Link
-              href="/allProducts"
-              className="text-base hover:underline text-gray-600 px-6 py-1.5 bg-muted/70 tracking-tighter"
-            >
-              Explore More
-            </Link>
+            <div className="flex items-center mt-0   ">
+              <Link
+                href="/allProducts"
+                className="text-base hover:underline text-gray-600 px-6 py-1.5 bg-muted/70 tracking-tighter"
+              >
+                Explore More
+              </Link>
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-3   overflow-hidden">
-          <div className="col-span-2 h-full overflow-hidden">
+        <div
+          className="grid
+        grid-cols-1  sm:grid-cols-2 gap-3 overflow-hidden"
+        >
+          <div className="col-span-1 sm:col-span-2 h-full overflow-hidden">
             <FlashSaleCarousel products={flashSaleProducts} />
           </div>
 
-          <div className="relative col-span-1 h-full">
+          <div className="relative sm:col-span-1 h-full">
             <Image
               src="/assets/offer/flash1.png"
               alt="Flash Sale"

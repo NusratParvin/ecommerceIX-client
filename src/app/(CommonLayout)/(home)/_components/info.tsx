@@ -28,32 +28,19 @@ const features = [
 const Info = () => {
   return (
     <div>
-      <div className="bg-gray-500/10 py-8 px-4 text-center">
-        {/* <div className="max-w-4xl mx-auto">
-          <p className="text-lg md:text-xl text-charcoal tracking-tight">
-            Explore unique fashion and accessories, where top vendors bring you
-            quality, style, and elegance for every occasion.
-          </p>
-          <button className="mt-4 text-sm font-semibold text-deep-brown hover:underline">
-            <Link href="/about"> LEARN MORE</Link>
-          </button>
-        </div> */}
-
+      <div className="bg-gray-500/10 py-6 md:py-8 px-4 text-center">
         <div className="w-full md:w-11/12 mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center text-center space-y-1"
+                className="flex flex-col items-center text-center space-y-1 p-2 md:p-0"
               >
-                {/* Icon */}
-                <feature.icon className="h-8 w-8 text-gray-400" />
-                {/* Title */}
-                <h3 className="text-lg font-semibold text-gray-700">
+                <feature.icon className="h-6 w-6 md:h-8 md:w-8 text-gray-400" />
+                <h3 className="text-sm md:text-lg font-semibold text-gray-700">
                   {feature.title}
                 </h3>
-                {/* Description */}
-                <p className="text-sm text-charcoal/80">
+                <p className="text-xs md:text-sm text-charcoal/80">
                   {feature.description}
                 </p>
               </div>

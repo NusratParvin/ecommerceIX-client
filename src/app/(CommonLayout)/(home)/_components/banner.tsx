@@ -49,12 +49,12 @@ export default function BannerCarousel() {
   const autoplay = useRef(
     Autoplay({
       delay: 3000,
-    })
+    }),
   );
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "center" },
-    [autoplay.current]
+    [autoplay.current],
   );
   const [selected, setSelected] = useState(0);
 
@@ -78,7 +78,8 @@ export default function BannerCarousel() {
           <div className="flex">
             {SLIDES.map((s, i) => (
               <div key={s.id} className="flex-[0_0_100%]">
-                <div className="relative h-[540px] w-full bg-white overflow-hidden">
+                <div className="relative h-[220px] md:h-[380px] lg:h-[540px] w-full bg-white overflow-hidden">
+                  {" "}
                   <div className="relative flex h-full w-full max-w-screen mx-auto px-4 md:px-0 items-center bg-gray-50">
                     {/* Right: Image Side (partial width) */}
                     <div className="relative w-[80%] h-full ml-auto z-10">
@@ -110,6 +111,31 @@ export default function BannerCarousel() {
                     </div>
 
                     {/* Left: Text Section */}
+                    {/* {i === selected && (
+                      <motion.div
+                        key={`text-${s.id}`}
+                        initial={{ opacity: 0, x: 60, y: 40 }}
+                        animate={{ opacity: 1, x: 0, y: 0 }}
+                        exit={{ opacity: 0, x: 20, y: 20 }}
+                        transition={{ duration: 1.8 }}
+                        className="absolute w-full md:w-[45%] lg:w-[55%] z-50 space-y-8 ml-24 border"
+                      >
+                        <p className="text-deep-brown font-medium text-xl lg:text-3xl">
+                          {s.tag}
+                        </p>
+                        <h2 className="text-2xl md:text-4xl lg:text-6xl font-serif font-normal tracking-tight leading-6 text-black/80">
+                          {s.headline}
+                        </h2>
+                        <Link
+                          href={s.href}
+                          className="inline-block mt-4 px-12 py-3 bg-deep-brown/90 text-ivory font-medium rounded-none hover:bg-deep-brown transition text-xl"
+                        >
+                          {s.cta}
+                        </Link>
+                      </motion.div>
+                    )} */}
+
+                    {/* Left: Text Section */}
                     {i === selected && (
                       <motion.div
                         key={`text-${s.id}`}
@@ -117,17 +143,17 @@ export default function BannerCarousel() {
                         animate={{ opacity: 1, x: 0, y: 0 }}
                         exit={{ opacity: 0, x: 20, y: 20 }}
                         transition={{ duration: 1.8 }}
-                        className="absolute w-full md:w-[55%] z-50 space-y-8 ml-24"
+                        className="absolute w-[60%] md:w-[45%] lg:w-[55%] z-50 space-y-3 md:space-y-6 lg:space-y-8 ml-9 md:ml-20 lg:ml-24"
                       >
-                        <p className="text-deep-brown font-medium text-3xl">
+                        <p className="text-deep-brown font-medium text-sm md:text-xl lg:text-3xl">
                           {s.tag}
                         </p>
-                        <h2 className="text-4xl md:text-6xl font-serif font-normal tracking-tight leading-6 text-black/80">
+                        <h2 className="text-lg md:text-4xl lg:text-6xl font-serif font-normal tracking-tight leading-tight text-black/80">
                           {s.headline}
                         </h2>
                         <Link
                           href={s.href}
-                          className="inline-block mt-4 px-12 py-3 bg-deep-brown/90 text-ivory font-medium rounded-none hover:bg-deep-brown transition text-xl"
+                          className="inline-block mt-2 px-6 md:px-10 lg:px-12 py-2 md:py-3 bg-deep-brown/90 text-ivory font-medium rounded-none hover:bg-deep-brown transition text-sm md:text-lg lg:text-xl"
                         >
                           {s.cta}
                         </Link>
@@ -145,17 +171,17 @@ export default function BannerCarousel() {
           onClick={scrollPrev}
           className="absolute left-2 top-1/2 -translate-y-1/2 bg-transparent z-30 flex items-center justify-center"
         >
-          <ChevronLeft className="w-16 h-12 text-gray-400 font-normal" />
+          <ChevronLeft className="w-10 h-6 md:w-12 md:h-8 lg:w-16 lg:h-12 text-gray-400 font-normal" />
         </button>
         <button
           onClick={scrollNext}
           className="absolute right-2 top-1/2 -translate-y-1/2 bg-transparent text-gray-600 rounded-full w-10 h-20 z-30 flex items-center justify-center"
         >
-          <ChevronRight className="w-16 h-12 text-gray-400 font-normal" />
+          <ChevronRight className="w-10 h-6 md:w-12 md:h-8 lg:w-16 lg:h-12 text-gray-400 font-normal" />
         </button>
 
         {/* Dots indicator */}
-        <div className="flex justify-center bottom-6 left-1/3 right-1/3 z-50 space-x-2 absolute">
+        <div className="flex justify-center bottom-6 left-1/3 right-1/3 z-40 space-x-2 absolute">
           {SLIDES.map((_, index) => (
             <button
               key={index}

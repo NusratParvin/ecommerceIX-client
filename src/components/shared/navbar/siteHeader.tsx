@@ -31,7 +31,7 @@ export function SiteHeader() {
   const cartItems = useAppSelector((state: RootState) => state.cart.items);
   const cartItemCount = cartItems.reduce(
     (acc: number, item: CartItem) => acc + item.quantity,
-    0
+    0,
   );
 
   useEffect(() => {
@@ -70,26 +70,26 @@ export function SiteHeader() {
 
   return (
     <>
-      <div className="w-full bg-deep-brown text-ivory/70 text-xs py-2 px-4 h-8 flex justify-between items-center">
+      <div className="w-full bg-deep-brown text-ivory/70 text-xs py-2 px-4 md:h-8 h-12 flex flex-col md:flex-row justify-between items-center">
         <div>
           <span className="font-semibold">HOTLINE:</span> +01 023 345 678
         </div>
         <div className="flex gap-4 items-center text-xs">
           <div className="flex items-center gap-0.5 cursor-pointer">
             <Info className="w-4 h-3" />
-            <Link href="/about" className="pt-1 hover:underline">
+            <Link href="/about" className="pt-1 hover:underline mb-1">
               ABOUT
             </Link>
           </div>
           <div className="flex items-center gap-0.5 cursor-pointer">
-            <HelpCircle className="w-4 h-3" />
-            <Link href="/faq" className="pt-1 hover:underline">
+            <HelpCircle className="w-4 h-3 " />
+            <Link href="/faq" className="pt-1 hover:underline mb-1">
               FAQ
             </Link>
           </div>
           <div className="flex items-center gap-0.5 cursor-pointer">
             <Mail className="w-4 h-3" />
-            <Link href="/contact" className="pt-1 hover:underline">
+            <Link href="/contact" className="pt-1 hover:underline mb-1">
               CONTACT
             </Link>
           </div>
@@ -97,10 +97,10 @@ export function SiteHeader() {
       </div>
 
       <header
-        className={`fixed  left-0 right-0 z-50 w-full max-w-screen  md:px-8 md:h-auto h-24 transition-all duration-500 ${
+        className={`fixed left-0 right-0 z-50 w-full max-w-screen  md:px-8  transition-all duration-500 ${
           isScrolled
-            ? "bg-deep-brown text-ivory shadow-md top-0 "
-            : "bg-white text-deep-brown top-8 "
+            ? "bg-deep-brown text-ivory shadow-md top-0 py-0 h-13 "
+            : "bg-white text-deep-brown md:top-8 top-12 py-1 md:py-1 h-16  md:h-20 "
         }`}
       >
         <div className=" w-full mx-auto flex items-center   justify-center  pe-0  ">
@@ -111,8 +111,8 @@ export function SiteHeader() {
                 <Button variant="link" size="icon" aria-label="Toggle menu">
                   <Menu
                     className={`${
-                      isScrolled ? "text-deep-brown " : "text-ivory"
-                    } h-6 w-6`}
+                      isScrolled ? "text-ivory" : "text-deep-brown "
+                    } h-7 w-7`}
                   />
                 </Button>
               </SheetTrigger>
@@ -125,7 +125,7 @@ export function SiteHeader() {
           {/* Main Navigation for Medium Screens and Above */}
 
           {/* Logo */}
-          <div className="flex flex-1 justify-start flex-row items-center ">
+          <div className="flex flex-1 justify-center md:justify-start flex-row items-center ">
             {/* <Logo isScrolled={isScrolled} /> */}
             <div
               className={`my-auto ${
@@ -138,6 +138,7 @@ export function SiteHeader() {
                   alt="logo"
                   width={200}
                   height={200}
+                  className="w-24 md:w-32 lg:w-44"
                 />
               </Link>
             </div>

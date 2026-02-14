@@ -67,7 +67,7 @@ const UserMenu = ({ user }: { user: CustomJwtPayload }) => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           {/* <div className="  "> */}
-          <Avatar className="  h-7 w-7 cursor-pointer">
+          <Avatar className="h-5 w-5 mx-3 md:me-0 md:h-7 md:w-7 cursor-pointer">
             <AvatarImage src={user?.profilePhoto} alt={user?.name} />
             <AvatarFallback className="text-sm">
               {user?.profilePhoto}
@@ -76,9 +76,9 @@ const UserMenu = ({ user }: { user: CustomJwtPayload }) => {
           {/* </div> */}
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="w-48 border me-8"
+          className="w-36 md:w-48 border md:me-4 me-1"
           align="end"
-          sideOffset={20}
+          sideOffset={5}
         >
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
