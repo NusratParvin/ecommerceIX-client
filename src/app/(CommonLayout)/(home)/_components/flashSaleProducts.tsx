@@ -63,7 +63,10 @@ const FlashSaleProducts = () => {
   // console.log(flashSaleProducts);
   return (
     <section className="py-16 px-4">
-      <div className="w-full md:w-11/12 mx-auto ">
+      <div
+        className="w-full md:w-11/12 mx-auto
+    "
+      >
         {/* Flash Sale Banner */}
 
         <div className="flex sm:flex-row flex-col justify-between md:gap-5 gap-2  text-charcoal mb-1">
@@ -90,15 +93,12 @@ const FlashSaleProducts = () => {
           </div>
         </div>
 
-        <div
-          className="grid
-        grid-cols-1  sm:grid-cols-2 gap-3 overflow-hidden"
-        >
-          <div className="col-span-1 sm:col-span-2 h-full overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 overflow-hidden">
+          <div className="md:col-span-2 col-span-1 h-full overflow-hidden">
             <FlashSaleCarousel products={flashSaleProducts} />
           </div>
 
-          <div className="relative sm:col-span-1 h-full">
+          <div className="relative col-span-1 h-full">
             <Image
               src="/assets/offer/flash1.png"
               alt="Flash Sale"

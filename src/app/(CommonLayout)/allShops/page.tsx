@@ -18,16 +18,16 @@ export default function ShopsPage() {
     <>
       <div className="h-16" />
       <div>
-        <div className="flex flex-col items-center justify-center py-10 bg-slate-800/80 text-white">
-          <h1 className="text-4xl font-medium">Shops</h1>
-          <nav className="mt-4 text-lg">
+        <div className="flex flex-col items-center justify-center  py-3 md:py-10 bg-slate-800/80 text-white">
+          <h1 className="text-3xl md:text-4xl font-medium">Shops</h1>
+          <nav className="mt-3 md:mt-4 text-base md:text-lg">
             <ol className="flex items-center space-x-2">
               <li>
                 <Link
                   href="/"
                   className="hover:underline flex items-start gap-1"
                 >
-                  <House size={16} className="mt-1" />
+                  <House size={16} className="mt-1.5" />
                   Home
                 </Link>
               </li>

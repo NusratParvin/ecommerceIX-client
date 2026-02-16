@@ -28,7 +28,7 @@ export function FlashSaleCarousel({ products }: FlashSaleCarouselProps) {
       }}
       className="w-full mx-auto bg-white p-0"
     >
-      <CarouselContent className=" grid grid-cols-2 justify-center  gap-2">
+      <CarouselContent className=" grid grid-cols-1 sm:grid-cols-2 justify-center  gap-2">
         {products.map((product) => (
           <CarouselItem key={product.id} className="md:basis-1/2 basis-1/2  ">
             <div className="h-40 md:h-52   p-0">
@@ -52,7 +52,7 @@ export function FlashSaleCarousel({ products }: FlashSaleCarouselProps) {
                               `${Math.round(
                                 ((product.price - product.flashSalePrice) /
                                   product.price) *
-                                  100
+                                  100,
                               )}% OFF`}
                           </div>
                         </div>

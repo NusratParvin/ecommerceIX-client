@@ -42,12 +42,12 @@ const ProductReviews = ({ reviews }: ReviewProps) => {
     return `${date} ${time}`;
   }
 
-  console.log(reviews);
+  // console.log(reviews);
   return (
     <div className="my-20 tracking-tight">
       <h2 className="font-semibold text-2xl text-slate-600 mb-4">Reviews</h2>
 
-      <div className="grid grid-cols-5 gap-3 p-4 border border-dashed border-slate-300">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-3 p-4 border border-dashed border-slate-300">
         <div className="col-span-2">
           <ReviewSummary reviews={reviews} />
         </div>

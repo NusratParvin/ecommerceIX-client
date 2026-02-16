@@ -119,7 +119,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (
       state,
-      action: PayloadAction<{ productInfo: Product; quantity: number }>
+      action: PayloadAction<{ productInfo: Product; quantity: number }>,
     ) => {
       const { productInfo, quantity } = action.payload;
 
@@ -129,13 +129,13 @@ const cartSlice = createSlice({
       }
 
       // Check if the product is from a different vendor
-      if (state.vendorId && state.vendorId !== productInfo.shopId) {
-        throw new Error("Cart contains products from a different vendor.");
-      }
+      // if (state.vendorId && state.vendorId !== productInfo.shopId) {
+      //   throw new Error("Cart contains products from a different vendor.");
+      // }
 
       // Check if the product already exists in cart
       const existingItem = state.items.find(
-        (item) => item.productInfo.id === productInfo.id
+        (item) => item.productInfo.id === productInfo.id,
       );
 
       if (existingItem) {
@@ -160,7 +160,7 @@ const cartSlice = createSlice({
 
     replaceCart: (
       state,
-      action: PayloadAction<{ items: CartItem[]; vendorId: string }>
+      action: PayloadAction<{ items: CartItem[]; vendorId: string }>,
     ) => {
       state.items = action.payload.items;
       state.vendorId = action.payload.vendorId;
@@ -168,7 +168,7 @@ const cartSlice = createSlice({
 
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter(
-        (item) => item.productInfo.id !== action.payload
+        (item) => item.productInfo.id !== action.payload,
       );
 
       if (state.items.length === 0) {
@@ -183,11 +183,11 @@ const cartSlice = createSlice({
 
     updateQuantity: (
       state,
-      action: PayloadAction<{ productId: string; quantity: number }>
+      action: PayloadAction<{ productId: string; quantity: number }>,
     ) => {
       const { productId, quantity } = action.payload;
       const item = state.items.find(
-        (item) => item.productInfo.id === productId
+        (item) => item.productInfo.id === productId,
       );
 
       if (item) {

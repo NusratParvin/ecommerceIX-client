@@ -48,7 +48,7 @@ const SaleProductList: React.FC<SaleProductListProps> = ({ filters }) => {
         if (page === 1) return productsData.data;
         const existingIds = new Set(prev.map((product: Product) => product.id));
         const newProducts = productsData.data.filter(
-          (product: Product) => !existingIds.has(product.id)
+          (product: Product) => !existingIds.has(product.id),
         );
         return [...prev, ...newProducts];
       });
@@ -69,7 +69,7 @@ const SaleProductList: React.FC<SaleProductListProps> = ({ filters }) => {
     // setProducts([]);
   }, [filters]);
 
-  console.log(products);
+  // console.log(products);
 
   return (
     <div className="w-full mx-auto px-4 py-8">
@@ -85,7 +85,7 @@ const SaleProductList: React.FC<SaleProductListProps> = ({ filters }) => {
           !isFetching && <NoDataFound />
         )}
       </div>
-      <div ref={ref} className="mt-8 flex justify-center">
+      <div ref={ref} className="mt-8 flex justify-center md:flex-row flex-col">
         {isFetching && page > 1 && <SaleProductGridSkeleton count={4} />}
       </div>
     </div>

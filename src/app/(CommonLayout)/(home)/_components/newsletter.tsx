@@ -37,15 +37,15 @@ const NewsletterSection = () => {
       <div className="w-full h-full bg-gray-600/60 justify-center items-center">
         {/* Content Section */}
         <div className="md:w-1/2 w-full mx-auto text-center text-white">
-          <h1 className="mt-8 text-3xl font-bold   md:text-5xl md:leading-snug">
+          <h1 className="mt-8 text-2xl font-bold   md:text-4xl md:leading-snug">
             Join Our Newsletter
           </h1>
-          <p className="mt-4 text-xl   tracking-wider">
+          <p className="mt-4 text-base md:text-xl   tracking-wider">
             GET 15% OFF YOUR FIRST ORDER
           </p>
         </div>
         {/* Form Section */}
-        <div className="md:w-1/2 w-full mx-auto mt-8 text-lg">
+        <div className="md:w-1/2 w-5/6 mx-auto mt-8 text-lg">
           <div className="flex flex-row items-center rounded-md bg-transparent ">
             <Input
               value={email}
@@ -58,7 +58,7 @@ const NewsletterSection = () => {
             <Button
               onClick={handleSubscribe}
               disabled={isLoading}
-              className="h-10 w-40 rounded-none bg-deep-brown px-8 py-3 text-white hover:bg-deep-brown/80 flex items-center justify-center text-lg"
+              className="h-10 w-20 md:w-40 rounded-none bg-deep-brown px-8 py-3 text-white hover:bg-deep-brown/80 flex items-center justify-center text-sm md:text-lg"
             >
               {isLoading ? (
                 <>

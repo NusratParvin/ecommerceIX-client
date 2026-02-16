@@ -24,7 +24,7 @@ const ForgetPassword = () => {
         setEmailSent(true);
         console.log(result);
         toast.success(
-          "A reset link has been sent to your email. Please check your inbox."
+          "A reset link has been sent to your email. Please check your inbox.",
         );
       }
     } catch (error) {
@@ -37,7 +37,7 @@ const ForgetPassword = () => {
     <div>
       <div className="h-36 bg-deep-brown"></div>
       <div className="flex items-start justify-center min-h-screen pt-16 bg-gray-50">
-        <div className="md:w-1/2 w-full p-8 bg-white shadow-md rounded-lg">
+        <div className="lg:w-1/2 w-full p-8 mx-6 lg:mx-0 bg-white shadow-md rounded-lg">
           <h2 className="text-center text-lg mb-6">Forgot Your Password?</h2>
           {!emailSent ? (
             <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
@@ -63,9 +63,9 @@ const ForgetPassword = () => {
                 )}
               </div>
 
-              <div className="w-1/3 mx-auto">
+              <div className="w-1/2 md:w-1/3 mx-auto">
                 <button
-                  className="w-full py-2 px-4 bg-warm-brown text-white   text-base rounded-md hover:bg-deep-brown disabled:bg-deep-brown/40"
+                  className="w-full py-2 px-4 bg-slate-800/80 text-white   text-base rounded-md hover:bg-deep-brown disabled:bg-deep-brown/40"
                   disabled={isLoading}
                   type="submit"
                 >

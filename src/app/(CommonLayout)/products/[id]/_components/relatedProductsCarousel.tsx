@@ -31,7 +31,7 @@ const RelatedProductCarousel: React.FC<RelatedProductCarouselProps> = ({
   if (isLoading) return <div>Loading...</div>;
   if (isError || !productsData) return <div>Error loading products.</div>;
   const relatedProducts = productsData?.data?.filter(
-    (product: Product) => product.id !== productId
+    (product: Product) => product.id !== productId,
   );
   // console.log(relatedProducts);
 
@@ -85,7 +85,7 @@ const RelatedProductCarousel: React.FC<RelatedProductCarouselProps> = ({
                                         ((product.price -
                                           product.flashSalePrice) /
                                           product.price) *
-                                          100
+                                          100,
                                       )}% OFF`
                                     : `${product?.discount}% OFF`}
                                 </div>
@@ -105,11 +105,11 @@ const RelatedProductCarousel: React.FC<RelatedProductCarouselProps> = ({
                                 {product?.isFlashSale && product?.flashSalePrice
                                   ? product.flashSalePrice.toFixed(2)
                                   : product?.discount
-                                  ? (
-                                      product.price *
-                                      (1 - product.discount / 100)
-                                    ).toFixed(2)
-                                  : product.price.toFixed(2)}
+                                    ? (
+                                        product.price *
+                                        (1 - product.discount / 100)
+                                      ).toFixed(2)
+                                    : product.price.toFixed(2)}
                               </span>
 
                               {(product?.isFlashSale &&
@@ -125,8 +125,8 @@ const RelatedProductCarousel: React.FC<RelatedProductCarouselProps> = ({
                               {product?.stock === 0
                                 ? "Out of Stock"
                                 : product?.stock >= 5
-                                ? "In Stock"
-                                : `${product.stock} items left`}
+                                  ? "In Stock"
+                                  : `${product.stock} items left`}
                             </div>
                           </div>
                         </div>

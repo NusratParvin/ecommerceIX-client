@@ -108,7 +108,7 @@ export default function RegisterPage() {
         // Check if the role is VENDOR and token is present
         if (userData.role === "VENDOR" && res.data.accessToken) {
           const decodedToken = decodeToken(
-            res.data.accessToken
+            res.data.accessToken,
           ) as CustomJwtPayload;
           localStorage.setItem("accessToken", res.data.accessToken);
           await setCookies(res.data.accessToken, "");
@@ -118,7 +118,7 @@ export default function RegisterPage() {
             setUser({
               user: { email, role, name, profilePhoto },
               token: res.data.accessToken,
-            })
+            }),
           );
 
           // Redirect to vendor dashboard
@@ -141,7 +141,7 @@ export default function RegisterPage() {
     <div>
       <div className="h-36 bg-deep-brown"></div>
       <div className="flex items-center justify-center min-h-screen bg-warm-gray/20">
-        <div className="w-full max-w-lg mb-16 mt-8 bg-white p-6 rounded-lg shadow-md">
+        <div className="w-full max-w-lg mb-16 mt-8 bg-white p-6 rounded-lg shadow-md md:mx-0 mx-6">
           <div>
             <h1 className="text-2xl text-charcoal font-bold text-center ">
               Create Account
@@ -289,7 +289,7 @@ export default function RegisterPage() {
           <div className="mt-4 text-sm flex justify-center items-center gap-2">
             Already have an account?{" "}
             <p
-              className="text-warm-brown hover:underline "
+              className="text-deep-brown hover:underline "
               onClick={(e) => {
                 e.preventDefault();
                 setIsLoginModalOpen(true);

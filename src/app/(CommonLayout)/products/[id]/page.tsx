@@ -64,8 +64,8 @@ const ProductDetails = () => {
       setIsShopFollowed(
         userDetails?.data?.followedShops.some(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (shop: any) => shop.shopId === product?.shopId
-        )
+          (shop: any) => shop.shopId === product?.shopId,
+        ),
       );
     }
   }, [userDetails, product, isSuccess]);
@@ -74,11 +74,11 @@ const ProductDetails = () => {
     const recentProductsKey = "recentProducts";
 
     const recentProducts = JSON.parse(
-      localStorage.getItem(recentProductsKey) || "[]"
+      localStorage.getItem(recentProductsKey) || "[]",
     ) as Product[];
 
     const filteredProducts = recentProducts.filter(
-      (p) => p?.id !== product?.id
+      (p) => p?.id !== product?.id,
     );
 
     const updatedProducts = [product, ...filteredProducts].slice(0, 10);
@@ -91,23 +91,6 @@ const ProductDetails = () => {
       toast.error("Please log in to follow the shop.");
       return;
     }
-    // const handleBuy = async (dispatch, { product, quantity }) => {
-    //   try {
-    //     // Call add to cart function
-    //     const result = await handleAddToCart(dispatch, { product, quantity });
-
-    //     // Check if the addition to cart was successful
-    //     if (result.success) {
-    //       // Redirect to cart page
-    //       router.push("/cart");
-    //     } else {
-    //       // Handle any errors or unsuccessful attempts
-    //       toast.error("Failed to add item to cart");
-    //     }
-    //   } catch (error) {
-    //     toast.error("An error occurred");
-    //   }
-    // };
 
     const action = isShopFollowed ? unfollowShop : followShop;
     try {
@@ -119,7 +102,7 @@ const ProductDetails = () => {
       toast.success(
         isShopFollowed
           ? "You have unfollowed the shop."
-          : "You are now following the shop."
+          : "You are now following the shop.",
       );
     } catch (error) {
       console.error(error);
@@ -198,7 +181,7 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      <div className=" w-full md:w-11/12 mx-auto px-4 pb-8 pt-4">
+      <div className=" w-full md:w-11/12 mx-auto md:px-4 px-6 pb-8 pt-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Product Image */}
           <motion.div
@@ -212,7 +195,7 @@ const ProductDetails = () => {
               alt={product?.name}
               layout="fill"
               objectFit="cover"
-              className="rounded-none shadow-lg"
+              className="rounded-none shadow-lg "
             />
             {product?.isFlashSale && (
               <Badge

@@ -43,7 +43,7 @@ export default function LoginModal() {
 
       if (res.success) {
         const decodedToken = decodeToken(
-          res.data.accessToken
+          res.data.accessToken,
         ) as CustomJwtPayload;
         const { email, role, name, profilePhoto } = decodedToken;
 
@@ -56,7 +56,7 @@ export default function LoginModal() {
           setUser({
             user: { email, role, name, profilePhoto },
             token: res.data.accessToken,
-          })
+          }),
         );
 
         toast.success("Login successful!", { id: toastId });
@@ -83,14 +83,14 @@ export default function LoginModal() {
       setValue("password", "111111");
     }
     toast.info(
-      `${role.charAt(0).toUpperCase() + role.slice(1)} credentials filled.`
+      `${role.charAt(0).toUpperCase() + role.slice(1)} credentials filled.`,
     );
   };
 
   return (
     <div>
       {/* <div className="h-36 bg-slate-700"></div> */}
-      <div className="flex items-center justify-center min-h-screen bg-gray-100 pt-36">
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 pt-36 mx-6 md:mx-0">
         <div className="w-full max-w-lg mb-16 mt-0 bg-white p-6 rounded-lg shadow-md">
           <div>
             <h1 className="text-2xl text-slate-700 tracking-tighter uppercase font-bold text-center">
@@ -99,7 +99,7 @@ export default function LoginModal() {
             <p className="mt-4 text-center text-sm text-red-600">
               Click on the buttons below to auto-fill demo credentials:
             </p>
-            <div className="flex justify-center gap-4 mt-4">
+            <div className="flex justify-center sm:flex-row flex-col gap-4 mt-4">
               <Button
                 variant="outline"
                 onClick={() => fillDemoCredentials("user")}

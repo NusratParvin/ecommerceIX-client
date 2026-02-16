@@ -50,17 +50,17 @@ const Contact = () => {
   return (
     <div>
       <div className="h-16"></div>{" "}
-      <div className="flex flex-col items-center justify-center py-10  bg-slate-800/80 text-white">
-        <h1 className=" text-4xl font-medium ">CONTACT US</h1>
+      <div className="flex flex-col items-center justify-center  py-3 md:py-10 bg-slate-800/80 text-white">
+        <h1 className=" text-3xl md:text-4xl font-medium ">CONTACT US</h1>
 
-        <nav className="mt-4  text-lg ">
+        <nav className="mt-3 md:mt-4 text-base md:text-lg">
           <ol className="flex items-center space-x-2">
             <li>
               <Link
                 href="/"
                 className="hover:underline flex flex-row justify-center items-start gap-1  "
               >
-                <House size={16} className="mt-1" />
+                <House size={16} className="mt-1.5" />
                 Home
               </Link>
             </li>
@@ -73,7 +73,7 @@ const Contact = () => {
           </ol>
         </nav>
       </div>
-      <div className="md:w-10/12 w-full mx-auto ">
+      <div className="md:w-10/12 w-full md:px-0 px-6 mx-auto ">
         <section className="relative z-10 overflow-hidden bg-white pt-14 pb-28  ">
           <div className="container">
             <div className="-mx-4 flex flex-wrap lg:justify-between">
@@ -94,8 +94,15 @@ const Contact = () => {
 
                   {/* Location Section */}
                   <div className="mb-8 flex w-full max-w-[370px]">
-                    <div className="mr-6 flex h-[60px] w-full max-w-[60px] items-center justify-center overflow-hidden rounded bg-primary/5 text-charcoal sm:h-[70px] sm:max-w-[70px]">
-                      <MapPin size={32} className="text-charcoal" />
+                    {/* <div className="mr-6 flex h-[60px] w-full  max-w-[60px] items-center justify-center overflow-hidden rounded bg-primary/5 text-charcoal sm:h-[70px] sm:max-w-[70px]">
+                      <MapPin size={32} className="text-charcoal " />
+                    </div> */}
+
+                    <div className="mr-4 sm:mr-6 flex h-[50px] w-full max-w-[50px] items-center justify-center overflow-hidden rounded bg-primary/5 text-charcoal sm:h-[60px] sm:max-w-[60px] md:h-[70px] md:max-w-[70px]">
+                      <MapPin
+                        size={24}
+                        className="text-charcoal sm:size-7 md:size-8"
+                      />
                     </div>
                     <div className="w-full">
                       <h4 className="mb-1 text-xl font-bold text-deep-brown">
@@ -109,8 +116,11 @@ const Contact = () => {
 
                   {/* Phone Section */}
                   <div className="mb-8 flex w-full max-w-[370px]">
-                    <div className="mr-6 flex h-[60px] w-full max-w-[60px] items-center justify-center overflow-hidden rounded bg-primary/5 text-charcoal sm:h-[70px] sm:max-w-[70px]">
-                      <Phone size={32} className="text-charcoal" />
+                    <div className="mr-4 sm:mr-6 flex h-[50px] w-full max-w-[50px] items-center justify-center overflow-hidden rounded bg-primary/5 text-charcoal sm:h-[60px] sm:max-w-[60px] md:h-[70px] md:max-w-[70px]">
+                      <Phone
+                        size={24}
+                        className="text-charcoal sm:size-7 md:size-8"
+                      />
                     </div>
                     <div className="w-full">
                       <h4 className="mb-1 text-xl font-bold text-deep-brown">
@@ -124,8 +134,11 @@ const Contact = () => {
 
                   {/* Email Section */}
                   <div className="mb-8 flex w-full max-w-[370px]">
-                    <div className="mr-6 flex h-[60px] w-full max-w-[60px] items-center justify-center overflow-hidden rounded bg-primary/5 text-charcoal sm:h-[70px] sm:max-w-[70px]">
-                      <Mail size={32} className="text-charcoal" />
+                    <div className="mr-4 sm:mr-6 flex h-[50px] w-full max-w-[50px] items-center justify-center overflow-hidden rounded bg-primary/5 text-charcoal sm:h-[60px] sm:max-w-[60px] md:h-[70px] md:max-w-[70px]">
+                      <Mail
+                        size={24}
+                        className="text-charcoal sm:size-7 md:size-8"
+                      />
                     </div>
                     <div className="w-full">
                       <h4 className="mb-1 text-xl font-bold text-deep-brown">

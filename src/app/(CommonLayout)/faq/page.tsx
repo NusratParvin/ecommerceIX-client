@@ -95,16 +95,16 @@ const Page = () => {
     <div>
       <div className="h-16" />
       <div>
-        <div className="flex flex-col items-center justify-center py-10 bg-slate-800/80 text-white">
-          <h1 className="text-4xl font-medium">FAQ</h1>
-          <nav className="mt-4 text-lg">
+        <div className="flex flex-col items-center justify-center  py-3 md:py-10 bg-slate-800/80 text-white">
+          <h1 className="text-3xl md:text-4xl font-medium">FAQ</h1>
+          <nav className="mt-3 md:mt-4 text-base md:text-lg">
             <ol className="flex items-center space-x-2">
               <li>
                 <Link
                   href="/"
                   className="hover:underline flex items-start gap-1"
                 >
-                  <House size={16} className="mt-1" />
+                  <House size={16} className="mt-1.5" />
                   Home
                 </Link>
               </li>
@@ -119,10 +119,10 @@ const Page = () => {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-2 grid-cols-1 gap-12 w-full lg:w-11/12 mx-auto pt-10 pb-28 min-h-screen">
+      <div className="grid lg:grid-cols-2 grid-cols-1 gap-12 w-full lg:w-11/12 mx-auto pt-10 pb-28 min-h-screen px-6 lg:px-0">
         {sections.map((section) => (
           <div key={section.title}>
-            <h2 className="lg:text-4xl md:text-2xl text-xl font-semibold text-slate-800 tracking-tighter mb-4">
+            <h2 className="lg:text-4xl md:text-3xl text-2xl font-semibold text-slate-800 tracking-tighter mb-4">
               {section.title}
             </h2>
             <Accordion
