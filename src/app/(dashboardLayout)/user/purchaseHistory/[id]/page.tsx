@@ -13,7 +13,11 @@ const OrderDetailsPage = () => {
   console.log(data?.data, error);
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className="flex items-center gap-2">
+        <Spinner />
+      </div>
+    );
   }
 
   if (isError || !data) {

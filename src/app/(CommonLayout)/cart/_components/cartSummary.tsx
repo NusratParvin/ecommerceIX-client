@@ -30,9 +30,9 @@ export function CartSummary() {
     data,
     isLoading: isCouponsLoading,
     isError: isCouponsError,
-    error,
+    // error,
   } = useGetAllCouponsQuery(undefined);
-  console.log(error);
+  // console.log(error);
   const coupons = data?.data;
 
   const FinalTotalPrice = cart.items.reduce((total, item) => {

@@ -9,27 +9,21 @@ import { Switch } from "@/components/ui/switch";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function ChangePasswordPage() {
-  // const [deleteReason, setDeleteReason] = useState("not-usable");
   const [changePassword, setChangePassword] = useState(false);
-
-  // const handleDelete = () => {
-  //   console.log("Deleting account with reason:", deleteReason);
-  //   // Add deletion logic here
-  // };
 
   return (
     <div className="w-full min-h-screen p-4">
       <div className="flex items-center justify-between text-slate-700 mb-6">
         <div className="flex items-center gap-2">
-          <Settings className="w-5 h-5 mb-1" />
+          <Settings className="w-5 h-5" />
           <h1 className="text-lg font-semibold">Settings</h1>
         </div>
       </div>
 
-      <div className="space-y-12 ps-6">
+      <div className="space-y-12 md:ps-6 ps-0">
         {/*  Change Password Section */}
         <div className="space-y-1">
-          <div className="flex gap-8">
+          <div className="flex flex-col sm:flex-row sm:gap-8 gap-4 sm:mb-0 mb-8">
             <div className="flex items-center gap-1">
               <Key className="w-4 h-4 mb-2" />
               <h2 className="text-base font-normal text-foreground mb-2">

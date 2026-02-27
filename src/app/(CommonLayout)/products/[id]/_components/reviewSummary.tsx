@@ -45,7 +45,7 @@ const ReviewSummary = ({ reviews }: ReviewProps) => {
 
     const total = validReviews.length;
     const percents = counts.map((c) =>
-      total > 0 ? Math.round((c / total) * 100) : 0
+      total > 0 ? Math.round((c / total) * 100) : 0,
     );
 
     return percents;
@@ -58,16 +58,16 @@ const ReviewSummary = ({ reviews }: ReviewProps) => {
       <div className="w-full ">
         <div className="flex items-start gap-4 ">
           {/* Average number */}
-          <span className="text-5xl font-bold text-slate-700  leading-none font-sans">
+          <span className="text-4xl font-bold text-slate-700  leading-none font-sans">
             {averageReview.toFixed(2)}
           </span>
 
           {/* Stars + caption */}
           <div className="flex flex-col">
             <div className="flex items-center">
-              <StarDisplay rating={averageReview} size="w-6 h-6" />
+              <StarDisplay rating={averageReview} size="w-5 h-5" />
             </div>
-            <p className="text-base text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 mt-1">
               Based on {totalReviews}{" "}
               {totalReviews === 1 ? "Rating" : "Ratings"}
             </p>
@@ -88,17 +88,17 @@ const ReviewSummary = ({ reviews }: ReviewProps) => {
           const index = star - 1;
           return (
             <div key={star} className="flex items-center gap-4">
-              <span className="flex flex-row items-center gap-0 text-xl">
+              <span className="flex flex-row items-center gap-0 text-base">
                 {star}
                 <Star className="fill-yellow-500 text-yellow-500 w-4.5 h-4" />
               </span>
               <div className="flex-1 bg-gray-200 h-3 rounded-3xl w-[80%]">
                 <div
-                  className="bg-yellow-500 h-3 text-xl rounded-3xl  w-[80%]"
+                  className="bg-yellow-500 h-3 text-base rounded-3xl  w-[80%]"
                   style={{ width: `${percentages[index]}%` }}
                 />
               </div>
-              <span className="text-lg w-[10%] ">{percentages[index]}%</span>
+              <span className="text-base w-[10%] ">{percentages[index]}%</span>
             </div>
           );
         })}

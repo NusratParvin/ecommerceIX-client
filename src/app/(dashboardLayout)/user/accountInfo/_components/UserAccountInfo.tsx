@@ -49,9 +49,9 @@ export function UserAccountInfo() {
       </CardHeader>
 
       <CardContent className="p-0">
-        <div className="grid grid-cols-3 bg-white py-8 border border-dashed border-slate-300">
+        <div className="grid grid-cols-1 sm:grid-cols-3 bg-white py-8 border border-dashed border-slate-300">
           {/* Basic Info */}
-          <ul className="list-disc pl-12 space-y-3 text-base md:text-lg text-neutral-700 col-span-2">
+          <ul className="list-disc sm:pl-12 pl-6 space-y-3 text-base md:text-lg text-neutral-700 sm:col-span-2 col-span-1">
             <li>
               <span className="font-semibold text-neutral-600">Full Name:</span>{" "}
               <span>{UserDetailsInfo?.name ?? "N/A"}</span>
@@ -69,13 +69,13 @@ export function UserAccountInfo() {
             </li>
           </ul>
 
-          <div className="relative w-28 h-28 col-span-1">
+          <div className="relative w-28 h-28 col-span-1 ">
             {UserDetailsInfo?.profilePhoto && (
               <Image
                 src={UserDetailsInfo.profilePhoto}
                 alt="User profile"
                 fill
-                className=" rounded-sm object-cover mt-3 md:mt-0"
+                className=" rounded-sm object-cover mt-3 md:mt-0 sm:ms-0 ml-6"
               />
             )}
           </div>
@@ -100,7 +100,7 @@ export function UserAccountInfo() {
               <span className="font-semibold text-neutral-600">Email :</span>{" "}
               <span>{UserDetailsInfo?.email}</span>
             </div>
-            <div className=" flex flex-row gap-12 justify-between items-center">
+            <div className=" flex sm:flex-row flex-col sm:gap-12 gap-6 sm:justify-between justify-start sm:items-center items-start">
               <div>
                 <span className="font-semibold text-neutral-600">
                   Password :

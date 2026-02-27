@@ -13,12 +13,13 @@ export default function RecentProductsPage() {
 
     // Fetch and parse localStorage
     const storedProducts = JSON.parse(
-      localStorage.getItem(recentProductsKey) || "[]"
+      localStorage.getItem(recentProductsKey) || "[]",
     ) as (Product | null)[];
 
     // Filter out null or undefined values
     const validProducts = storedProducts.filter(
-      (product): product is Product => product !== null && product !== undefined
+      (product): product is Product =>
+        product !== null && product !== undefined,
     );
 
     setRecentProducts(validProducts);
@@ -49,7 +50,7 @@ export default function RecentProductsPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-4"
         >
           {recentProducts.map((product, index) => (
             <ProductCard key={product?.id} product={product} index={index} />

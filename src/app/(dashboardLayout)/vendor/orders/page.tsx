@@ -57,9 +57,9 @@ const AdminOrdersPage = () => {
     <div className="flex flex-col min-h-screen p-2 space-y-2">
       {/* Heading */}
       {/* Heading Row */}
-      <div className="flex items-center justify-between">
+      <div className="flex sm:flex-row flex-col sm:items-center items-start sm:justify-between justify-start">
         <div className="flex items-center gap-1">
-          <ShoppingBag className="w-4 h-4 mb-1" />
+          <ShoppingBag className="w-4 h-4 " />
           <h1 className="text-lg font-semibold text-slate-700">Orders</h1>
         </div>
 
@@ -69,10 +69,10 @@ const AdminOrdersPage = () => {
         </p>
       </div>
 
-      {/* Filters */}
-      <div className="flex justify-between items-center gap-4 mb-6">
+      {/* Search, Sort & Filter */}
+      <div className="flex md:flex-row flex-wrap justify-between items-center gap-4 mb-6 w-full">
         {/* Search Input */}
-        <div className="relative w-full md:w-2/5 text-xs  ">
+        <div className="relative w-full md:w-4/5 lg:w-2/5 text-xs ">
           <Input
             placeholder="Search by Order ID or Coupon"
             value={searchTerm}
@@ -85,14 +85,16 @@ const AdminOrdersPage = () => {
         </div>
 
         {/* Sort By Dropdown */}
-        <div className="flex flex-row  gap-4 justify-center items-center">
-          <div className="flex items-center space-x-2">
-            <label className="text-sm font-medium">Sort By:</label>
+        <div className="flex flex-col sm:flex-row lg:gap-4 md:gap-12 gap-4 lg:justify-center justify-start items-start md:items-center md:w-auto w-full ">
+          <div className="flex flex-col md:flex-row md:items-center gap-2 w-full md:w-auto ">
+            <label className="text-sm font-medium text-gray-900 w-16">
+              Sort By:
+            </label>
             <Select value={sortBy} onValueChange={(value) => setSortBy(value)}>
-              <SelectTrigger className="w-40">
+              <SelectTrigger className="w-full md:w-40 h-8 text-xs px-2 focus:ring-0">
                 <span>{sortBy}</span>
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="text-xs">
                 <SelectItem value="createdAt">Date</SelectItem>
                 <SelectItem value="userId">User</SelectItem>
                 {/* <SelectItem value="orderId">Order ID</SelectItem> */}
@@ -102,16 +104,18 @@ const AdminOrdersPage = () => {
           </div>
 
           {/* Order By Dropdown */}
-          <div className="flex items-center space-x-2">
-            <label className="text-sm font-medium">Order:</label>
+          <div className="flex flex-col md:flex-row md:items-center gap-2 w-full md:w-auto">
+            <label className="text-sm font-medium text-gray-900 w-16">
+              Order:
+            </label>
             <Select
               value={sortOrder}
               onValueChange={(value) => setSortOrder(value)}
             >
-              <SelectTrigger className="w-32">
+              <SelectTrigger className="w-full md:w-40 h-8 text-xs px-2 focus:ring-0">
                 <span>{sortOrder === "asc" ? "Ascending" : "Descending"}</span>
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="text-xs">
                 <SelectItem value="asc">Ascending</SelectItem>
                 <SelectItem value="desc">Descending</SelectItem>
               </SelectContent>

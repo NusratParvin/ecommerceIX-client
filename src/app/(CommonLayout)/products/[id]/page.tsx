@@ -116,7 +116,7 @@ const ProductDetails = () => {
       <>
         <div className="h-16" />
         <div className="py-5 bg-slate-700/80 text-white tracking-tight">
-          <div className="flex flex-row  items-center justify-between w-11/12 mx-auto px-4">
+          <div className="flex flex-wrap md:flex-row flex-col  items-center md:justify-between justify-start w-11/12 mx-auto px-4">
             <h1 className="text-2xl font-medium">Product Details</h1>
 
             {/* Breadcrumb */}
@@ -158,7 +158,7 @@ const ProductDetails = () => {
     <>
       <div className="h-16" />
       <div className="py-5 bg-slate-700/80 text-white tracking-tight">
-        <div className="flex flex-row  items-center justify-between w-11/12 mx-auto px-4">
+        <div className="flex flex-wrap md:flex-row flex-col  md:items-center items-start md:justify-between justify-start w-11/12 mx-auto px-4 md:pt-3 pt-0">
           <h1 className="text-2xl font-medium">Product Details</h1>
 
           {/* Breadcrumb */}
@@ -346,7 +346,7 @@ const ProductDetails = () => {
               >
                 <span className="absolute bottom-0 left-0 w-full h-full bg-deep-brown transform origin-bottom-left skew-y-1 scale-y-0 transition-transform duration-700 ease-out group-hover:scale-y-125"></span>
                 <span className="relative z-10 group-hover:text-white font-semibold text-base uppercase flex">
-                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  <ShoppingCart className="w-4 h-4 mr-2 mt-1" />
                   Add to Cart
                 </span>
               </Button>

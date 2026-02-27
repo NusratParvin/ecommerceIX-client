@@ -42,7 +42,7 @@ const ShopDetails = ({
     );
   }
 
-  console.log(shop);
+  // console.log(shop);
 
   const handleUpdate = async () => {
     const updatedFields: Partial<TShop> = {};
@@ -98,12 +98,12 @@ const ShopDetails = ({
   return (
     <div
       className={`bg-card bg-white border border-dashed border-slate-300 rounded-none shadow-none overflow-hidden transition-all duration-500 ease-in-out pb-10 ${
-        isEditing ? "max-h-[800px]" : "max-h-auto"
+        isEditing ? "max-h-auto md:max-h-[800px]" : "max-h-auto"
       }`}
     >
-      <div className="flex items-center justify-between p-4">
+      <div className="flex  sm:flex-row flex-col sm:items-center items-start sm:justify-between justify-start gap-8 p-4">
         <div className="flex items-center gap-4">
-          <div className="relative h-12 w-12 rounded-full overflow-hidden">
+          <div className="relative md:h-12 md:w-12 w-8 h-8 rounded-full overflow-hidden">
             <Image
               src={imagePreview || "/placeholder.svg"}
               alt="Shop Logo"
@@ -111,7 +111,7 @@ const ShopDetails = ({
               className="object-cover"
             />
           </div>
-          <h1 className="text-2xl font-bold text-deep-brown">
+          <h1 className="text-lg md:text-2xl font-bold text-deep-brown">
             {editedShop.name}
           </h1>
         </div>
@@ -211,7 +211,7 @@ const ShopDetails = ({
         {/* Right Column: Shop Logo */}
 
         <div className="md:col-span-1 w-full flex justify-center items-start transition-all duration-300 ease-in-out transform scale-100  ">
-          <div className="relative h-72 w-[90%]">
+          <div className="relative h-48 md:h-72 w-[90%]">
             <div className="group relative h-full w-full rounded-none overflow-hidden border border-none">
               <Image
                 src={imagePreview || "/placeholder.svg"}
@@ -230,8 +230,8 @@ const ShopDetails = ({
                   onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (file) {
-                      setNewLogo(file); // Update the newLogo state
-                      setImagePreview(URL.createObjectURL(file)); // Update the preview
+                      setNewLogo(file);
+                      setImagePreview(URL.createObjectURL(file));
                     }
                   }}
                   className="hidden"
@@ -250,7 +250,7 @@ const ShopDetails = ({
 
         {/* Action Buttons */}
         {isEditing && (
-          <div className="col-span-full flex items-center gap-4 p-4 ps-8 transition-all duration-300 ease-in-out">
+          <div className="col-span-full flex items-center gap-4 p-4 ps-8 md:mt-0 mt-20 transition-all duration-300 ease-in-out">
             <Button
               onClick={handleUpdate}
               disabled={isLoading}

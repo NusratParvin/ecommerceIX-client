@@ -234,7 +234,7 @@ export interface ShippingInfoProps {
 
 export interface ProcessOrderAndPaymentProps {
   userId: string;
-  shopId: string;
+  // shopId: string;
   items: CartItems[];
   totalPrice: number;
   couponId: string | null;

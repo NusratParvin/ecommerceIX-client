@@ -81,9 +81,7 @@ export default function CheckoutPage() {
       toast.error("Failed to create payment intent. Please try again.");
     }
   };
-  // console.log(clientSecret);
-  // console.log(user);
-  // // **Step 2: Handle Payment Confirmation and Backend API Call**
+
   const handlePaymentSubmit = async (paymentIntentId: string) => {
     try {
       if (!shippingInfo) {
@@ -139,7 +137,7 @@ export default function CheckoutPage() {
 
       const payload: ProcessOrderAndPaymentProps = {
         userId: user.data.id,
-        shopId,
+        // shopId,
         items: transformedCartItems,
         totalPrice: finalAmount,
         couponId: couponId || null,
@@ -169,9 +167,9 @@ export default function CheckoutPage() {
           <h1 className="text-2xl font-medium">Checkout</h1>
         </div>
       </div>
-      <div className="w-full md:w-11/12 mx-auto mt-4 min-h-screen">
-        <div className="grid md:grid-cols-5 justify-center gap-4 ">
-          <div className="md:col-span-3">
+      <div className="w-full md:w-11/12 md:px-0 px-6 mx-auto mt-4 min-h-screen mb-20 md:mb-36">
+        <div className="grid grid-cols-1 md:grid-cols-5 justify-center gap-4">
+          <div className="col-span-1 md:col-span-3">
             {step === 1 && <ShippingForm onSubmit={handleShippingSubmit} />}
             {step === 2 && clientSecret && (
               <Elements stripe={stripePromise} options={{ clientSecret }}>
@@ -182,7 +180,7 @@ export default function CheckoutPage() {
               </Elements>
             )}
           </div>
-          <div className="md:col-span-2 flex flex-col gap-4">
+          <div className="col-span-1 md:col-span-2 flex flex-col gap-4">
             <OrderSummary items={cartItems} />
             <BillingSummary
               discountAmount={discountAmount}

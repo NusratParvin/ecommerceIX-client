@@ -23,11 +23,11 @@ export function ProductCard({ product, index }: ProductCardProps) {
       className="overflow-x-hidden will-change-transform"
     >
       <Card
-        className="flex items-center gap-4 h-[180px] bg-white  hover:shadow-md transition-colors p-0 rounded-none 
+        className="flex  sm:flex-row flex-col items-start sm:items-center  gap-4 sm:h-[180px] h-[360px] bg-white  hover:shadow-md transition-colors p-0 rounded-none 
       border border-dashed border-slate-300 shadow-xl"
       >
         {/* Product Image on the Side */}
-        <div className="relative w-[45%] h-full flex-shrink-0">
+        <div className="relative sm:w-[45%] w-full h-36 sm:h-full flex-shrink-0">
           <Image
             src={product?.imageUrl as string}
             alt={product?.name}
@@ -54,7 +54,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
         </div>
 
         {/* Product Details */}
-        <div className="flex-1 min-w-0 flex flex-col justify-between h-full p-3 ps-0">
+        <div className="flex-1 min-w-0 flex flex-col justify-between  h-full p-3 sm:ps-0 ps-4">
           <div>
             <Link href={`/products/${product?.id}`}>
               <h3 className="font-semibold text-lg text-slate-600 tracking-tight truncate hover:underline">
@@ -111,7 +111,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
         </div>
 
         {/* Action Button */}
-        <div className="flex-shrink-0  mt-auto mb-4 me-4">
+        <div className="flex-shrink-0  mt-auto mb-4 me-4 sm:ps-0 ps-4 ">
           <Link href={`/products/${product?.id}`}>
             <Button
               size="icon"

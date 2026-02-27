@@ -88,7 +88,7 @@ export function AdminVendorSidebar({
       {/* Sidebar */}
       <div
         className={`relative z-50 h-full bg-white text-slate-700 transition-all flex flex-col ${
-          isCollapsed ? "w-16" : "w-60"
+          isCollapsed ? "w-16" : "w-40"
         }`}
       >
         {/* Company Logo */}
@@ -96,7 +96,7 @@ export function AdminVendorSidebar({
           <Link
             href="/"
             className={`transition-all duration-300 flex items-center justify-center ${
-              isCollapsed ? "w-16" : "w-40"
+              isCollapsed ? "w-16" : "w-60"
             }`}
           >
             <div>

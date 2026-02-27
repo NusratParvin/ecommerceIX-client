@@ -142,7 +142,7 @@ const OrderDetailsView = ({ order }: OrderDetailsViewProps) => {
       variants={containerAnimation}
     >
       {/* Back Button and Order ID */}
-      <div className="flex justify-between items-center">
+      <div className="flex sm:flex-row flex-col sm:items-center items-start sm:justify-between justify-start">
         <p className="text-base text-slate-700 font-bold ">Order Details</p>
         <Link href="/vendor/orders">
           <Button size="sm" variant="outline" className="gap-2">
@@ -155,7 +155,7 @@ const OrderDetailsView = ({ order }: OrderDetailsViewProps) => {
       {/* Order Status and Date */}
       <motion.div variants={itemAnimation}>
         <Card className=" border border-dashed border-slate-300 rounded-none shadow-sm">
-          <CardHeader className="flex flex-row items-start justify-between">
+          <CardHeader className="flex sm:flex-row flex-col sm:items-center items-start sm:justify-between justify-start gap-2">
             <div className="flex flex-col items-start gap-2">
               <p className="text-sm font-mono text-slate-800 font-semibold">
                 Order ID # {order?.id}
@@ -512,7 +512,7 @@ const OrderDetailsView = ({ order }: OrderDetailsViewProps) => {
                       <span className="text-slate-500">Paid Date:</span>
                       <span>
                         {moment(order.Transaction[0].createdAt).format(
-                          "MMM D, YYYY [at] h:mm a"
+                          "MMM D, YYYY [at] h:mm a",
                         )}
                       </span>
                     </div>

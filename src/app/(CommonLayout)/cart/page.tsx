@@ -43,7 +43,8 @@ const Cart = () => {
               {cart.items.map((cartItem) => (
                 <div
                   key={cartItem.productInfo.id}
-                  className="grid grid-cols-4 items-center justify-between bg-white p-2 rounded-none mb-4 shadow"
+                  // className="grid grid-cols-4 items-center justify-between bg-white p-2 rounded-none mb-4 shadow"
+                  className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-center md:justify-between justify-start bg-white p-3 sm:p-4 rounded-none mb-4 shadow-sm sm:shadow"
                 >
                   <div className="flex items-start gap-4 col-span-2">
                     {/* Product Image */}
@@ -127,6 +128,7 @@ const Cart = () => {
                       <Trash2 />
                     </button>
                   </div>
+
                   {/* Item Total */}
                   <div className="text-right text-lg font-semibold text-slate-800 col-span-1 font-sans">
                     <p className="text-2xl text-slate-800 pe-4">

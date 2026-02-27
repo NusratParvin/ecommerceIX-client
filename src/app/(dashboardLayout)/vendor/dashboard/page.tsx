@@ -22,7 +22,7 @@ const VendorDashboard = () => {
   const products = productsData?.data || [];
   const sortedOrders = orders
     ? [...orders].sort(
-        (a, b) => moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf()
+        (a, b) => moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf(),
       )
     : [];
   // Get all stats from helper function
@@ -67,7 +67,7 @@ const VendorDashboard = () => {
         </div>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-7">
+      <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-7">
         {/* <VendorRevenueChart products={products} /> */}
         <RecentVendorOrders recentOrders={sortedOrders} />
         <TrendingProducts products={products} />

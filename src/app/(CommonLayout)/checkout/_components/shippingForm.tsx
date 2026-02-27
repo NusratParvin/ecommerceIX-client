@@ -75,52 +75,8 @@ export default function ShippingForm({ onSubmit }: ShippingFormProps) {
           )}
         </div>
 
-        {/* <div className="flex md:flex-row flex-col gap-3 justify-between items-center w-full border">
-          <div className="space-y-0">
-            <label
-              htmlFor="city"
-              className="block text-lg font-medium text-slate-700 mb-1"
-            >
-              City
-            </label>
-            <Input
-              id="city"
-              className="rounded-none bg-white shadow-none w-full"
-              {...register("city", { required: "City is required" })}
-              placeholder="Enter your city"
-            />
-            {errors.city && (
-              <p className="text-red-500 text-sm">{errors.city.message}</p>
-            )}
-          </div>
-          <div className="space-y-0">
-            <label
-              htmlFor="postalCode"
-              className="block text-lg font-medium text-slate-700 mb-1"
-            >
-              Postal Code
-            </label>
-            <Input
-              id="postalCode"
-              className="rounded-none bg-white shadow-none"
-              {...register("postalCode", {
-                required: "Postal Code is required",
-                pattern: {
-                  value: /^[0-9]{5}$/,
-                  message: "Postal Code must be a 5-digit number",
-                },
-              })}
-              placeholder="Enter your postal code"
-            />
-            {errors.postalCode && (
-              <p className="text-red-500 text-sm">
-                {errors.postalCode.message}
-              </p>
-            )}
-          </div>
-        </div> */}
-        <div className="flex md:flex-row flex-col gap-3 justify-between items-center ">
-          <div className="space-y-0 flex-1">
+        <div className="flex md:flex-row flex-col gap-3 md:justify-between justify-start md:items-center items-start">
+          <div className="space-y-0 md:flex-1 w-full">
             <label
               htmlFor="city"
               className="block text-lg font-medium text-slate-700 mb-1"
@@ -138,7 +94,7 @@ export default function ShippingForm({ onSubmit }: ShippingFormProps) {
             )}
           </div>
 
-          <div className="space-y-0 flex-1">
+          <div className="space-y-0 md:flex-1 w-full">
             <label
               htmlFor="postalCode"
               className="block text-lg font-medium text-slate-700 mb-1"

@@ -46,7 +46,7 @@ export function ChangePasswordForm() {
     } catch (error: any) {
       console.log(error);
       toast.error(
-        error?.data?.message || "Failed to change password. Please try again."
+        error?.data?.message || "Failed to change password. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -54,10 +54,10 @@ export function ChangePasswordForm() {
   };
 
   return (
-    <div className="">
+    <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-4 max-w-lg shadow-xl bg-slate-100 p-6"
+        className="space-y-4 w-full sm:max-w-lg shadow-xl bg-slate-100 sm:p-6 p-1"
       >
         {/* Current Password */}
         <div>
@@ -180,7 +180,7 @@ export function ChangePasswordForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-1/2 mx-auto flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-500 hover:bg-deep-brown/70  disabled:opacity-50"
+            className="sm:w-1/2 w4/5 mx-auto flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-500 hover:bg-deep-brown/70  disabled:opacity-50"
           >
             {isLoading ? "Changing Password..." : "Change Password"}
           </button>

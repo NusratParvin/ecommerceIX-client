@@ -20,7 +20,7 @@ const ProductDescInfo = ({ product }: ProductDescInfoProps) => {
           Product Description
         </AccordionTrigger>
         <AccordionContent className=" border-none max-w-none pb-4 p-2 pl-4 text-base text-slate-500 ">
-          {product?.description}
+          {product?.description || "No description added!"}
         </AccordionContent>
       </AccordionItem>
 

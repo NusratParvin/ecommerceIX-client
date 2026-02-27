@@ -94,7 +94,7 @@ export interface CustomerOrderDetailsViewProps {
 }
 
 export const UserOrderDetails = ({ order }: CustomerOrderDetailsViewProps) => {
-  console.log(order);
+  // console.log(order);
   const containerAnimation = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -143,8 +143,12 @@ export const UserOrderDetails = ({ order }: CustomerOrderDetailsViewProps) => {
       variants={containerAnimation}
     >
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <p className="text-base text-slate-700 font-bold">My Order Details</p>{" "}
+      <div className="flex sm:flex-row flex-col gap-3  sm:justify-between justify-start sm:items-center items-start">
+        <div className="flex items-center gap-1">
+          <Package className="w-4 h-4 mb-0" />
+          <p className="text-base text-slate-700 font-bold">Order Details</p>
+        </div>
+
         <Link href="/user/purchaseHistory">
           <Button variant="ghost" className="gap-2">
             <ArrowLeft className="h-4 w-4 transform transition-transform duration-200 hover:-translate-x-2" />
@@ -156,7 +160,7 @@ export const UserOrderDetails = ({ order }: CustomerOrderDetailsViewProps) => {
       {/* Order Status and Date */}
       <motion.div variants={itemAnimation}>
         <Card className="border border-dashed border-slate-300 rounded-none shadow-sm">
-          <CardHeader className="flex flex-row items-start justify-between">
+          <CardHeader className="flex sm:flex-row flex-col gap-3  sm:justify-between justify-start sm:items-center ">
             <div className="flex flex-col items-start gap-2">
               <p className="text-sm font-mono text-slate-800 font-semibold">
                 Order # {order?.id}
@@ -170,7 +174,7 @@ export const UserOrderDetails = ({ order }: CustomerOrderDetailsViewProps) => {
               </div>
             </div>
 
-            <div className="flex flex-col items-end gap-2">
+            <div className="flex flex-col sm:items-end items-start gap-2">
               <Badge
                 className={`uppercase px-5 py-1 ${
                   order?.paymentStatus === "PAID"
@@ -423,7 +427,7 @@ export const UserOrderDetails = ({ order }: CustomerOrderDetailsViewProps) => {
                       <span className="text-slate-500">Payment Date:</span>
                       <span>
                         {moment(order.Transaction[0].createdAt).format(
-                          "MMM D, YYYY [at] h:mm a"
+                          "MMM D, YYYY [at] h:mm a",
                         )}
                       </span>
                     </div>

@@ -47,7 +47,7 @@ const RelatedProductCarousel: React.FC<RelatedProductCarouselProps> = ({
           }}
           className="w-full mx-auto bg-white p-0"
         >
-          <div className="flex flex-row justify-between items-center">
+          {/* <div className="flex flex-row justify-between items-center">
             <h1 className="font-semibold text-2xl text-slate-600 mb-4 ">
               Related Products
             </h1>
@@ -55,12 +55,28 @@ const RelatedProductCarousel: React.FC<RelatedProductCarouselProps> = ({
               <CarouselPrevious className="hidden md:flex -left-20 " />
               <CarouselNext className="hidden md:flex right-0" />
             </div>
+          </div> */}
+
+          <div className="relative flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+            <h1 className="font-semibold text-xl sm:text-2xl text-slate-600">
+              Related Products
+            </h1>
+
+            <div className="hidden md:flex absolute right-0 gap-2 mt-0">
+              <CarouselPrevious className="h-8 w-8 -left-20 " />
+              <CarouselNext className="h-8 w-8 right-0" />
+            </div>
+
+            <div className="md:hidden flex absolute right-0 top-1/2 -translate-y-1/4 gap-0">
+              <CarouselPrevious className="relative -left-1 md:-left-20" />
+              <CarouselNext className="relative right-0" />
+            </div>
           </div>
 
           <CarouselContent className="-ml-3">
             {relatedProducts?.map((product: Product) => (
               <CarouselItem key={product.id} className="md:basis-1/4 basis-1/2">
-                <div className="h-96">
+                <div className="h-64">
                   <Card className="group overflow-hidden border-none rounded-none transition-all duration-300 h-full">
                     <CardContent className="p-0 h-full relative">
                       {/* Product Image Container */}

@@ -7,7 +7,7 @@ import Image from "next/image";
 export const TrendingProducts = ({ products }: { products: Product[] }) => {
   // Filter first, then process only products with orders
   const productsWithOrders = products.filter(
-    (product) => product.OrderItem && product.OrderItem.length > 0
+    (product) => product.OrderItem && product.OrderItem.length > 0,
   );
 
   const trendingProducts = productsWithOrders?.map((p) => {

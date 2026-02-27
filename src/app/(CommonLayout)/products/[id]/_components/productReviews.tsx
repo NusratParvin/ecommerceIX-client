@@ -47,17 +47,17 @@ const ProductReviews = ({ reviews }: ReviewProps) => {
     <div className="my-20 tracking-tight">
       <h2 className="font-semibold text-2xl text-slate-600 mb-4">Reviews</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-3 p-4 border border-dashed border-slate-300">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-3  border border-dashed border-slate-300">
         <div className="col-span-2">
           <ReviewSummary reviews={reviews} />
         </div>
 
         <div className="col-span-3">
           {/* Reviews panel (scrollable like the image) */}
-          <div className="h-[320px] overflow-y-auto pr-2 ">
-            <div className="space-y-4">
+          <div className="h-[300px] overflow-y-auto pr-2 ">
+            <div className="space-y-4 h-full">
               {!reviews || reviews.length === 0 ? (
-                <p className="text-base ps-4 text-slate-500">
+                <p className="text-base ps-4 text-slate-500 flex justify-center items-center h-full">
                   No one has reviewed the product yet!
                 </p>
               ) : (

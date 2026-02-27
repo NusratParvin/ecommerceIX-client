@@ -15,7 +15,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
-import { Eye, Search } from "lucide-react";
+import { Eye, Package, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Badge } from "@/components/ui/badge";
@@ -31,9 +31,7 @@ const UserOrdersPage = () => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
 
-  // Fetch user orders using a custom hook or RTK Query
   const { data, isLoading, isError } = useGetUserOrdersQuery({
-    // userId: "user-id-from-auth-context-or-param",
     page,
     limit,
     searchTerm,
@@ -50,12 +48,13 @@ const UserOrdersPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen p-2 space-y-4 tracking-tight text-slate-700">
-      <div className="flex items-center gap-2">
-        <h1 className="text-lg font-semibold ">Your Previous Orders</h1>
+      <div className="flex items-center gap-1">
+        <Package className="w-4 h-4 mb-0" />
+        <h1 className="text-lg font-semibold ">My Previous Orders</h1>
       </div>
 
-      <div className="flex justify-between items-center gap-4 mb-6">
-        <div className="relative w-full md:w-2/5 text-xs ">
+      <div className="flex md:flex-row flex-wrap justify-between items-center gap-4 mb-6 w-full">
+        <div className="relative w-full md:w-4/5 lg:w-2/5 text-xs ">
           <Input
             placeholder="Search by Order ID / product / shop "
             value={searchTerm}
@@ -67,23 +66,27 @@ const UserOrdersPage = () => {
           </div>
         </div>
 
-        <div className="flex flex-row  gap-4 justify-center items-center">
-          <div className="flex items-center space-x-2">
+        <div className="flex flex-col sm:flex-row lg:gap-4 md:gap-12 gap-4 lg:justify-center justify-start items-start md:items-center md:w-auto w-full ">
+          <div className="flex flex-col md:flex-row md:items-center gap-2 w-full md:w-auto ">
             <label className="text-sm font-medium">Sort By:</label>
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-40">{sortBy}</SelectTrigger>
-              <SelectContent>
+              <SelectTrigger className="w-full md:w-40 h-8 text-xs px-2 focus:ring-0">
+                {sortBy}
+              </SelectTrigger>
+              <SelectContent className="text-xs">
                 <SelectItem value="createdAt">Date</SelectItem>
                 <SelectItem value="totalPrice">Total Price</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col md:flex-row md:items-center gap-2 w-full md:w-auto ">
             <label className="text-sm font-medium">Order:</label>
             <Select value={sortOrder} onValueChange={setSortOrder}>
-              <SelectTrigger className="w-32">{sortOrder}</SelectTrigger>
-              <SelectContent>
+              <SelectTrigger className="w-full md:w-40 h-8 text-xs px-2 focus:ring-0">
+                {sortOrder}
+              </SelectTrigger>
+              <SelectContent className="text-xs">
                 <SelectItem value="asc">Ascending</SelectItem>
                 <SelectItem value="desc">Descending</SelectItem>
               </SelectContent>
