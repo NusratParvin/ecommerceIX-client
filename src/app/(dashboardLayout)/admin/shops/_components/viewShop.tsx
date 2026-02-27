@@ -37,7 +37,7 @@ const ViewShopDialog = ({ open, onOpenChange, shop }: ViewShopDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl h-[80vh] overflow-y-scroll">
+      <DialogContent className="w-[90%] md:max-w-4xl h-[80vh] overflow-y-scroll">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Store className="w-5 h-5" />

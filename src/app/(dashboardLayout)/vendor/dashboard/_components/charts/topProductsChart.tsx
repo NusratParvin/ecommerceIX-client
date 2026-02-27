@@ -19,7 +19,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 interface TopProductsChartProps {
@@ -45,6 +45,7 @@ export const TopProductsChart = ({ products }: TopProductsChartProps) => {
   const options = {
     indexAxis: "y" as const,
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top" as const,
@@ -120,5 +121,5 @@ export const TopProductsChart = ({ products }: TopProductsChartProps) => {
     },
   };
 
-  return <Bar data={chartData} options={options} />;
+  return <Bar data={chartData} options={options} className="h-full" />;
 };

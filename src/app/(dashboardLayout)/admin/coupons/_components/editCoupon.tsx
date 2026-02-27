@@ -28,7 +28,8 @@ const EditCouponDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      {/* <DialogContent className="max-w-md"> */}
+      <DialogContent className="w-[90%] md:max-w-4xl h-4/5 overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>Edit Coupon</DialogTitle>
         </DialogHeader>

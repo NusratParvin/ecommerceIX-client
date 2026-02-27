@@ -25,7 +25,7 @@ export const SalesTrend = () => {
   return (
     // <div className="bg-white border border-gray-200 rounded-none p-6">
     <div className="bg-white    border border-dashed border-slate-300  rounded-none p-6">
-      <div className="flex justify-between">
+      <div className="flex md:flex-row flex-col md:justify-between justify-start pb-3 md:pb-0">
         <h3 className="font-semibold text-lg mb-4">Sales Trend</h3>
         <SelectSalesTrend setFilters={setSelectedFilters} />
       </div>

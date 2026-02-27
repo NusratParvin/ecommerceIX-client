@@ -11,7 +11,7 @@ interface UserStatsProps {
 
 const UserStats = ({ userStats }: { userStats: UserStatsProps }) => {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
       <Card className="h-14">
         <CardContent className="px-6 py-3">
           <div className="flex items-center justify-between ">
@@ -23,7 +23,7 @@ const UserStats = ({ userStats }: { userStats: UserStatsProps }) => {
         </CardContent>
       </Card>
 
-      <Card className="h-14">
+      {/* <Card className="h-14">
         <CardContent className="px-6 py-3">
           <div className="flex items-center justify-between">
             <p className="text-sm font-semibold text-slate-600">Active</p>
@@ -42,8 +42,8 @@ const UserStats = ({ userStats }: { userStats: UserStatsProps }) => {
               {userStats.suspended}
             </p>
           </div>
-        </CardContent>
-      </Card>
+        </CardContent> 
+      </Card>*/}
 
       <Card className="h-14">
         <CardContent className="px-6 py-3">

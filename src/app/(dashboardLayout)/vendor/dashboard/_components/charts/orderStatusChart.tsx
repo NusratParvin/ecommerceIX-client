@@ -37,6 +37,7 @@ export const OrderStatusChart = ({ orders }: OrderStatusChartProps) => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "bottom" as const,
@@ -84,5 +85,5 @@ export const OrderStatusChart = ({ orders }: OrderStatusChartProps) => {
     },
   };
 
-  return <Pie data={chartData} options={options} className="w-full mx-auto" />;
+  return <Pie data={chartData} options={options} />;
 };

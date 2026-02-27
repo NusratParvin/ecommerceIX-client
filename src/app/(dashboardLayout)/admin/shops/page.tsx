@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React, { useState, useMemo } from "react";
 import { toast } from "sonner";
@@ -173,7 +174,7 @@ const AdminShopsPage = () => {
         </div>
 
         {/* Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
           <Card className="h-16">
             <CardContent className="px-6 py-3">
               <div className="flex items-center gap-3">
@@ -218,7 +219,7 @@ const AdminShopsPage = () => {
             </CardContent>
           </Card>
 
-          <Card className="h-16">
+          {/* <Card className="h-16">
             <CardContent className="px-6 py-3">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-purple-50 rounded-lg">
@@ -248,7 +249,7 @@ const AdminShopsPage = () => {
                 </p>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
 
         {/* Search and Filters */}

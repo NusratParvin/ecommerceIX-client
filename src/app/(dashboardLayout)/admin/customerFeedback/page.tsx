@@ -46,7 +46,7 @@ const CustomerFeedbacks = () => {
   const totalPages = Math.ceil(totalRecords / limit);
 
   const [deleteReview] = useDeleteReviewMutation();
-  console.log(reviews);
+  // console.log(reviews);
   useEffect(() => {
     setPage(1);
   }, [searchTerm, sortBy, sortOrder]);
@@ -66,10 +66,10 @@ const CustomerFeedbacks = () => {
   };
 
   const activeReviews = reviews.filter(
-    (review: TReview) => !review.isDeleted
+    (review: TReview) => !review.isDeleted,
   ).length;
   const deletedReviews = reviews.filter(
-    (review: TReview) => review.isDeleted
+    (review: TReview) => review.isDeleted,
   ).length;
 
   return (
@@ -92,7 +92,7 @@ const CustomerFeedbacks = () => {
       {/* Filters */}
       <div className="flex flex-col lg:flex-row justify-between gap-4">
         {/* Search Input */}
-        <div className="w-1/2">
+        <div className="md:w-1/2 w-full">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
@@ -108,7 +108,7 @@ const CustomerFeedbacks = () => {
           {/* Sort By */}
           <div className="flex flex-col gap-2">
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-40 h-9">
+              <SelectTrigger className="w-40 h-8">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -123,7 +123,7 @@ const CustomerFeedbacks = () => {
           {/* Sort Order */}
           <div className="flex flex-col gap-2">
             <Select value={sortOrder} onValueChange={setSortOrder}>
-              <SelectTrigger className="w-32 h-9">
+              <SelectTrigger className="w-40 h-8">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

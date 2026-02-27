@@ -39,7 +39,7 @@ const VendorDashboard = () => {
         </h2>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
           <StatCard
             key={stat.title}
@@ -52,7 +52,7 @@ const VendorDashboard = () => {
         ))}
       </div>
 
-      <div className="grid gap-3 md:grid-cols-2">
+      <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
         <div className="bg-white border border-dashed border-slate-300 rounded-none shadow-none h-80 p-4">
           <RevenueTrendsChart orders={orders} />
         </div>

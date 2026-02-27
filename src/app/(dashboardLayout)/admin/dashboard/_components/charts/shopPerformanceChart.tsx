@@ -55,7 +55,7 @@ export const ShopPerformanceChart = ({ data }: { data: RadarChartData }) => {
 
   const options = {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     aspectRatio: 1,
     layout: {
       padding: {
@@ -70,10 +70,10 @@ export const ShopPerformanceChart = ({ data }: { data: RadarChartData }) => {
             size: 12,
             weight: 600 as number,
           },
-          padding: 18,
-          boxWidth: 30,
+          padding: 5,
+          boxWidth: 20,
         },
-        maxHeight: 30,
+        maxHeight: 40,
         fullSize: false,
       },
       tooltip: {

@@ -32,7 +32,7 @@ export const UserGrowth = () => {
 
   return (
     <div className="bg-white    border border-dashed border-slate-300  rounded-none p-6 h-[364px] ">
-      <div className="flex items-start justify-between">
+      <div className="flex md:flex-row flex-col md:justify-between justify-start pb-3 md:pb-0">
         <h3 className="font-semibold text-lg mb-4">User Growth</h3>{" "}
         <Select value={selectedYear} onValueChange={setSelectedYear}>
           <SelectTrigger className="w-[120px]  focus:ring-0 h-7 text-xs ">

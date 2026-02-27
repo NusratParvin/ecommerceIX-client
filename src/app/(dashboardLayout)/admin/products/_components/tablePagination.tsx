@@ -60,7 +60,7 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
         <span className="font-medium">{totalRecords}</span> products
       </div>
 
-      <div className="flex items-center gap-4   ">
+      <div className="flex md:flex-row flex-col items-center gap-4">
         <div className="flex items-center gap-2">
           <span className="text-sm">Status:</span>
           <Badge variant="outline" className="bg-green-50 text-green-700">

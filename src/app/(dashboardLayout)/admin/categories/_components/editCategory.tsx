@@ -26,7 +26,8 @@ export function EditCategory({
 }: EditCategoryProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      {/* <DialogContent> */}
+      <DialogContent className="w-[90%] md:max-w-4xl h-4/5 overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>Edit Category</DialogTitle>
         </DialogHeader>

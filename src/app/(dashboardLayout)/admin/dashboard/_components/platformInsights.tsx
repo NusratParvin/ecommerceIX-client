@@ -30,7 +30,7 @@ const PlatformInsights = () => {
   return (
     // <div className="lg:col-span-3">
     <div className="bg-white border border-dashed border-slate-300  rounded-none p-6">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex md:flex-row flex-col md:justify-between justify-start pb-3 md:pb-0">
         <h3 className="font-semibold text-lg">Platform Insights</h3>
         <Select value={selectedTime} onValueChange={setSelectedTime}>
           <SelectTrigger className="w-[120px]  focus:ring-0 h-7 text-xs ">
@@ -50,11 +50,11 @@ const PlatformInsights = () => {
       </div>
 
       <div className="space-y-1">
-        <div className="p-2.5 bg-blue-50 border border-blue-200 rounded flex justify-between">
+        <div className="p-2.5 bg-blue-50 border border-blue-200 rounded flex sm:flex-row flex-col sm:justify-between justify-start">
           <p className="text-base font-medium text-blue-800">Peak Hours</p>
           <p className="text-sm text-blue-600">2:00 PM - 5:00 PM</p>
         </div>
-        <div className="p-2.5 bg-green-50 border border-green-200 rounded flex justify-between">
+        <div className="p-2.5 bg-blue-50 border border-green-200 rounded flex sm:flex-row flex-col sm:justify-between justify-start">
           <p className="text-base font-medium text-green-800">Top Category</p>
           <p className="text-sm text-green-600">
             {isLoading ? (
@@ -71,7 +71,7 @@ const PlatformInsights = () => {
             )}
           </p>
         </div>
-        <div className="p-2.5 bg-purple-50 border border-purple-200 rounded flex justify-between">
+        <div className="p-2.5 bg-blue-50 border border-purple-200 rounded flex sm:flex-row flex-col sm:justify-between justify-start">
           <p className="text-base font-medium text-purple-800">New Shops</p>
           <p className="text-sm text-purple-600">
             {isLoading ? (

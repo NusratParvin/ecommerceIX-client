@@ -121,7 +121,7 @@ const AdminDashboard = () => {
       {/* Admin-Specific Charts */}
       <SalesTrend />
 
-      <div className="grid gap-3 md:grid-cols-2 h-[740px]">
+      <div className="grid gap-3 grid-cols-1 lg:grid-cols-2 lg:h-[740px] h-auto">
         {/* Platform Revenue vs Orders */}
 
         <div className="flex flex-col gap-3">
@@ -137,6 +137,7 @@ const AdminDashboard = () => {
           </div>
         </div>
         <div className="flex flex-col gap-3">
+          {/* <div className="flex md:flex-col flex-row md:justify-between justify-start pb-3 md:pb-0 gap-3"> */}
           {/* Shop Performance Comparison */}
           <div className="bg-white border border-dashed border-slate-300 rounded-none p-6 h-[490px] flex flex-col">
             <h3 className="font-semibold text-lg mb-4">
@@ -146,14 +147,14 @@ const AdminDashboard = () => {
               <ShopPerformance />
             </div>
           </div>
-          <div className="h-[250px]">
+          <div className="sm:h-[250px] h-auto">
             <PlatformInsights />
           </div>
         </div>
       </div>
 
       {/* Platform Activity Section */}
-      <div className="grid grid-cols-2 gap-3 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-start">
         {/* Recent Platform Orders */}
         <div className="bg-white border border-dashed border-slate-300 rounded-none p-6 col-span-1">
           <div className="flex items-center justify-between mb-4">

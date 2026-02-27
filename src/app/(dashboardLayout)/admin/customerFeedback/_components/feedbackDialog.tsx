@@ -58,13 +58,13 @@ export const FeedbackDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="w-[90%] md:max-w-4xl h-4/5 overflow-y-scroll">
         <DialogHeader className="flex flex-row items-center justify-between space-y-0 border-b pb-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-start gap-3">
             <div className="p-2 bg-blue-50 rounded-lg">
               <FileText className="w-5 h-5 text-blue-600" />
             </div>
-            <div>
+            <div className="flex flex-col justify-start items-start">
               <DialogTitle className="text-xl">Feedback Details</DialogTitle>
               <p className="text-sm text-gray-500 mt-1">
                 Comprehensive customer review details
@@ -390,7 +390,7 @@ export const FeedbackDialog = ({
                     <p className="text-sm text-gray-500">
                       {review.user?.createdAt &&
                         `Member since ${getUserMemberSince(
-                          review.user.createdAt
+                          review.user.createdAt,
                         )}`}
                     </p>
                   </div>

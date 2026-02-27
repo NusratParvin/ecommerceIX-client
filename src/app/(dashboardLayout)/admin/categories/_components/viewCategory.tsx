@@ -39,7 +39,7 @@ export default function ViewCategory({
 }: ViewCategoryProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl h-4/5 overflow-y-scroll">
+      <DialogContent className="w-[90%] md:max-w-4xl h-4/5 overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>Category Details</DialogTitle>
           <DialogDescription>
@@ -181,7 +181,7 @@ export default function ViewCategory({
                     label="Low Stock"
                     count={
                       category.products.filter(
-                        (p) => p.stock < 10 && p.stock > 0
+                        (p) => p.stock < 10 && p.stock > 0,
                       ).length
                     }
                     color="yellow"
